@@ -1,13 +1,7 @@
-SVN
-
-= Introduction =
-
-SVN
+Instruction to get SVN Source Control
 
 
-= Details =
-
-Links:
+= Links: =
 
 Link to Project Source
 http://code.google.com/p/cpsc-431-project/source
@@ -25,6 +19,8 @@ have to find a different solution :)
 
 SVN Merge Tool guide
 http://tortoisesvn.tigris.org/TortoiseMerge.html
+
+= Guide: =
 
 This doc will give a very short overview of svn and our projects use of it. 
 First, go to the above svn link and download and install tortise svn. Next, 
@@ -54,7 +50,8 @@ standard windows controls, svn will just assume you need to have the file added 
 next time you update. If you are editing a file and you mess up, select tortoise svn -> revert. 
 This grabs the latest copy and overwrites your changes. 
 
-SVN Best Practices:
+= SVN Best Practices: =
+
 Always update before you commit! This way, you can make sure that someone did not make a bug fix or
 change which breaks yourcode!
 
