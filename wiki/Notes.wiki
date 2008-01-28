@@ -11,14 +11,14 @@ divide into smaller groups
 c#
 visual studio
 google code
-   *tortoiseSVN
+   * tortoiseSVN
 Model
-   *UML
-   *Class Diagram
+   * UML
+   * Class Diagram
 Testing
-   *End Unit it is like jUnit
+   * End Unit it is like jUnit
 Naming conventions
-   *Standardize code
+   * Standardize code
 Libraries
 Schedule
-   *order of implementing functions and who
+   * order of implementing functions and who
