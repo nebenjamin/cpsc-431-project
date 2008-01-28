@@ -1,3 +1,4 @@
+#labels Featured
 Some of the topics that were mentioned in the first lab
 
 = Stuff we decided upon: =
