@@ -1,24 +1,14 @@
 Some of the topics that mentioned in the first lab
 
-= Introduction =
+= Stuff we decided upon: =
+   * Language - C#
+   * IDE - Visual Studio
+   * Group - Google Code
+   * Code Control - tortoise SVN
 
-Notes:
-
-
-= Details =
-
-divide into smaller groups
-c#
-visual studio
-google code
-   * tortoiseSVN
-Model
-   * UML
-   * Class Diagram
-Testing
-   * End Unit it is like jUnit
-Naming conventions
-   * Standardize code
-Libraries
-Schedule
-   * order of implementing functions and who
+= Things that we need to do: =
+   * A Model; UML Based with class diagrams
+   * Testing maybe with End Unit
+   * A guide to standerize naming convention
+   * Look into libraries
+   * Schedule
