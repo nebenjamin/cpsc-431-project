@@ -1,0 +1,24 @@
+Some of the topics that mentioned in the first lab
+
+= Introduction =
+
+Notes:
+
+
+= Details =
+
+divide into smaller groups
+c#
+visual studio
+google code
+   *tortoiseSVN
+Model
+   *UML
+   *Class Diagram
+Testing
+   *End Unit it is like jUnit
+Naming conventions
+   *Standardize code
+Libraries
+Schedule
+   *order of implementing functions and who
