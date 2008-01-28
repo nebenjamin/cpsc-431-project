@@ -1,4 +1,4 @@
-Some of the topics that mentioned in the first lab
+Some of the topics that were mentioned in the first lab
 
 = Stuff we decided upon: =
    * Language - C#
