@@ -4,6 +4,7 @@ The groups we made
    * Ryan Russell
    * Michael Johnson
    * Long Mai
+   * Emory Cook
 
 = Functions =
    * Caleb Wells
