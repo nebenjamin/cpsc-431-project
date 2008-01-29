@@ -1,0 +1,23 @@
+#summary Interfaces
+
+SpreadsheetModel : IGridModel
+Add(Cell, int, int);
+
+IGridModel
+-ICellCollection
+
+ICellCollection
+-ICell this[int r][int c]
+
+
+ICell
+-string Formula { get; }
+-string Value { get; }
+-void Invalidate();
+-ICellFormat Format { get; }
+
+ICellFormat
+-IFontSettings Font { get; }
+-IBrushSettings FontBrush { get; }
+-IBrushSettings BackgroundBrush { get; }
+-IPenSettings BorderPen { get; }
