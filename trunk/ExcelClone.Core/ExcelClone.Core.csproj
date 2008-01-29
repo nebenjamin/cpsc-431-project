@@ -30,22 +30,30 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cell.cs" />
     <Compile Include="CellCollection.cs" />
+    <Compile Include="Drawing\BrushFactory.cs" />
+    <Compile Include="Drawing\BrushSettings.cs" />
+    <Compile Include="Drawing\CellFormat.cs" />
+    <Compile Include="Drawing\FontFactory.cs" />
+    <Compile Include="Drawing\FontSettings.cs" />
+    <Compile Include="Drawing\IBrushSettings.cs" />
+    <Compile Include="Drawing\ICellFormat.cs" />
+    <Compile Include="Drawing\IFontSettings.cs" />
+    <Compile Include="Drawing\ILabelSettings.cs" />
+    <Compile Include="Drawing\IPenSettings.cs" />
+    <Compile Include="Drawing\LabelSettings.cs" />
+    <Compile Include="Drawing\PenFactory.cs" />
+    <Compile Include="Drawing\PenSettings.cs" />
     <Compile Include="ICell.cs" />
     <Compile Include="ICellCollection.cs" />
     <Compile Include="IGridModel.cs" />
     <Compile Include="SpreadsheetModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ExcelClone.Gui\ExcelClone.Gui.csproj">
-      <Project>{EC691E5E-B7B5-485B-901B-27068D16722B}</Project>
-      <Name>ExcelClone.Gui</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

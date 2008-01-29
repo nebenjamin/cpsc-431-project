@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 
-namespace ExcelClone.Gui
+namespace ExcelClone.Core
 {
     public class PenFactory
     {

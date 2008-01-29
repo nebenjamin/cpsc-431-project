@@ -1,5 +1,5 @@
 ﻿using System;
-namespace ExcelClone.Gui
+namespace ExcelClone.Core
 {
     public interface IPenSettings
     {
