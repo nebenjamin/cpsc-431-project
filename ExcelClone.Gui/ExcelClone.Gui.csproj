@@ -31,23 +31,20 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Drawing\BrushFactory.cs" />
-    <Compile Include="Drawing\BrushSettings.cs" />
-    <Compile Include="CellFormat.cs" />
-    <Compile Include="Drawing\FontFactory.cs" />
-    <Compile Include="Drawing\FontSettings.cs" />
-    <Compile Include="Drawing\IBrushSettings.cs" />
-    <Compile Include="ICellFormat.cs" />
-    <Compile Include="Drawing\IFontSettings.cs" />
-    <Compile Include="Drawing\ILabelSettings.cs" />
-    <Compile Include="Drawing\IPenSettings.cs" />
-    <Compile Include="Drawing\LabelSettings.cs" />
-    <Compile Include="Drawing\PenFactory.cs" />
-    <Compile Include="Drawing\PenSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpreadsheetView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ExcelClone.Core\ExcelClone.Core.csproj">
+      <Project>{7613FA74-9393-463F-8DE9-E8F0C894F00D}</Project>
+      <Name>ExcelClone.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

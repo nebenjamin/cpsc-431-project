@@ -9,6 +9,6 @@ namespace ExcelClone.Core
         string Formula { get; }
         string Value { get; }
         void Invalidate();
-        ExcelClone.Gui.ICellFormat CellFormat { get; }
+        ExcelClone.Core.ICellFormat CellFormat { get; }
     }
 }

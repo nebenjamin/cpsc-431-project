@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ExcelClone.Gui;
+using ExcelClone.Core;
 
 namespace ExcelClone.Core
 {

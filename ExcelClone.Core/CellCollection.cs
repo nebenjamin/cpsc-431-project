@@ -8,12 +8,13 @@ namespace ExcelClone.Core
     {
         public CellCollection()
         {
-            cells = new Dictionary<Key, Cell>();
+            cells = new Dictionary<CellKey, Cell>();
         }
 
         #region ICellCollection Members
 
         ICell ICellCollection.this[int r, int c] { get { return this[r, c]; } }
+        ICell ICellCollection.this[CellKey key] { get { return this[key]; } }
 
         private int rows;
         public int Rows { get { return rows; } }
@@ -23,13 +24,25 @@ namespace ExcelClone.Core
 
         #endregion
 
-        private Dictionary<Key, Cell> cells;
+        private Dictionary<CellKey, Cell> cells;
+
         public Cell this[int r, int c] 
         { 
-            get { return cells[new Key(r, c)]; }
+            get { return cells[new CellKey(r, c)]; }
+            set { this[new CellKey(r, c)] = value; }
+        }
+
+        public Cell this[CellKey key]
+        {
+            get 
+            {
+                if(cells.ContainsKey(key))
+                    return cells[key];
+
+                return null;
+            }
             set
             {
-                Key key = new Key(r,c);
                 if (cells.ContainsKey(key))
                     cells[key] = value;
                 else
@@ -43,32 +56,35 @@ namespace ExcelClone.Core
             }
         }
 
-        private class Key
+        public IEnumerable<CellKey> Keys { get { return cells.Keys; } }
+
+    }
+
+    public class CellKey
+    {
+        private int r, c;
+        public int R { get { return r; } }
+        public int C { get { return c; } }
+
+        public CellKey(int r, int c)
         {
-            private int r, c;
-            public int R { get { return r; } }
-            public int C { get { return c; } }
+            this.r = r;
+            this.c = c;
+        }
 
-            public Key(int r, int c)
-            {
-                this.r = r;
-                this.c = c;
-            }
+        public override bool Equals(object obj)
+        {
+            CellKey other = obj as CellKey;
 
-            public override bool Equals(object obj)
-            {
-                Key other = obj as Key;
+            if (other == null)
+                return false;
 
-                if (other == null)
-                    return false;
+            return R == other.R && C == other.C;
+        }
 
-                return R == other.R && C == other.C;
-            }
-
-            public override int GetHashCode()
-            {
-                return R << 7 + C;
-            }
+        public override int GetHashCode()
+        {
+            return R << 7 + C;
         }
     }
 }

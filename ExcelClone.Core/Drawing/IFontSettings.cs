@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ExcelClone.Gui
+namespace ExcelClone.Core
 {
     public interface IFontSettings
     {
