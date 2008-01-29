@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelClone.Core", "ExcelClone.Core\ExcelClone.Core.csproj", "{7613FA74-9393-463F-8DE9-E8F0C894F00D}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelClone.Gui", "ExcelClone.Gui\ExcelClone.Gui.csproj", "{EC691E5E-B7B5-485B-901B-27068D16722B}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7613FA74-9393-463F-8DE9-E8F0C894F00D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7613FA74-9393-463F-8DE9-E8F0C894F00D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7613FA74-9393-463F-8DE9-E8F0C894F00D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7613FA74-9393-463F-8DE9-E8F0C894F00D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC691E5E-B7B5-485B-901B-27068D16722B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC691E5E-B7B5-485B-901B-27068D16722B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC691E5E-B7B5-485B-901B-27068D16722B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC691E5E-B7B5-485B-901B-27068D16722B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
