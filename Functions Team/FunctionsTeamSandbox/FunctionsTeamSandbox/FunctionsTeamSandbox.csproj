@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7613FA74-9393-463F-8DE9-E8F0C894F00D}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{CDB41659-11F3-4439-B1F9-E52EC4575266}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ExcelClone.Core</RootNamespace>
-    <AssemblyName>ExcelClone.Core</AssemblyName>
+    <RootNamespace>FunctionsTeamSandbox</RootNamespace>
+    <AssemblyName>FunctionsTeamSandbox</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,31 +30,42 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cell.cs" />
-    <Compile Include="CellCollection.cs" />
-    <Compile Include="Class1.cs" />
-    <Compile Include="Drawing\BrushFactory.cs" />
-    <Compile Include="Drawing\BrushSettings.cs" />
-    <Compile Include="Drawing\CellFormat.cs" />
-    <Compile Include="Drawing\FontFactory.cs" />
-    <Compile Include="Drawing\FontSettings.cs" />
-    <Compile Include="Drawing\IBrushSettings.cs" />
-    <Compile Include="Drawing\ICellFormat.cs" />
-    <Compile Include="Drawing\IFontSettings.cs" />
-    <Compile Include="Drawing\ILabelSettings.cs" />
-    <Compile Include="Drawing\IPenSettings.cs" />
-    <Compile Include="Drawing\LabelSettings.cs" />
-    <Compile Include="Drawing\PenFactory.cs" />
-    <Compile Include="Drawing\PenSettings.cs" />
-    <Compile Include="ICell.cs" />
-    <Compile Include="ICellCollection.cs" />
-    <Compile Include="IGridModel.cs" />
-    <Compile Include="SpreadsheetModel.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

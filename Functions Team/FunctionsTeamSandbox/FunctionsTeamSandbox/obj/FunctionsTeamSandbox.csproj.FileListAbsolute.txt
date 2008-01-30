@@ -1,0 +1,8 @@
+H:\CPSC 431\Functions Team\FunctionsTeamSandbox\FunctionsTeamSandbox\obj\Debug\ResolveAssemblyReference.cache
+H:\CPSC 431\Functions Team\FunctionsTeamSandbox\FunctionsTeamSandbox\obj\Debug\FunctionsTeamSandbox.Form1.resources
+H:\CPSC 431\Functions Team\FunctionsTeamSandbox\FunctionsTeamSandbox\obj\Debug\FunctionsTeamSandbox.Properties.Resources.resources
+H:\CPSC 431\Functions Team\FunctionsTeamSandbox\FunctionsTeamSandbox\obj\Debug\FunctionsTeamSandbox.csproj.GenerateResource.Cache
+H:\CPSC 431\Functions Team\FunctionsTeamSandbox\FunctionsTeamSandbox\bin\Debug\FunctionsTeamSandbox.exe
+H:\CPSC 431\Functions Team\FunctionsTeamSandbox\FunctionsTeamSandbox\bin\Debug\FunctionsTeamSandbox.pdb
+H:\CPSC 431\Functions Team\FunctionsTeamSandbox\FunctionsTeamSandbox\obj\Debug\FunctionsTeamSandbox.exe
+H:\CPSC 431\Functions Team\FunctionsTeamSandbox\FunctionsTeamSandbox\obj\Debug\FunctionsTeamSandbox.pdb
