@@ -36,7 +36,6 @@
   <ItemGroup>
     <Compile Include="Cell.cs" />
     <Compile Include="CellCollection.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Drawing\BrushFactory.cs" />
     <Compile Include="Drawing\BrushSettings.cs" />
     <Compile Include="Drawing\CellFormat.cs" />
