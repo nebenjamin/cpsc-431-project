@@ -13,6 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelClone.Gui", "ExcelClon
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelClone.TestHarness", "ExcelClone.TestHarness\ExcelClone.TestHarness.csproj", "{A707C61B-AC7B-4ECD-AB1E-B4BB9779B923}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +33,10 @@ Global
 		{EC691E5E-B7B5-485B-901B-27068D16722B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC691E5E-B7B5-485B-901B-27068D16722B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC691E5E-B7B5-485B-901B-27068D16722B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A707C61B-AC7B-4ECD-AB1E-B4BB9779B923}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A707C61B-AC7B-4ECD-AB1E-B4BB9779B923}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A707C61B-AC7B-4ECD-AB1E-B4BB9779B923}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A707C61B-AC7B-4ECD-AB1E-B4BB9779B923}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
