@@ -2,22 +2,14 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelClone.Core", "ExcelClone.Core\ExcelClone.Core.csproj", "{7613FA74-9393-463F-8DE9-E8F0C894F00D}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelClone.Gui", "ExcelClone.Gui\ExcelClone.Gui.csproj", "{EC691E5E-B7B5-485B-901B-27068D16722B}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelClone.TestHarness", "ExcelClone.TestHarness\ExcelClone.TestHarness.csproj", "{A707C61B-AC7B-4ECD-AB1E-B4BB9779B923}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelClone.Graphs", "ExcelClone.Graphs\ExcelClone.Graphs.csproj", "{D2E7A975-FC63-4D1E-97A9-F9B86859E681}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTK", "OpenTK\OpenTK.csproj", "{A8DE4406-5E00-4B4E-9A98-71F9E5A42A29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +29,14 @@ Global
 		{A707C61B-AC7B-4ECD-AB1E-B4BB9779B923}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A707C61B-AC7B-4ECD-AB1E-B4BB9779B923}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A707C61B-AC7B-4ECD-AB1E-B4BB9779B923}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2E7A975-FC63-4D1E-97A9-F9B86859E681}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2E7A975-FC63-4D1E-97A9-F9B86859E681}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2E7A975-FC63-4D1E-97A9-F9B86859E681}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2E7A975-FC63-4D1E-97A9-F9B86859E681}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8DE4406-5E00-4B4E-9A98-71F9E5A42A29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8DE4406-5E00-4B4E-9A98-71F9E5A42A29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8DE4406-5E00-4B4E-9A98-71F9E5A42A29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8DE4406-5E00-4B4E-9A98-71F9E5A42A29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
