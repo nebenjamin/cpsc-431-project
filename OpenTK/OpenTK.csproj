@@ -1,0 +1,357 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A8DE4406-5E00-4B4E-9A98-71F9E5A42A29}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>OpenTK</AssemblyName>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>
+    </AppDesignerFolder>
+    <RootNamespace>OpenTK</RootNamespace>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>True</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>False</Optimize>
+    <OutputPath>..\..\Binaries\Debug\Libraries\</OutputPath>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <RemoveIntegerChecks>False</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>
+    </NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;</DefineConstants>
+    <DocumentationFile>OpenTK.xml</DocumentationFile>
+    <DebugSymbols>False</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>True</Optimize>
+    <OutputPath>..\..\Binaries\Release\Libraries\</OutputPath>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <RemoveIntegerChecks>False</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>
+    </NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+      <HintPath>\System.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+      <HintPath>\System.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+      <HintPath>\System.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+      <HintPath>\System.Data.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ColorMode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayMode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Exceptions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GameWindow.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GLContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GLControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GLControl.Designer.cs">
+      <DependentUpon>GLControl.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InputDriver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IPackable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TexturePacker.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Fonts\DisplayListTextHandle.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Fonts\DisplayListTextPrinter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Fonts\Glyph.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Fonts\IFont.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Fonts\IPrinterImplementation.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Fonts\ITextPrinter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Fonts\TextHandle.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Fonts\TextPrinter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Fonts\TextureFont.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Fonts\VboTextPrinter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Input\IInputDevice.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Input\IInputDriver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Input\IKeyboardDriver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Input\IMouseDriver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Input\KeyboardDevice.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Input\MouseDevice.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Math\Box2.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Math\Functions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Math\Matrix4.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Math\Quaternion.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Math\Vector2.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Math\Vector3.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Math\Vector4.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OpenAL\AlcFunctions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OpenAL\AlcTokens.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OpenAL\AlFunctions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OpenAL\AlTokens.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OpenAL\AlutFunctions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OpenAL\AlutTokens.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OpenAL\XRamExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OpenGL\GLHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OpenGL\GluHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OpenGL\Bindings\GL.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OpenGL\Bindings\GLCore.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OpenGL\Bindings\GLDelegates.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OpenGL\Bindings\GLEnums.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OpenGL\Bindings\Glu.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OpenGL\Bindings\GluCore.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OpenGL\Bindings\GluDelegates.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OpenGL\Bindings\GluEnums.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\DummyGLContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\IGameWindow.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\IGLContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\IMutableWindowInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\INativeGLWindow.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\IResizable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\IWindowInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\Utilities.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\WindowInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\OSX\Functions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\Windows\API.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\Windows\KeyMap.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\Windows\WglHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\Windows\WindowInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\Windows\WinGLContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\Windows\WinGLNative.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\Windows\WinRawInput.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\Windows\WinRawKeyboard.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\Windows\WinRawMouse.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\Windows\WMInput.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\Windows\Bindings\Wgl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\Windows\Bindings\WglCore.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\Windows\Bindings\WglDelegates.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\Windows\Bindings\WglEnums.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\X11\API.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\X11\Functions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\X11\Glx.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\X11\GlxHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\X11\Structs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\X11\WindowInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\X11\X11GLContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\X11\X11GLNative.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\X11\X11Input.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\X11\X11Keyboard.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\X11\X11Mouse.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <None Include="OpenTK.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
