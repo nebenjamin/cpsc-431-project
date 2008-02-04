@@ -1,0 +1,8 @@
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\FunctionParser.Form1.resources
+obj\Debug\FunctionParser.Properties.Resources.resources
+obj\Debug\FunctionParser.csproj.GenerateResource.Cache
+bin\Debug\FunctionParser.exe
+bin\Debug\FunctionParser.pdb
+obj\Debug\FunctionParser.exe
+obj\Debug\FunctionParser.pdb
