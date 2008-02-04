@@ -11,7 +11,8 @@ namespace ExcelClone.Gui
     {
         public SpreadsheetView()
         {
-            for (int k = 0; k < 50; k++)
+
+            for (int k = 0; k < 26; k++)
                 Columns.Add(MakeColumnLabel(k), MakeColumnLabel(k));
 
             Rows.Add(50);
@@ -22,7 +23,7 @@ namespace ExcelClone.Gui
             if (gridModel == null)
                 return;
 
-
+            this[key.C, key.R].Value = GridModel.Cells[key].Value;
         }
 
         protected override void OnRowPostPaint(DataGridViewRowPostPaintEventArgs e)
