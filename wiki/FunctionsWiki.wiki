@@ -16,7 +16,7 @@ likewise, if A1 is filled with =1+2:
 A1:=1+2
 
 
-= Refernece Tables =
+= Reference Tables =
 
 There will be two reference indexs. One that includes all of the cells that are referenced by other cells, and the other that contains all cells that reference other cells. Both of these lists will be kept as a two dimensional arraylist or vector data structure, the first dimension being the names of the cells and the second a list of references.
 
