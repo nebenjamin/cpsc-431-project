@@ -22,21 +22,21 @@ There will be two reference indexs. One that includes all of the cells that are 
 
 For example if A1 references B1, then:
 
-Referenced
+Referenced Table
 
 B1   |   A1
 
-Referencing
+Referencing Table
 
 A1   |   B1
 
 If then A2 references B1:
 
-Referenced
+Referenced Table
 
 B1   |   A1 A2
 
-Referencing
+Referencing Table
 
 A1   |   B1
 
