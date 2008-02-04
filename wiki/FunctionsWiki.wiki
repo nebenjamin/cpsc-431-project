@@ -33,10 +33,10 @@ A1   |   B1
 If then A2 references B1:
 
 Referenced
-              
-B1   |   A1 A2 
+
+B1   |   A1 A2
 
 Referencing
-
 A1   |   B1
+
 A2   |   B1
