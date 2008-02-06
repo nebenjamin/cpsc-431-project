@@ -60,8 +60,8 @@ namespace FunctionsTeamSandbox
             this.A1_TB.Name = "A1_TB";
             this.A1_TB.Size = new System.Drawing.Size(103, 20);
             this.A1_TB.TabIndex = 0;
-            this.A1_TB.Leave += new System.EventHandler(this.A1_TB_Leave);
             this.A1_TB.Enter += new System.EventHandler(this.A1_TB_Enter);
+            this.A1_TB.Leave += new System.EventHandler(this.A1_TB_Leave);
             // 
             // A2_TB
             // 
@@ -69,8 +69,8 @@ namespace FunctionsTeamSandbox
             this.A2_TB.Name = "A2_TB";
             this.A2_TB.Size = new System.Drawing.Size(103, 20);
             this.A2_TB.TabIndex = 2;
-            this.A2_TB.Leave += new System.EventHandler(this.A2_TB_Leave);
             this.A2_TB.Enter += new System.EventHandler(this.A2_TB_Enter);
+            this.A2_TB.Leave += new System.EventHandler(this.A2_TB_Leave);
             // 
             // B1_TB
             // 
@@ -78,8 +78,8 @@ namespace FunctionsTeamSandbox
             this.B1_TB.Name = "B1_TB";
             this.B1_TB.Size = new System.Drawing.Size(103, 20);
             this.B1_TB.TabIndex = 3;
-            this.B1_TB.Leave += new System.EventHandler(this.B1_TB_Leave);
             this.B1_TB.Enter += new System.EventHandler(this.B1_TB_Enter);
+            this.B1_TB.Leave += new System.EventHandler(this.B1_TB_Leave);
             // 
             // B2_TB
             // 
@@ -87,8 +87,8 @@ namespace FunctionsTeamSandbox
             this.B2_TB.Name = "B2_TB";
             this.B2_TB.Size = new System.Drawing.Size(103, 20);
             this.B2_TB.TabIndex = 4;
-            this.B2_TB.Leave += new System.EventHandler(this.B2_TB_Leave);
             this.B2_TB.Enter += new System.EventHandler(this.B2_TB_Enter);
+            this.B2_TB.Leave += new System.EventHandler(this.B2_TB_Leave);
             // 
             // Func_TB
             // 
@@ -220,7 +220,7 @@ namespace FunctionsTeamSandbox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(529, 344);
+            this.ClientSize = new System.Drawing.Size(302, 344);
             this.Controls.Add(this.B2_Value);
             this.Controls.Add(this.B2_Formula);
             this.Controls.Add(this.B1_Value);
