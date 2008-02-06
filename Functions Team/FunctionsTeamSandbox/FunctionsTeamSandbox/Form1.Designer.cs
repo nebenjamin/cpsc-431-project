@@ -2,6 +2,11 @@ namespace FunctionsTeamSandbox
 {
     partial class Form1
     {
+        public Cell A1 = new Cell();
+        public Cell A2 = new Cell();
+        public Cell B1 = new Cell();
+        public Cell B2 = new Cell();
+
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -64,6 +69,8 @@ namespace FunctionsTeamSandbox
             this.A2_TB.Name = "A2_TB";
             this.A2_TB.Size = new System.Drawing.Size(103, 20);
             this.A2_TB.TabIndex = 2;
+            this.A2_TB.Leave += new System.EventHandler(this.A2_TB_Leave);
+            this.A2_TB.Enter += new System.EventHandler(this.A2_TB_Enter);
             // 
             // B1_TB
             // 
@@ -71,6 +78,8 @@ namespace FunctionsTeamSandbox
             this.B1_TB.Name = "B1_TB";
             this.B1_TB.Size = new System.Drawing.Size(103, 20);
             this.B1_TB.TabIndex = 3;
+            this.B1_TB.Leave += new System.EventHandler(this.B1_TB_Leave);
+            this.B1_TB.Enter += new System.EventHandler(this.B1_TB_Enter);
             // 
             // B2_TB
             // 
@@ -78,6 +87,8 @@ namespace FunctionsTeamSandbox
             this.B2_TB.Name = "B2_TB";
             this.B2_TB.Size = new System.Drawing.Size(103, 20);
             this.B2_TB.TabIndex = 4;
+            this.B2_TB.Leave += new System.EventHandler(this.B2_TB_Leave);
+            this.B2_TB.Enter += new System.EventHandler(this.B2_TB_Enter);
             // 
             // Func_TB
             // 
@@ -257,8 +268,8 @@ namespace FunctionsTeamSandbox
         private System.Windows.Forms.TextBox B1_Formula;
         private System.Windows.Forms.TextBox B2_Value;
         private System.Windows.Forms.TextBox B2_Formula;
-        
-        public string A1   // the Name property
+
+        /*public string A1   // the Name property
         {
             get { return A1_TB.Text; }
             set { A1_TB.Text = value; }
@@ -280,7 +291,7 @@ namespace FunctionsTeamSandbox
         {
             get { return B2_TB.Text; }
             set { B2_TB.Text = value; }
-        }
+        }*/
 
         public string Formula   // the Name property
         {
