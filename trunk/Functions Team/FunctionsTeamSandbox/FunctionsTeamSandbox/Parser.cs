@@ -18,12 +18,16 @@ namespace FunctionsTeamSandbox
 
         public string Parse(string Cell_String) //NOT COMPLETE YET
         {
-            System.Console.WriteLine(Cell_String);
+            Console.WriteLine(Cell_String);
 
             Base_Cell = Cell_String.Substring(0, Cell_String.IndexOf(':') - 1);
             Base_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1);
             Cell_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1);
 
+            Console.WriteLine(Cell_String);
+
+            if (Cell_String.Length == 0)
+                return Cell_String;
             if (Cell_String[0].ToString() != "=")
                 return Cell_String;
 
@@ -89,7 +93,7 @@ namespace FunctionsTeamSandbox
             }
 
             //PrintArrayList(Cell_String);
-            //System.Console.WriteLine(Cell_String[0].ToString());
+            //Console.WriteLine(Cell_String[0].ToString());
 
             return Fun_Class.CallFunction(Cell_String);
         }
@@ -319,7 +323,7 @@ namespace FunctionsTeamSandbox
                     }
                     catch
                     {
-                        System.Console.WriteLine("ERROR"); //ERROR: INCORRECT INPUT STRING
+                        Console.WriteLine("ERROR"); //ERROR: INCORRECT INPUT STRING
                         return Tokenize(Base_String);
                     }
                 }
@@ -448,7 +452,7 @@ namespace FunctionsTeamSandbox
                     }
                     catch
                     {
-                        System.Console.WriteLine("ERROR"); //ERROR: INCORRECT INPUT STRING
+                        Console.WriteLine("ERROR"); //ERROR: INCORRECT INPUT STRING
                         return Tokenize(Base_String);
                     }
                 }
@@ -525,9 +529,9 @@ namespace FunctionsTeamSandbox
         public static void PrintArrayList(ArrayList temp)
         {
             for (int i = 0; i < temp.Count; i++)
-                System.Console.Write(temp[i].ToString() + ".");
+                Console.Write(temp[i].ToString() + ".");
 
-            System.Console.WriteLine("");
+            Console.WriteLine("");
         }
     }
 }
