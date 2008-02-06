@@ -10,6 +10,7 @@ namespace FunctionsTeamSandbox
 {
     public partial class Form1 : Form
     {
+        Parser Excel_Parser = new Parser();
         public Form1()
         {
             this.Text = "Functions Team Sandbox";
@@ -27,19 +28,30 @@ namespace FunctionsTeamSandbox
             {
                 return Convert.ToString(Convert.ToInt32(A1, 10) + Convert.ToInt32(A2, 10) + Convert.ToInt32(B1, 10) + Convert.ToInt32(B2, 10));
             }
-            catch (System.ArgumentException e)
+            catch// (System.ArgumentException e)
             {
                 return "#ARGUMENT";
             }
-            catch (System.FormatException e)
+            /*catch (System.FormatException e)
             {
                 return "#FORMAT";
             }
             catch (System.OverflowException e)
             {
                 return "#OVERFLOW";
-            }
+            }*/
         }
-        
+
+        private void A1_TB_Leave(object sender, EventArgs e)
+        {
+            A1_Formula.Text = A1;
+            A1_Value.Text = Excel_Parser.Parse("A1:" + A1_Formula.Text);
+            A1 = A1_Value.Text;
+        }
+
+        private void A1_TB_Enter(object sender, EventArgs e)
+        {
+            A1 = A1_Formula.Text;
+        }
     }
 }
