@@ -118,7 +118,7 @@ namespace FunctionsTeamSandbox
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(44, 4);
+            this.label3.Location = new System.Drawing.Point(92, 4);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(13, 13);
             this.label3.TabIndex = 8;
@@ -127,7 +127,7 @@ namespace FunctionsTeamSandbox
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(153, 4);
+            this.label4.Location = new System.Drawing.Point(202, 4);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(13, 13);
             this.label4.TabIndex = 9;
@@ -136,7 +136,7 @@ namespace FunctionsTeamSandbox
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(90, 239);
+            this.label5.Location = new System.Drawing.Point(102, 239);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(48, 13);
             this.label5.TabIndex = 10;

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Collections;
+using System.Reflection;
 
 namespace FunctionsTeamSandbox
 {
@@ -16,11 +17,12 @@ namespace FunctionsTeamSandbox
             Fun_Class = new Functions();
         }
 
-        public string Parse(string Cell_String) //NOT COMPLETE YET
+        public string Parse(string Cell_String) //NOT COMPLETE YET (References Table Implementation)
         {
+            Cell_String = Cell_String.ToUpper();
             Console.WriteLine(Cell_String);
 
-            Base_Cell = Cell_String.Substring(0, Cell_String.IndexOf(':') - 1);
+            Base_Cell = Cell_String.Substring(0, Cell_String.IndexOf(':'));
             Base_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1);
             Cell_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1);
 
@@ -34,37 +36,27 @@ namespace FunctionsTeamSandbox
             ArrayList Parts = Tokenize(Cell_String);
             PrintArrayList(Parts);
 
-            string srtmp = "";
-            if (Cell_String.Contains("+") || Cell_String.Contains("-") ||
-                Cell_String.Contains("*") || Cell_String.Contains("/") ||
-                Cell_String.Contains(":"))
-            {
-                ArrayList temp = Reformat(Parts);
-                PrintArrayList(temp);
+            string strtmp = "";
 
-                //Store the Base_Cell and all References
-                //Add in the ability to check if a Base_Cell is changed
-                //And to update a cell if is it has reference to this cell
+            ArrayList temp = Reformat(Parts);
+            PrintArrayList(temp);
 
-                srtmp = Breaker(temp);
-            }
-            else
-            {
+            //Store the Base_Cell and all References
+            //Add in the ability to check if a Base_Cell is changed
+            //And to update a cell if is it has reference to this cell
 
-                //Store the Base_Cell and all References
-                //Add in the ability to check if a Base_Cell is changed
-                //And to update a cell if is it has reference to this cell
+            strtmp = Breaker(temp);
 
-                srtmp = Breaker(Parts);
-            }
-
+            Console.WriteLine(strtmp);
             try
             {
-                return Convert.ToDouble(srtmp).ToString();
+                return Convert.ToDouble(strtmp).ToString();
 
             }
             catch
             {
+                Console.WriteLine("ERROR: FORMATING ERROR");
+                //ERROR: FORMATING ERROR
                 return Base_String;
             }
         }
@@ -171,7 +163,7 @@ namespace FunctionsTeamSandbox
             return temp;
         }
 
-        private ArrayList Reformat(ArrayList Parts) //NOT COMPLETE YET (Cell Reference,A1)
+        private ArrayList Reformat(ArrayList Parts) //NOT COMPLETE YET (Cell Reference,A1) THIS NEED TO BE SOLVED!! HOW DO WE CALL A VARIABLE FROM A STRING?
         {
             #region SECTION REMOVER ()
             for (int i = 0; i < Parts.Count; i++)
@@ -323,7 +315,7 @@ namespace FunctionsTeamSandbox
                     }
                     catch
                     {
-                        Console.WriteLine("ERROR"); //ERROR: INCORRECT INPUT STRING
+                        Console.WriteLine("ERROR: INCORRECT INPUT STRING"); //ERROR: INCORRECT INPUT STRING
                         return Tokenize(Base_String);
                     }
                 }
@@ -452,7 +444,7 @@ namespace FunctionsTeamSandbox
                     }
                     catch
                     {
-                        Console.WriteLine("ERROR"); //ERROR: INCORRECT INPUT STRING
+                        Console.WriteLine("ERROR: INCORRECT INPUT STRING"); //ERROR: INCORRECT INPUT STRING
                         return Tokenize(Base_String);
                     }
                 }
@@ -479,20 +471,50 @@ namespace FunctionsTeamSandbox
                 }
             }
             #endregion
-            /*for( int i=0; i<Parts.Count; i++ ) { //CELL REFERENCE
-                if( Base_Cell == Parts[i] ) {
+            for (int i = 0; i < Parts.Count; i++)
+            { //CELL REFERENCE
+                if (Base_Cell.CompareTo(Parts[i].ToString()) == 0)
+                {
+                    Console.WriteLine("ERROR: CIRCULAR REFERENCE");
                     //ERROR: CIRCULAR REFERENCE
+                    return Parts;
                 }
-                if( IsCellReference( Parts[i] ) ) {
-                    If x->string is a Cell Reference {
-                        //Anything?
-                    }
-                    Else {
-                        Insert Reformat(Tokenize(x->string)) into x's position
-                    }
-                }
-            }*/
+                if (IsCellReference(Parts[i].ToString()))
+                {
+                    Console.WriteLine("Cell Reference");
+                    //Console.WriteLine("BaseCell= " + Base_Cell);
+                    //Console.WriteLine("CellReference= " + Parts[i].ToString());
 
+                    Parts.RemoveAt(i);
+                    string temp = "=1+2";//THIS NEED TO BE SOLVED!! HOW DO WE CALL A VARIABLE FROM A STRING?
+                    if( temp[0] == '=' )
+                    {
+                        Console.WriteLine("1");
+                        //Cell has a formula
+                        Parts.InsertRange(i, Reformat(Tokenize(temp)));
+
+                        Console.WriteLine("Cell has a formula");
+                    }
+                    else
+                    {
+                        Console.WriteLine("2");
+                        try
+                        {
+                            //Cell has a value
+                            Parts.Insert(i, Convert.ToDouble(temp));
+
+                            Console.WriteLine("Cell has a number");
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Cell has a string");
+                            //ERROR: Cell has a string
+                            return Parts;
+                        }
+                    }
+                }
+            }
+            
             return Parts;
         }
 
@@ -513,10 +535,15 @@ namespace FunctionsTeamSandbox
         {
             try
             {
+                if (char.IsLetter(Reference, 0) && char.IsLetter(Reference, 1))
+                {
+                    if (Convert.ToInt32(Reference.Substring(2)) > 0)
+                        return true;
+                }
                 if (char.IsLetter(Reference, 0))
                 {
-                    Convert.ToInt32(Reference.Substring(1));
-                    return true;
+                    if (Convert.ToInt32(Reference.Substring(1)) > 0)
+                        return true;
                 }
                 return false;
             }
