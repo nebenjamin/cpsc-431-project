@@ -17,14 +17,14 @@ namespace FunctionsTeamSandbox
             InitializeComponent();
         }
 
-        private void calculate_Click(object sender, EventArgs e)
+        /*private void calculate_Click(object sender, EventArgs e)
         {
             Formula = evaluateFunction(Formula);
         }
 
         string evaluateFunction(string s)
         {
-            /*try
+            try
             {
                 return Convert.ToString(Convert.ToInt32(A1, 10) + Convert.ToInt32(A2, 10) + Convert.ToInt32(B1, 10) + Convert.ToInt32(B2, 10));
             }
@@ -37,10 +37,10 @@ namespace FunctionsTeamSandbox
                 return "#FORMAT";
             }
             catch (System.OverflowException e)
-            {*/
+            {
                 return "#OVERFLOW";
             //}
-        }
+        }*/
 
         private void A1_TB_Enter(object sender, EventArgs e)
         {

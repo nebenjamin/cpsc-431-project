@@ -10,14 +10,13 @@ namespace FunctionsTeamSandbox
     {
         private string Base_Cell;
         private string Base_String;
-        private Functions Fun_Class;
+        private Functions Fun_Class = new Functions();
 
-        public Parser()
-        {
-            Fun_Class = new Functions();
-        }
+        public Parser() { }
 
-        public string Parse(string Cell_String) //NOT COMPLETE YET (References Table Implementation)
+        /* NOT COMPLETE YET (References Table Implementation)
+         */
+        public string Parse(string Cell_String)
         {
             Cell_String = Cell_String.ToUpper();
             Console.WriteLine(Cell_String);
@@ -163,7 +162,11 @@ namespace FunctionsTeamSandbox
             return temp;
         }
 
-        private ArrayList Reformat(ArrayList Parts) //NOT COMPLETE YET (Cell Reference,A1) THIS NEED TO BE SOLVED!! HOW DO WE CALL A VARIABLE FROM A STRING?
+        /* NOT COMPLETE YET (Cell Reference,A1) 
+         * THIS NEED TO BE SOLVED BY UI! 
+         * The UI team needs to setup a mathod that takes a Cell Reference as a string and return the formula.
+         */
+        private ArrayList Reformat(ArrayList Parts)
         {
             #region SECTION REMOVER ()
             for (int i = 0; i < Parts.Count; i++)
@@ -486,7 +489,7 @@ namespace FunctionsTeamSandbox
                     //Console.WriteLine("CellReference= " + Parts[i].ToString());
 
                     Parts.RemoveAt(i);
-                    string temp = "=1+2";//THIS NEED TO BE SOLVED!! HOW DO WE CALL A VARIABLE FROM A STRING?
+                    string temp = "=1+2";//temp will equal the output of the UI's function
                     if( temp[0] == '=' )
                     {
                         Console.WriteLine("1");
