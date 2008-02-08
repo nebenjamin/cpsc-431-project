@@ -37,13 +37,13 @@ namespace FunctionsTeamSandbox
             this.A2_TB = new System.Windows.Forms.TextBox();
             this.B1_TB = new System.Windows.Forms.TextBox();
             this.B2_TB = new System.Windows.Forms.TextBox();
-            this.Func_TB = new System.Windows.Forms.TextBox();
+            //this.Func_TB = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.calculate = new System.Windows.Forms.Button();
+            //this.label5 = new System.Windows.Forms.Label();
+            //this.calculate = new System.Windows.Forms.Button();
             this.A1_Formula = new System.Windows.Forms.TextBox();
             this.A1_Value = new System.Windows.Forms.TextBox();
             this.A2_Value = new System.Windows.Forms.TextBox();
@@ -92,10 +92,10 @@ namespace FunctionsTeamSandbox
             // 
             // Func_TB
             // 
-            this.Func_TB.Location = new System.Drawing.Point(156, 236);
+            /*this.Func_TB.Location = new System.Drawing.Point(156, 236);
             this.Func_TB.Name = "Func_TB";
             this.Func_TB.Size = new System.Drawing.Size(103, 20);
-            this.Func_TB.TabIndex = 5;
+            this.Func_TB.TabIndex = 5;*/
             // 
             // label1
             // 
@@ -135,22 +135,22 @@ namespace FunctionsTeamSandbox
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
+            /*this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(102, 239);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(48, 13);
             this.label5.TabIndex = 10;
-            this.label5.Text = "Function";
+            this.label5.Text = "Function";*/
             // 
             // calculate
             // 
-            this.calculate.Location = new System.Drawing.Point(37, 262);
+            /*this.calculate.Location = new System.Drawing.Point(37, 262);
             this.calculate.Name = "calculate";
             this.calculate.Size = new System.Drawing.Size(222, 52);
             this.calculate.TabIndex = 11;
             this.calculate.Text = "button1";
             this.calculate.UseVisualStyleBackColor = true;
-            this.calculate.Click += new System.EventHandler(this.calculate_Click);
+            this.calculate.Click += new System.EventHandler(this.calculate_Click);*/
             // 
             // A1_Formula
             // 
@@ -229,13 +229,13 @@ namespace FunctionsTeamSandbox
             this.Controls.Add(this.A2_Formula);
             this.Controls.Add(this.A1_Value);
             this.Controls.Add(this.A1_Formula);
-            this.Controls.Add(this.calculate);
-            this.Controls.Add(this.label5);
+            //this.Controls.Add(this.calculate);
+            //this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.Func_TB);
+            //this.Controls.Add(this.Func_TB);
             this.Controls.Add(this.B2_TB);
             this.Controls.Add(this.B1_TB);
             this.Controls.Add(this.A2_TB);
@@ -253,13 +253,13 @@ namespace FunctionsTeamSandbox
         private System.Windows.Forms.TextBox B1_TB;
         private System.Windows.Forms.TextBox A2_TB;
         private System.Windows.Forms.TextBox B2_TB;
-        private System.Windows.Forms.TextBox Func_TB;
+        //private System.Windows.Forms.TextBox Func_TB;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button calculate;
+        //private System.Windows.Forms.Label label5;
+        //private System.Windows.Forms.Button calculate;
         private System.Windows.Forms.TextBox A1_Formula;
         private System.Windows.Forms.TextBox A1_Value;
         private System.Windows.Forms.TextBox A2_Value;
@@ -293,11 +293,11 @@ namespace FunctionsTeamSandbox
             set { B2_TB.Text = value; }
         }*/
 
-        public string Formula   // the Name property
+        /*public string Formula   // the Name property
         {
             get { return Func_TB.Text; }
             set { Func_TB.Text = value; }
-        }
+        }*/
     }
 }
 
