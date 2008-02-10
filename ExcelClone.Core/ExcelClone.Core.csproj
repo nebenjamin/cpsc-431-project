@@ -52,6 +52,8 @@
     <Compile Include="ICell.cs" />
     <Compile Include="ICellCollection.cs" />
     <Compile Include="IGridModel.cs" />
+    <Compile Include="ISpreadsheetControl.cs" />
+    <Compile Include="SpreadsheetControl.cs" />
     <Compile Include="SpreadsheetModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
