@@ -18,5 +18,10 @@ namespace ExcelClone.Gui
         private void Window_Load(object sender, EventArgs e)
         {            
         }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
