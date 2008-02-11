@@ -18,7 +18,7 @@ namespace ExcelClone.Core
     public void InvalidateCell(CellKey key)
     {
       InvalidCells.Push(key);
-      Enumerator e = InvalidCells.GetEnumerator();
+     /* Enumerator e = InvalidCells.GetEnumerator();
       
       while (e.MoveNext())
       {
@@ -26,7 +26,7 @@ namespace ExcelClone.Core
         //in the parser.  Parser will invalidate a group
         //of cells and this function will continue
 
-      }
+      }*/
     }
 
     public void InvalidateCell(int r, int c)
