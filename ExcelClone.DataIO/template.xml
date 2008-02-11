@@ -38,6 +38,12 @@
 					<b>This is bolded text.</b>
 				</content>
 			</row>
+      <row num="6">
+        <content type="graph">
+          <series num="1" name="Series 1" color="#FF00FF" start="A3" end="B4"/>
+          
+        </content>
+      </row>
 			<row num="7">
 				<content type="text">
 					This has <text color="#FF0000"><i>color</i></text> formatting.
