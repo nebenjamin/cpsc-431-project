@@ -1,0 +1,59 @@
+<template>
+	<meta name="Nathan Benjamin" date="02/11/08"/>
+	other metadata
+	<sheet name="Sheet1">
+		<columns number="3"/>
+		<rows number="9"/>
+		<column num="1">
+			<row num="1">
+				<content type = "number">
+					25
+				</content>
+			</row>
+			<row num="2">
+				<content type="number">
+					356
+				</content>
+			</row>
+			<row num="3">
+				<content type="formula">
+					= AVERAGE({1,1}, {1,2})
+				</content>
+			</row>
+		</column>
+		<column num="2">
+			<row num="8">
+				<bg color="#538ED5"/>
+			</row>
+		</column>
+		<column num="3" width="23.00">
+			<row num="3">
+				<align halign="center"/>
+				<content type="text">
+					This is <b>just</b> text.
+				</content>
+			</row>
+			<row num="4">
+				<content type="text">
+					<b>This is bolded text.</b>
+				</content>
+			</row>
+			<row num="7">
+				<content type="text">
+					This has <text color="#FF0000"><i>color</i></text> formatting.
+				</content>
+			</row>
+		</column>
+	</sheet>
+	<sheet name="Sheet2">
+		<columns number="10"/>
+		<rows number="11"/>
+		<column num="1" width="24.14">
+			<row num="4" height="29.25">
+				<content type="text">
+					This is on a different sheet
+				</content>
+			</row>
+		</column>
+	</sheet>
+</template>
