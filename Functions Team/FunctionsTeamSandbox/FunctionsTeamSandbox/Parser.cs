@@ -488,8 +488,12 @@ namespace FunctionsTeamSandbox
                     //Console.WriteLine("BaseCell= " + Base_Cell);
                     //Console.WriteLine("CellReference= " + Parts[i].ToString());
 
+                    string cell_ref = Parts[i].ToString();
+
                     Parts.RemoveAt(i);
-                    string temp = "=1+2";//temp will equal the output of the UI's function
+                    //string temp = "=1+2";//temp will equal the output of the UI's function
+                    string temp = Form1.getCellFormula(cell_ref);
+                    
                     if( temp[0] == '=' )
                     {
                         Console.WriteLine("1");
