@@ -6,3 +6,11 @@ H:\CPSC 431\Functions Team\FunctionsTeamSandbox\FunctionsTeamSandbox\bin\Debug\F
 H:\CPSC 431\Functions Team\FunctionsTeamSandbox\FunctionsTeamSandbox\bin\Debug\FunctionsTeamSandbox.pdb
 H:\CPSC 431\Functions Team\FunctionsTeamSandbox\FunctionsTeamSandbox\obj\Debug\FunctionsTeamSandbox.exe
 H:\CPSC 431\Functions Team\FunctionsTeamSandbox\FunctionsTeamSandbox\obj\Debug\FunctionsTeamSandbox.pdb
+C:\Documents and Settings\cgw2448\Desktop\New Folder (2)\Functions Team\FunctionsTeamSandbox\FunctionsTeamSandbox\bin\Debug\FunctionsTeamSandbox.exe
+C:\Documents and Settings\cgw2448\Desktop\New Folder (2)\Functions Team\FunctionsTeamSandbox\FunctionsTeamSandbox\bin\Debug\FunctionsTeamSandbox.pdb
+C:\Documents and Settings\cgw2448\Desktop\New Folder (2)\Functions Team\FunctionsTeamSandbox\FunctionsTeamSandbox\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\cgw2448\Desktop\New Folder (2)\Functions Team\FunctionsTeamSandbox\FunctionsTeamSandbox\obj\Debug\FunctionsTeamSandbox.Form1.resources
+C:\Documents and Settings\cgw2448\Desktop\New Folder (2)\Functions Team\FunctionsTeamSandbox\FunctionsTeamSandbox\obj\Debug\FunctionsTeamSandbox.Properties.Resources.resources
+C:\Documents and Settings\cgw2448\Desktop\New Folder (2)\Functions Team\FunctionsTeamSandbox\FunctionsTeamSandbox\obj\Debug\FunctionsTeamSandbox.csproj.GenerateResource.Cache
+C:\Documents and Settings\cgw2448\Desktop\New Folder (2)\Functions Team\FunctionsTeamSandbox\FunctionsTeamSandbox\obj\Debug\FunctionsTeamSandbox.exe
+C:\Documents and Settings\cgw2448\Desktop\New Folder (2)\Functions Team\FunctionsTeamSandbox\FunctionsTeamSandbox\obj\Debug\FunctionsTeamSandbox.pdb
