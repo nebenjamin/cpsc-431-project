@@ -14,8 +14,8 @@ namespace ExcelClone.TestHarness
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
-            //Application.Run(new ExcelClone.Gui.Window());
+            //Application.Run(new Form1());
+            Application.Run(new ExcelClone.Gui.Window());
         }
     }
 }
