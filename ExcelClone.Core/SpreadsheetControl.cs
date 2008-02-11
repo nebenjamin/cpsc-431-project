@@ -1,38 +1,27 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Collections;
 
 namespace ExcelClone.Core
 {
   class SpreadsheetControl : ISpreadsheetControl
-  {
-    private Stack<CellKey> InvalidCells;
-
+  {    
     public SpreadsheetControl()
     {
-      InvalidCells = new Stack<CellKey>();
     }
 
     #region ISpreadsheetControl Members
 
     public void InvalidateCell(CellKey key)
     {
-      InvalidCells.Push(key);
-     /* Enumerator e = InvalidCells.GetEnumerator();
-      
-      while (e.MoveNext())
-      {
-        //while has next, call the process function
-        //in the parser.  Parser will invalidate a group
-        //of cells and this function will continue
-
-      }*/
+      //call the parse function for this cell key
     }
 
     public void InvalidateCell(int r, int c)
     {
       this.InvalidateCell(new CellKey(r, c));
-    }
+    }    
 
     public void UpdateCellValue(CellKey key, string value)
     {
