@@ -10,14 +10,51 @@ namespace ExcelClone.Gui
     public class SpreadsheetView : DataGridView
     {
         public SpreadsheetView()
+            : base()
         {
+            CellMouseDoubleClick += new DataGridViewCellMouseEventHandler(SpreadsheetView_CellMouseDoubleClick);
+            RowHeaderMouseClick += new DataGridViewCellMouseEventHandler(SpreadsheetView_RowHeaderMouseClick);
+            
+            KeyDown += new KeyEventHandler(SpreadsheetView_KeyDown);
+            ParentChanged += delegate
+            {
+                Columns.Clear();
 
-            for (int k = 0; k < 26; k++)
-                Columns.Add(MakeColumnLabel(k), MakeColumnLabel(k));
+                for (int k = 0; k < 26; k++)
+                {
+                    Columns.Add(MakeColumnLabel(k), MakeColumnLabel(k));
+                    Columns[k].SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
 
-            Rows.Add(50);
+                Rows.Add(50);
+
+                AllowUserToOrderColumns = false;
+                SelectionMode = DataGridViewSelectionMode.ColumnHeaderSelect;
+            };
         }
 
+        void SpreadsheetView_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            ClearSelection();
+            foreach(DataGridViewCell cell in Rows[e.RowIndex].Cells)
+                cell.Selected = true;
+        }
+
+        void SpreadsheetView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete && !CurrentCell.IsInEditMode)
+                foreach (DataGridViewCell cell in SelectedCells)
+                    cell.Value = "";
+        }
+
+        void SpreadsheetView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            CurrentCell = this[e.ColumnIndex, e.RowIndex];
+            BeginEdit(false);
+        }
+
+        
+                
         public void RefreshCell(CellKey key)
         {
             if (gridModel == null)
