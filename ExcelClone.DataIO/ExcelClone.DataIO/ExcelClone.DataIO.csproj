@@ -36,6 +36,12 @@
     <Compile Include="DataIO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ExcelClone.Core\ExcelClone.Core.csproj">
+      <Project>{7613FA74-9393-463F-8DE9-E8F0C894F00D}</Project>
+      <Name>ExcelClone.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
