@@ -36,8 +36,8 @@ namespace ExcelClone.Graphs
         protected override void OnPaint(PaintEventArgs e)
         {
             MakeCurrent();
-            gr.Draw();
-
+            gr.Draw(this.ClientRectangle);
+            gr.DrawTitle(this.ClientRectangle);
             SwapBuffers();
             base.OnPaint(e);
         }
