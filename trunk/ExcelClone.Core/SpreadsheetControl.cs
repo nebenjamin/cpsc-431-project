@@ -25,10 +25,22 @@ namespace ExcelClone.Core
 
         public void CellChanged(CellKey key)
         {
+            CellKey lastUpdated = null;
+            string val = null;
             InvalidateCell(key);
             while (InvalidCells.Count > 0)
             {
-                //updateCellValue(key, parse(key, value)); call the parse function for this cell key
+                if (lastUpdated == key)
+                {
+                    //circular Reference
+                }
+                //val = parse(key, m.Cells[key].Value);
+                if (val != null)
+                {
+                    UpdateCellValue(key, val);
+                    lastUpdated = key;
+                }
+                //updateCellValue(key, parse(key, m.Cells[key].value)); call the parse function for this cell key
             }
         }
 
