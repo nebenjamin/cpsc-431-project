@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTK", "OpenTK\OpenTK.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelClone.DataIO", "ExcelClone.DataIO\ExcelClone.DataIO\ExcelClone.DataIO.csproj", "{35D58B28-23FE-4592-8F54-711B1624CE0D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelClone.Controller", "ExcelClone.Controller\ExcelClone.Controller.csproj", "{AE0C28A7-B383-4B4D-8117-4558B92E8A48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{35D58B28-23FE-4592-8F54-711B1624CE0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35D58B28-23FE-4592-8F54-711B1624CE0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35D58B28-23FE-4592-8F54-711B1624CE0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE0C28A7-B383-4B4D-8117-4558B92E8A48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE0C28A7-B383-4B4D-8117-4558B92E8A48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE0C28A7-B383-4B4D-8117-4558B92E8A48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE0C28A7-B383-4B4D-8117-4558B92E8A48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
