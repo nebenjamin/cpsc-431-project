@@ -56,12 +56,16 @@ namespace ExcelClone.Graphs
             vGrid = true;
             hGrid = true;
 
+            InitFonts();
+            InitLabels();
+        }
+
+        public void InitFonts()
+        {
             //Init Fonts to defaults
             LabelFont = new TextureFont(new Font(FontFamily.GenericSansSerif, 12.0f));
             TitleFont = new TextureFont(new Font(FontFamily.GenericSansSerif, 18.0f));
             AxesFont = new TextureFont(new Font(FontFamily.GenericSansSerif, 14.0f, FontStyle.Bold));
-
-            InitLabels();
         }
 
         public void InitLabels()  //come up with labels based on data, line count
