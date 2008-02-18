@@ -35,16 +35,14 @@ namespace FunctionsTeamSandbox
             ArrayList Parts = Tokenize(Cell_String);
             PrintArrayList(Parts);
 
-            string strtmp = "";
-
-            ArrayList temp = Reformat(Parts);
-            PrintArrayList(temp);
-
             //Store the Base_Cell and all References
             //Add in the ability to check if a Base_Cell is changed
             //And to update a cell if is it has reference to this cell
 
-            strtmp = Breaker(temp);
+            ArrayList temp = Reformat(Parts);
+            PrintArrayList(temp);
+
+            string strtmp = Breaker(temp);
 
             Console.WriteLine(strtmp);
             try
@@ -493,8 +491,8 @@ namespace FunctionsTeamSandbox
                     Parts.RemoveAt(i);
                     //string temp = "=1+2";//temp will equal the output of the UI's function
                     string temp = Form1.getCellFormula(cell_ref);
-                    
-                    if( temp[0] == '=' )
+
+                    if (temp[0] == '=')
                     {
                         Console.WriteLine("1");
                         //Cell has a formula
