@@ -20,6 +20,7 @@ namespace FunctionsTeamSandbox
         {
             Cell_String = Cell_String.ToUpper();
             Console.WriteLine(Cell_String);
+            Form1.Step("---------- " + Cell_String);
 
             Base_Cell = Cell_String.Substring(0, Cell_String.IndexOf(':'));
             Base_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1);
@@ -28,9 +29,17 @@ namespace FunctionsTeamSandbox
             Console.WriteLine(Cell_String);
 
             if (Cell_String.Length == 0)
+            {
+                Console.WriteLine("Cell is empty");
+                Form1.Step("Cell is empty");
                 return Cell_String;
+            }
             if (Cell_String[0].ToString() != "=")
+            {
+                Console.WriteLine("Cell is a string");
+                Form1.Step("Cell is a string");
                 return Cell_String;
+            }
 
             ArrayList Parts = Tokenize(Cell_String);
             PrintArrayList(Parts);
@@ -45,6 +54,7 @@ namespace FunctionsTeamSandbox
             string strtmp = Breaker(temp);
 
             Console.WriteLine(strtmp);
+            Form1.Step("-----" + strtmp);
             try
             {
                 return Convert.ToDouble(strtmp).ToString();
@@ -53,6 +63,7 @@ namespace FunctionsTeamSandbox
             catch
             {
                 Console.WriteLine("ERROR: FORMATING ERROR");
+                Form1.Step("ERROR: FORMATING ERROR");
                 //ERROR: FORMATING ERROR
                 return Base_String;
             }
@@ -317,6 +328,7 @@ namespace FunctionsTeamSandbox
                     catch
                     {
                         Console.WriteLine("ERROR: INCORRECT INPUT STRING"); //ERROR: INCORRECT INPUT STRING
+                        Form1.Step("ERROR: INCORRECT INPUT STRING");
                         return Tokenize(Base_String);
                     }
                 }
@@ -446,6 +458,7 @@ namespace FunctionsTeamSandbox
                     catch
                     {
                         Console.WriteLine("ERROR: INCORRECT INPUT STRING"); //ERROR: INCORRECT INPUT STRING
+                        Form1.Step("ERROR: INCORRECT INPUT STRING");
                         return Tokenize(Base_String);
                     }
                 }
@@ -474,23 +487,28 @@ namespace FunctionsTeamSandbox
             #endregion
             for (int i = 0; i < Parts.Count; i++)
             { //CELL REFERENCE
-                if (Base_Cell.CompareTo(Parts[i].ToString()) == 0)
+                if (Base_Cell.CompareTo(Parts[i].ToString().ToUpper()) == 0)
                 {
                     Console.WriteLine("ERROR: CIRCULAR REFERENCE");
+                    Form1.Step("ERROR: CIRCULAR REFERENCE");
                     //ERROR: CIRCULAR REFERENCE
                     return Parts;
                 }
                 if (IsCellReference(Parts[i].ToString()))
                 {
                     Console.WriteLine("Cell Reference");
+                    Form1.Step("Cell Reference");
                     //Console.WriteLine("BaseCell= " + Base_Cell);
                     //Console.WriteLine("CellReference= " + Parts[i].ToString());
 
-                    string cell_ref = Parts[i].ToString();
+                    string cell_ref = Parts[i].ToString().ToUpper();
 
                     Parts.RemoveAt(i);
                     //string temp = "=1+2";//temp will equal the output of the UI's function
                     string temp = Form1.getCellFormula(cell_ref);
+
+                    Console.WriteLine(cell_ref + " -> " + temp);
+                    Form1.Step(cell_ref + " -> " + temp);
 
                     if (temp[0] == '=')
                     {
@@ -499,6 +517,7 @@ namespace FunctionsTeamSandbox
                         Parts.InsertRange(i, Reformat(Tokenize(temp)));
 
                         Console.WriteLine("Cell has a formula");
+                        Form1.Step("Cell has a formula");
                     }
                     else
                     {
@@ -509,10 +528,12 @@ namespace FunctionsTeamSandbox
                             Parts.Insert(i, Convert.ToDouble(temp));
 
                             Console.WriteLine("Cell has a number");
+                            Form1.Step("Cell has a number");
                         }
                         catch
                         {
                             Console.WriteLine("Cell has a string");
+                            Form1.Step("Cell has a string");
                             //ERROR: Cell has a string
                             return Parts;
                         }
@@ -560,10 +581,15 @@ namespace FunctionsTeamSandbox
 
         public static void PrintArrayList(ArrayList temp)
         {
+            string stemp = "";
             for (int i = 0; i < temp.Count; i++)
+            {
                 Console.Write(temp[i].ToString() + ".");
+                stemp += temp[i].ToString() + ".";
+            }
 
             Console.WriteLine("");
+            Form1.Step(stemp);
         }
     }
 }

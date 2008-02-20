@@ -49,49 +49,49 @@ namespace FunctionsTeamSandbox
         {
             try
             {
-                switch (Cell_String[0].ToString().ToUpper())
+                switch (Cell_String[0].ToString().ToUpper() + Cell_String[1].ToString().ToUpper())
                 {
-                    case "ADD":
+                    case "ADD(":
                         return Add(Cell_String.GetRange(1, Cell_String.Count - 1));
-                    case "SUB":
+                    case "SUB(":
                         return Subtract(Cell_String.GetRange(1, Cell_String.Count - 1));
-                    case "MUL":
+                    case "MUL(":
                         return Multiply(Cell_String.GetRange(1, Cell_String.Count - 1));
-                    case "DIV":
+                    case "DIV(":
                         return Divide(Cell_String.GetRange(1, Cell_String.Count - 1));
-                    case "AVG":
+                    case "AVG(":
                         return Average(Cell_String.GetRange(1, Cell_String.Count - 1));
-                    case "MIN":
+                    case "MIN(":
                         return Minimum(Cell_String.GetRange(1, Cell_String.Count - 1));
-                    case "MAX":
+                    case "MAX(":
                         return Maximum(Cell_String.GetRange(1, Cell_String.Count - 1));
-                    case "COUNT":
+                    case "COUNT(":
                         return Count(Cell_String.GetRange(1, Cell_String.Count - 1));
-                    case "ABS":
+                    case "ABS(":
                         return Absolute(Cell_String.GetRange(1, Cell_String.Count - 1));
-                    case "LOG10":
+                    case "LOG10(":
                         return Log10(Cell_String.GetRange(1, Cell_String.Count - 1));
-                    case "LOG":
+                    case "LOG(":
                         return Log(Cell_String.GetRange(1, Cell_String.Count - 1));
-                    case "LN":
+                    case "LN(":
                         return LN(Cell_String.GetRange(1, Cell_String.Count - 1));
-                    case "ROUND":
+                    case "ROUND(":
                         return Round(Cell_String.GetRange(1, Cell_String.Count - 1));
-                    case "COS":
+                    case "COS(":
                         return Cos(Cell_String.GetRange(1, Cell_String.Count - 1));
-                    case "SIN":
+                    case "SIN(":
                         return Sin(Cell_String.GetRange(1, Cell_String.Count - 1));
-                    case "TAN":
+                    case "TAN(":
                         return Tan(Cell_String.GetRange(1, Cell_String.Count - 1));
-                    case "POW":
+                    case "POW(":
                         return Power(Cell_String.GetRange(1, Cell_String.Count - 1));
-                    case "SQRT":
+                    case "SQRT(":
                         return SquareRoot(Cell_String.GetRange(1, Cell_String.Count - 1));
-                    case "DEGREES":
+                    case "DEGREES(":
                         return Degrees(Cell_String.GetRange(1, Cell_String.Count - 1));
-                    case "RADIANS":
+                    case "RADIANS(":
                         return Radians(Cell_String.GetRange(1, Cell_String.Count - 1));
-                    case "PI":
+                    case "PI(":
                         return PI();
                     default:
                         string temp = "";
