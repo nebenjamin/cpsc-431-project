@@ -37,13 +37,10 @@ namespace FunctionsTeamSandbox
             A2_TB = new System.Windows.Forms.TextBox();
             B1_TB = new System.Windows.Forms.TextBox();
             B2_TB = new System.Windows.Forms.TextBox();
-            //this.Func_TB = new System.Windows.Forms.TextBox();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
-            //this.label5 = new System.Windows.Forms.Label();
-            //this.calculate = new System.Windows.Forms.Button();
             A1_Formula = new System.Windows.Forms.TextBox();
             A1_Value = new System.Windows.Forms.TextBox();
             A2_Value = new System.Windows.Forms.TextBox();
@@ -52,7 +49,8 @@ namespace FunctionsTeamSandbox
             B1_Formula = new System.Windows.Forms.TextBox();
             B2_Value = new System.Windows.Forms.TextBox();
             B2_Formula = new System.Windows.Forms.TextBox();
-            this.SuspendLayout();
+            listBox1 = new System.Windows.Forms.ListBox();
+            SuspendLayout();
             // 
             // A1_TB
             // 
@@ -60,8 +58,8 @@ namespace FunctionsTeamSandbox
             A1_TB.Name = "A1_TB";
             A1_TB.Size = new System.Drawing.Size(103, 20);
             A1_TB.TabIndex = 0;
-            A1_TB.Enter += new System.EventHandler(this.A1_TB_Enter);
-            A1_TB.Leave += new System.EventHandler(this.A1_TB_Leave);
+            A1_TB.Enter += new System.EventHandler(A1_TB_Enter);
+            A1_TB.Leave += new System.EventHandler(A1_TB_Leave);
             // 
             // A2_TB
             // 
@@ -69,8 +67,8 @@ namespace FunctionsTeamSandbox
             A2_TB.Name = "A2_TB";
             A2_TB.Size = new System.Drawing.Size(103, 20);
             A2_TB.TabIndex = 2;
-            A2_TB.Enter += new System.EventHandler(this.A2_TB_Enter);
-            A2_TB.Leave += new System.EventHandler(this.A2_TB_Leave);
+            A2_TB.Enter += new System.EventHandler(A2_TB_Enter);
+            A2_TB.Leave += new System.EventHandler(A2_TB_Leave);
             // 
             // B1_TB
             // 
@@ -78,8 +76,8 @@ namespace FunctionsTeamSandbox
             B1_TB.Name = "B1_TB";
             B1_TB.Size = new System.Drawing.Size(103, 20);
             B1_TB.TabIndex = 3;
-            B1_TB.Enter += new System.EventHandler(this.B1_TB_Enter);
-            B1_TB.Leave += new System.EventHandler(this.B1_TB_Leave);
+            B1_TB.Enter += new System.EventHandler(B1_TB_Enter);
+            B1_TB.Leave += new System.EventHandler(B1_TB_Leave);
             // 
             // B2_TB
             // 
@@ -87,15 +85,8 @@ namespace FunctionsTeamSandbox
             B2_TB.Name = "B2_TB";
             B2_TB.Size = new System.Drawing.Size(103, 20);
             B2_TB.TabIndex = 4;
-            B2_TB.Enter += new System.EventHandler(this.B2_TB_Enter);
-            B2_TB.Leave += new System.EventHandler(this.B2_TB_Leave);
-            // 
-            // Func_TB
-            // 
-            /*this.Func_TB.Location = new System.Drawing.Point(156, 236);
-            this.Func_TB.Name = "Func_TB";
-            this.Func_TB.Size = new System.Drawing.Size(103, 20);
-            this.Func_TB.TabIndex = 5;*/
+            B2_TB.Enter += new System.EventHandler(B2_TB_Enter);
+            B2_TB.Leave += new System.EventHandler(B2_TB_Leave);
             // 
             // label1
             // 
@@ -132,25 +123,6 @@ namespace FunctionsTeamSandbox
             label4.Size = new System.Drawing.Size(13, 13);
             label4.TabIndex = 9;
             label4.Text = "2";
-            // 
-            // label5
-            // 
-            /*this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(102, 239);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(48, 13);
-            this.label5.TabIndex = 10;
-            this.label5.Text = "Function";*/
-            // 
-            // calculate
-            // 
-            /*this.calculate.Location = new System.Drawing.Point(37, 262);
-            this.calculate.Name = "calculate";
-            this.calculate.Size = new System.Drawing.Size(222, 52);
-            this.calculate.TabIndex = 11;
-            this.calculate.Text = "button1";
-            this.calculate.UseVisualStyleBackColor = true;
-            this.calculate.Click += new System.EventHandler(this.calculate_Click);*/
             // 
             // A1_Formula
             // 
@@ -216,58 +188,45 @@ namespace FunctionsTeamSandbox
             B2_Formula.Size = new System.Drawing.Size(45, 20);
             B2_Formula.TabIndex = 18;
             // 
+            // listBox1
+            // 
+            listBox1.FormattingEnabled = true;
+            listBox1.Location = new System.Drawing.Point(12, 125);
+            listBox1.Name = "listBox1";
+            listBox1.Size = new System.Drawing.Size(278, 212);
+            listBox1.TabIndex = 21;
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(302, 344);
-            this.Controls.Add(B2_Value);
-            this.Controls.Add(B2_Formula);
-            this.Controls.Add(B1_Value);
-            this.Controls.Add(B1_Formula);
-            this.Controls.Add(A2_Value);
-            this.Controls.Add(A2_Formula);
-            this.Controls.Add(A1_Value);
-            this.Controls.Add(A1_Formula);
-            //this.Controls.Add(this.calculate);
-            //this.Controls.Add(this.label5);
-            this.Controls.Add(label4);
-            this.Controls.Add(label3);
-            this.Controls.Add(label2);
-            this.Controls.Add(label1);
-            //this.Controls.Add(this.Func_TB);
-            this.Controls.Add(B2_TB);
-            this.Controls.Add(B1_TB);
-            this.Controls.Add(A2_TB);
-            this.Controls.Add(A1_TB);
-            this.Name = "Form1";
-            this.Text = "Form1";
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(302, 344);
+            Controls.Add(listBox1);
+            Controls.Add(B2_Value);
+            Controls.Add(B2_Formula);
+            Controls.Add(B1_Value);
+            Controls.Add(B1_Formula);
+            Controls.Add(A2_Value);
+            Controls.Add(A2_Formula);
+            Controls.Add(A1_Value);
+            Controls.Add(A1_Formula);
+            Controls.Add(label4);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(B2_TB);
+            Controls.Add(B1_TB);
+            Controls.Add(A2_TB);
+            Controls.Add(A1_TB);
+            Name = "Form1";
+            Text = "Form1";
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
         #endregion
 
-        private static System.Windows.Forms.TextBox A1_TB;
-        private static System.Windows.Forms.TextBox B1_TB;
-        private static System.Windows.Forms.TextBox A2_TB;
-        private static System.Windows.Forms.TextBox B2_TB;
-        //private System.Windows.Forms.TextBox Func_TB;
-        private static System.Windows.Forms.Label label1;
-        private static System.Windows.Forms.Label label2;
-        private static System.Windows.Forms.Label label3;
-        private static System.Windows.Forms.Label label4;
-        //private System.Windows.Forms.Label label5;
-        //private System.Windows.Forms.Button calculate;
-        private static System.Windows.Forms.TextBox A1_Formula;
-        private static System.Windows.Forms.TextBox A1_Value;
-        private static System.Windows.Forms.TextBox A2_Value;
-        private static System.Windows.Forms.TextBox A2_Formula;
-        private static System.Windows.Forms.TextBox B1_Value;
-        private static System.Windows.Forms.TextBox B1_Formula;
-        private static System.Windows.Forms.TextBox B2_Value;
-        private static System.Windows.Forms.TextBox B2_Formula;
 
         public static string A1Val   // the Name property
         {
@@ -320,11 +279,29 @@ namespace FunctionsTeamSandbox
             }
             return toReturn;
         }
-        /*public string Formula   // the Name property
+
+        public static void Step(string temp)   // the Name property
         {
-            get { return Func_TB.Text; }
-            set { Func_TB.Text = value; }
-        }*/
+            listBox1.Items.Insert(0, temp);
+        }
+
+        private static System.Windows.Forms.ListBox listBox1;
+        private static System.Windows.Forms.TextBox A1_TB;
+        private static System.Windows.Forms.TextBox B1_TB;
+        private static System.Windows.Forms.TextBox A2_TB;
+        private static System.Windows.Forms.TextBox B2_TB;
+        private static System.Windows.Forms.Label label1;
+        private static System.Windows.Forms.Label label2;
+        private static System.Windows.Forms.Label label3;
+        private static System.Windows.Forms.Label label4;
+        private static System.Windows.Forms.TextBox A1_Formula;
+        private static System.Windows.Forms.TextBox A1_Value;
+        private static System.Windows.Forms.TextBox A2_Value;
+        private static System.Windows.Forms.TextBox A2_Formula;
+        private static System.Windows.Forms.TextBox B1_Value;
+        private static System.Windows.Forms.TextBox B1_Formula;
+        private static System.Windows.Forms.TextBox B2_Value;
+        private static System.Windows.Forms.TextBox B2_Formula;
     }
 }
 
