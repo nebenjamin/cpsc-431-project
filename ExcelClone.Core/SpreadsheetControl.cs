@@ -5,10 +5,25 @@ using System.Collections;
 
 namespace ExcelClone.Core
 {
-    class SpreadsheetControl : ISpreadsheetControl
+    public class SpreadsheetControl : ISpreadsheetControl
     {
         private SpreadsheetModel m;
         private Queue<CellKey> InvalidCells;
+
+        public static SpreadsheetControl Instance
+        {
+            get { return ControllerCreator.CreatorInstance; }
+        }
+
+        private sealed class SpreadsheetControlCreator
+        {
+            private static readonly SpreadsheetControl _instance = new SpreadsheetControl();
+
+            public static SpreadsheetControl CreatorInstance
+            {
+                get { return _instance; }
+            }
+        }
 
         public SpreadsheetControl()
         {
@@ -18,11 +33,13 @@ namespace ExcelClone.Core
 
         #region ISpreadsheetControl Members
 
+        //enqueue invalid cell
         public void InvalidateCell(CellKey key)
         {
             InvalidCells.Enqueue(key);
         }
 
+        //call on cell changes
         public void CellChanged(CellKey key)
         {
             CellKey lastUpdated = null;
@@ -30,10 +47,13 @@ namespace ExcelClone.Core
             InvalidateCell(key);
             while (InvalidCells.Count > 0)
             {
+                key = InvalidCells.Dequeue();
+
                 if (lastUpdated == key)
                 {
                     //circular Reference
                 }
+                //val == null or value in new cell
                 //val = parse(key, m.Cells[key].Value);
                 if (val != null)
                 {
