@@ -13,9 +13,32 @@ namespace ExcelClone.Graphs
     {
         private Graph gr;  //the displayed graph object
 
-        public GraphControl()
+        public GraphControl( Graph_Type type)
         {
-            gr = new Graph();  //use default constructor for a test graph object
+            switch (type)
+            {
+                case Graph_Type.Test:
+                    gr = new test_graph();  //use default constructor for a test graph object
+                    break;
+                case Graph_Type.Column:
+                    gr = new column_graph();
+                    break;
+                case Graph_Type.Bar:
+                    gr = new bar_graph();
+                    break;
+                case Graph_Type.Line:
+                    gr = new line_graph();
+                    break;
+                case Graph_Type.Scatter:
+                    gr = new scatter_graph();
+                    break;
+                case Graph_Type.Pie:
+                    gr = new pie_graph();
+                    break;
+                default:
+                    gr = new test_graph();  //use default constructor for a test graph object
+                    break;
+            }
             InitializeComponent();
         }
 
@@ -36,8 +59,7 @@ namespace ExcelClone.Graphs
         protected override void OnPaint(PaintEventArgs e)
         {
             MakeCurrent();
-            gr.Draw(this.ClientRectangle);
-            gr.DrawTitle(this.ClientRectangle);
+            gr.drawGraph(this.ClientRectangle);
             SwapBuffers();
             base.OnPaint(e);
         }
