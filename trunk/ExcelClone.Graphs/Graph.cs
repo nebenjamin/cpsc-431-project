@@ -8,9 +8,13 @@ using OpenTK.Fonts;
 
 //Note:  All constructors take arrays of string, holding the Cell contents
 
+
+
 namespace ExcelClone.Graphs
 {
-    public class Graph  //Graph base class- draw a grid, labels, legend, and Title
+    public enum Graph_Type { Test, Bar, Column, Scatter, Line, Pie }
+
+    public abstract class Graph  //Graph base class- draw a grid, labels, legend, and Title
     {
         private ArrayList data = new ArrayList(); //data in the graph
 
@@ -154,12 +158,8 @@ namespace ExcelClone.Graphs
             }
         }
 
-        public void Draw(Rectangle clientRect)  //Draw method, draw the grid/legend/title since this is the base class
-        {
-            PointF UpR, LowL;
-            //First, make sure the labels will be on screen
-            CheckGraphArea(clientRect, out LowL, out UpR);
-            
+        public void Draw(PointF UpR, PointF LowL, Rectangle clientRect)  //Draw method, draw the grid/legend/title since this is the base class
+        {           
             GL.ClearColor(Color.White);
             GL.Clear(OpenTK.OpenGL.Enums.ClearBufferMask.ColorBufferBit | OpenTK.OpenGL.Enums.ClearBufferMask.DepthBufferBit);
 
@@ -240,5 +240,25 @@ namespace ExcelClone.Graphs
             txp.Draw(YAxisLabel);
             txp.End();
         }
+
+        public float xOfGraph(float x_min, float x_max, float x_value, PointF UpR, PointF LowL)
+        {
+            float number = UpR.X - LowL.X;
+            number *= x_value;
+            number /= (x_max - x_min);
+
+            return number+LowL.X;
+        }
+
+        public float yOfGraph(float y_min, float y_max, float y_value, PointF UpR, PointF LowL)
+        {
+            float number = UpR.Y - LowL.Y;
+            number *= y_value;
+            number /= (y_max - y_min);
+
+            return number+LowL.Y;
+        }
+
+        public abstract void drawGraph(Rectangle clientRect);
     }
 }
