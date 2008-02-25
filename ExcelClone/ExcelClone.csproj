@@ -1,0 +1,105 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{34AAEEDA-43DE-4AE8-BE96-3C2307CF35DA}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ExcelClone</RootNamespace>
+    <AssemblyName>ExcelClone</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\Cell.cs" />
+    <Compile Include="Core\CellCollection.cs" />
+    <Compile Include="Core\Drawing\BrushFactory.cs" />
+    <Compile Include="Core\Drawing\BrushSettings.cs" />
+    <Compile Include="Core\Drawing\CellFormat.cs" />
+    <Compile Include="Core\Drawing\FontFactory.cs" />
+    <Compile Include="Core\Drawing\FontSettings.cs" />
+    <Compile Include="Core\Drawing\IBrushSettings.cs" />
+    <Compile Include="Core\Drawing\ICellFormat.cs" />
+    <Compile Include="Core\Drawing\IFontSettings.cs" />
+    <Compile Include="Core\Drawing\ILabelSettings.cs" />
+    <Compile Include="Core\Drawing\IPenSettings.cs" />
+    <Compile Include="Core\Drawing\LabelSettings.cs" />
+    <Compile Include="Core\Drawing\PenFactory.cs" />
+    <Compile Include="Core\Drawing\PenSettings.cs" />
+    <Compile Include="Core\ICell.cs" />
+    <Compile Include="Core\ICellCollection.cs" />
+    <Compile Include="Core\IGridModel.cs" />
+    <Compile Include="Core\ISpreadsheetControl.cs" />
+    <Compile Include="Core\SpreadsheetControl.cs" />
+    <Compile Include="Core\SpreadsheetModel.cs" />
+    <Compile Include="Functions\Functions.cs" />
+    <Compile Include="Functions\Parser.cs" />
+    <Compile Include="GUI\SpreadsheetView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\Window.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Window.designer.cs">
+      <DependentUpon>Window.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GUI\Window.resx">
+      <DependentUpon>Window.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

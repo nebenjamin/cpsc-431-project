@@ -1,0 +1,8 @@
+H:\classes\CPSC 431\ExcelClone\ExcelClone\obj\Debug\ResolveAssemblyReference.cache
+H:\classes\CPSC 431\ExcelClone\ExcelClone\obj\Debug\ExcelClone.Properties.Resources.resources
+H:\classes\CPSC 431\ExcelClone\ExcelClone\obj\Debug\ExcelClone.csproj.GenerateResource.Cache
+H:\classes\CPSC 431\ExcelClone\ExcelClone\obj\Debug\ExcelClone.Gui.Window.resources
+H:\classes\CPSC 431\ExcelClone\ExcelClone\bin\Debug\ExcelClone.exe
+H:\classes\CPSC 431\ExcelClone\ExcelClone\bin\Debug\ExcelClone.pdb
+H:\classes\CPSC 431\ExcelClone\ExcelClone\obj\Debug\ExcelClone.exe
+H:\classes\CPSC 431\ExcelClone\ExcelClone\obj\Debug\ExcelClone.pdb
