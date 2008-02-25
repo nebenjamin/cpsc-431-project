@@ -141,7 +141,26 @@ namespace ExcelClone.Graphs
 
         public void DrawLegend(Rectangle clientRect) //draw a legend
         {
+            double X = grUpRight.X + 2;
+            double Y = (grUpRight.Y - grLowLeft.Y) / 2;
 
+            GL.MatrixMode(OpenTK.OpenGL.Enums.MatrixMode.Modelview);
+            GL.PushMatrix();
+            GL.LoadIdentity();
+
+            // draw an item for each legend label
+            int i=0;
+            foreach (string s in LegendLabels)
+            {
+                //First, the colored box
+                //GL.Translate(0, -5 * i, 0);
+                GL.Color3(Color.BurlyWood);
+                GL.Begin(OpenTK.OpenGL.Enums.BeginMode.Quads);
+                GL.Vertex2(0, 0);
+                GL.Vertex2(20,  20);
+                GL.End();
+            }
+            GL.PopMatrix();
         }
 
         //This method checks if the graph needs to shrink so the labels can fit
@@ -276,6 +295,8 @@ namespace ExcelClone.Graphs
             GL.Rotate(-90.0, 0.0, 0.0, 1.0);
             txp.Draw(YAxisLabel);
             txp.End();
+
+            DrawLegend(clientRect);
         }
 
         public float xOfGraph(float x_min, float x_max, float x_value, PointF UpR, PointF LowL)
