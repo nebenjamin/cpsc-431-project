@@ -48,11 +48,23 @@ namespace ExcelClone.Graphs
         private TextHandle Title;  //Graph Title
         private double TitleOffset;
 
+        protected List<Color> LegendColors = new List<Color>();  //Legend stuff- Colors, labels, label handles
+        private List<String> LegendLabels = new List<string>();
+        private List<TextHandle> LegendTxtHandles = new List<TextHandle>();
+        public bool LegendOn = true;
+
         ITextPrinter txp = new TextPrinter();  //Text printer - for drawing all text
         
         public Graph()
         {
-            sampleData();
+            LegendColors.Add(Color.CadetBlue);
+            LegendColors.Add(Color.BurlyWood);
+            LegendColors.Add(Color.CornflowerBlue);
+            LegendColors.Add(Color.Cyan);
+            LegendColors.Add(Color.DarkBlue);
+
+            data.Add(new List<double>());  //set data up with two rows of data
+            data.Add(new List<double>());
 
             vGrid = true;
             hGrid = true;
@@ -99,6 +111,17 @@ namespace ExcelClone.Graphs
                         MaxYOffset = (int)(w + 4);
                 }
             }
+
+            int i;
+            if (this is scatter_graph)
+                i = 1;
+            else
+                i = 0;
+            for ( ; i < data.Count; i++ )
+            {
+                LegendLabels.Add("Series" + (i+1).ToString());
+            }
+
             //Graph Title
             txp.Prepare(TitleString, TitleFont, out Title);
             //Axis labels
@@ -115,6 +138,11 @@ namespace ExcelClone.Graphs
             GL.Translate(titleX, titleY, 0);
             txp.Draw(Title);
             txp.End();
+        }
+
+        public void DrawLegend(Rectangle clientRect) //draw a legend
+        {
+
         }
 
         //This method checks if the graph needs to shrink so the labels can fit
