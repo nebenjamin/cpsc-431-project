@@ -6,3 +6,11 @@ H:\classes\CPSC 431\ExcelClone\ExcelClone\bin\Debug\ExcelClone.exe
 H:\classes\CPSC 431\ExcelClone\ExcelClone\bin\Debug\ExcelClone.pdb
 H:\classes\CPSC 431\ExcelClone\ExcelClone\obj\Debug\ExcelClone.exe
 H:\classes\CPSC 431\ExcelClone\ExcelClone\obj\Debug\ExcelClone.pdb
+H:\CPSC 431 Project\ExcelClone\bin\Debug\ExcelClone.exe
+H:\CPSC 431 Project\ExcelClone\bin\Debug\ExcelClone.pdb
+H:\CPSC 431 Project\ExcelClone\obj\Debug\ResolveAssemblyReference.cache
+H:\CPSC 431 Project\ExcelClone\obj\Debug\ExcelClone.Gui.Window.resources
+H:\CPSC 431 Project\ExcelClone\obj\Debug\ExcelClone.Properties.Resources.resources
+H:\CPSC 431 Project\ExcelClone\obj\Debug\ExcelClone.csproj.GenerateResource.Cache
+H:\CPSC 431 Project\ExcelClone\obj\Debug\ExcelClone.exe
+H:\CPSC 431 Project\ExcelClone\obj\Debug\ExcelClone.pdb
