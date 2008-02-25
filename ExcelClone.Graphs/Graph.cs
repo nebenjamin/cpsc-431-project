@@ -63,8 +63,7 @@ namespace ExcelClone.Graphs
             LegendColors.Add(Color.Cyan);
             LegendColors.Add(Color.DarkBlue);
 
-            data.Add(new List<double>());  //set data up with two rows of data
-            data.Add(new List<double>());
+            sampleData();
 
             vGrid = true;
             hGrid = true;
@@ -300,8 +299,8 @@ namespace ExcelClone.Graphs
         public void sampleData()
         {
             Random ran = new Random();
-            int columns = ran.Next(2, 5);
-            int rows = ran.Next(5, 15);
+            int columns = nHorzLines;
+            int rows = nVertLines;
 
             for (int i = 0; i < columns; i++)
             {
