@@ -57,6 +57,7 @@
     <Compile Include="Core\ISpreadsheetControl.cs" />
     <Compile Include="Core\SpreadsheetControl.cs" />
     <Compile Include="Core\SpreadsheetModel.cs" />
+    <Compile Include="DataIO\DataIO.cs" />
     <Compile Include="Functions\Functions.cs" />
     <Compile Include="Functions\Parser.cs" />
     <Compile Include="Gui\SpreadsheetView.cs">

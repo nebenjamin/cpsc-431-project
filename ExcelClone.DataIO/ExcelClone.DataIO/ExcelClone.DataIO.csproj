@@ -34,13 +34,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataIO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ExcelClone.Core\ExcelClone.Core.csproj">
       <Project>{7613FA74-9393-463F-8DE9-E8F0C894F00D}</Project>
       <Name>ExcelClone.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ExcelClone\ExcelClone.csproj">
+      <Project>{34AAEEDA-43DE-4AE8-BE96-3C2307CF35DA}</Project>
+      <Name>ExcelClone</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
