@@ -16,7 +16,7 @@ namespace ExcelClone.Graphs
 
     public abstract class Graph  //Graph base class- draw a grid, labels, legend, and Title
     {
-        private ArrayList data = new ArrayList(); //data in the graph
+        private List<List<double>> data = new List<List<double>>(); //data in the graph, a list of lists of doubles
 
         public PointF grLowLeft = new PointF(15, 15);  //points of graph area
         public PointF grUpRight = new PointF(85, 85);
@@ -52,15 +52,17 @@ namespace ExcelClone.Graphs
         
         public Graph()
         {
-            data.Add(new ArrayList());  //set data up with two rows of data
-            data.Add(new ArrayList());
+            data.Add(new List<double>());  //set data up with two rows of data
+            data.Add(new List<double>());
 
             Random ran = new Random();
             //fill in sample data for testing
             for (int i=0; i < 5; i++)
             {
-                ((ArrayList)data[0]).Add(i);
-                ((ArrayList)data[1]).Add(ran.Next());
+                //((ArrayList)data[0]).Add(i);
+                data[0].Add(i);
+                //((ArrayList)data[1]).Add(ran.Next());
+                data[1].Add(ran.Next());
             }
 
             vGrid = true;
@@ -82,9 +84,9 @@ namespace ExcelClone.Graphs
         {
             
             //X labels
-            if (((ArrayList)data[0]).Count == nVertLines)  //label per datum case
+            if (data[0].Count == nVertLines)  //label per datum case
             {
-                foreach (object obj in ((ArrayList)data[0]))
+                foreach (object obj in (data[0]))
                 {
                     TextHandle th;
                     txp.Prepare(obj.ToString(), LabelFont, out th);
@@ -93,9 +95,9 @@ namespace ExcelClone.Graphs
                 }
             }
             //Y labels
-            if (((ArrayList)data[1]).Count == nHorzLines)  //label per datum case
+            if (data[1].Count == nHorzLines)  //label per datum case
             {
-                foreach (object obj in ((ArrayList)data[1]))
+                foreach (object obj in (data[1]))
                 {
                     TextHandle th;
                     float w, h;
@@ -132,29 +134,44 @@ namespace ExcelClone.Graphs
             //Convert X and Y widths to pixels
             int Xpix = (int)(grLowLeft.Y / 100.0 * rect.Bottom);
             int Ypix = (int)(grLowLeft.X / 100.0 * rect.Right);
+            int TitlePix = (int)((100 - grUpRight.Y) / 100.0 * rect.Bottom);
 
             //Now get the width of the labels in each area
-            int Xwidth, Ywidth;
-            Xwidth = (int)(LabelFont.Height + AxesFont.Height + XLabelOffset + 2);
+            int Xwidth, Ywidth, TitleWidth;
 
+            Xwidth = (int)(LabelFont.Height + AxesFont.Height + XLabelOffset + 2);
             //Need to use the widest Y label, width varies with character count
             Ywidth = (int)(MaxYOffset + LabelFont.Height + YLabelOffset + 2);
+            TitleWidth = (int)(TitleFont.Height + 2);
 
-            if (Xpix < Xwidth || Ypix < Ywidth)
-            {
-                //Need to resize graph area
-                LowLeft = new PointF();
-                LowLeft.X = (float)Ywidth / (float)rect.Right * 100;
-                LowLeft.Y = (float)Xwidth / (float)rect.Bottom * 100;
-                UpRight = grUpRight;
-                return false;
-            }
-            else
+            if (Xpix > Xwidth && Ypix > Ywidth && TitlePix > TitleWidth)
             {
                 //Everything OK
                 LowLeft = grLowLeft;
                 UpRight = grUpRight;
                 return true;
+            }
+            else  //one or more areas needs fixing
+            {
+                LowLeft = grLowLeft;
+                UpRight = grUpRight;
+
+                if (Xpix < Xwidth)
+                {
+                    //Need to resize graph area for X labels
+                    LowLeft.Y = (float)Xwidth / (float)rect.Bottom * 100;
+                }
+                if (Ypix < Ywidth)
+                {
+                    //Need to resize area to fit Y labels
+                    LowLeft.X = (float)Ywidth / (float)rect.Right * 100;
+                }
+                if (TitlePix < TitleWidth)
+                {
+                    //Need to adjust for title area
+                    UpRight.Y = 100 - (float)TitleWidth / (float)rect.Bottom * 100;
+                }
+                return false;
             }
         }
 
@@ -219,9 +236,11 @@ namespace ExcelClone.Graphs
                 }
             }
            //Draw axis labels
-            
-            txp.Begin();
+
             //X
+            txp.Begin();
+            GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMinFilter, (int)OpenTK.OpenGL.Enums.TextureMinFilter.Nearest);
+            GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMagFilter, (int)OpenTK.OpenGL.Enums.TextureMagFilter.Nearest);
             float w, h;
             AxesFont.MeasureString(XLabelString, out w, out h);
             double X = ((UpR.X - LowL.X) / 2 + LowL.X) / 100.0 * clientRect.Right - w/2;
@@ -232,9 +251,11 @@ namespace ExcelClone.Graphs
 
             //Y
             txp.Begin();
+            GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMinFilter, (int)OpenTK.OpenGL.Enums.TextureMinFilter.Nearest);
+            GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMagFilter, (int)OpenTK.OpenGL.Enums.TextureMagFilter.Nearest);
             AxesFont.MeasureString(YLabelString, out w, out h);
             X = YLabelOffset;
-            Y = ((UpR.Y - LowL.Y) / 2 + LowL.Y) / 100.0 * clientRect.Bottom + w/2;
+            Y = ((UpR.Y - LowL.Y) / 2 + (100 - UpR.Y)) / 100.0 * clientRect.Bottom + w/2;
             GL.Translate(X, Y, 0.0);
             GL.Rotate(-90.0, 0.0, 0.0, 1.0);
             txp.Draw(YAxisLabel);
