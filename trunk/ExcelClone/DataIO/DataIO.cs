@@ -1,13 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Serialization;
+
 using ExcelClone.Core;
+
 namespace ExcelClone.DataIO
 {
     public class DataIO
     {
         private List<SpreadsheetModel> book;
         private String filename;
+        private XmlSerializer xmlSerializer;
+        private XmlTextWriter xmlTextWriter;
 
         public DataIO(String Filename)
         {
@@ -31,7 +38,7 @@ namespace ExcelClone.DataIO
         {
             if (book.Count == 0)
             {
-                System.Windows.Forms.MessageBox.Show("Passed an empty book!  Feed me data", "I'm hungry");
+                MessageBox.Show("Passed an empty book!  Feed me data", "I'm hungry");
                 return false;
             }
             return WriteBook();
