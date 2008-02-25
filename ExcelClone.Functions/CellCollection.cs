@@ -7,7 +7,7 @@ namespace FunctionsTeamSandbox
 {
     class CellCollection
     {
-        private ArrayList Cells;
+        private ArrayList Cells = new ArrayList();
         private int NumberOfCells;
 
         public CellCollection(int NumOfCells)
