@@ -12,7 +12,7 @@ namespace ExcelClone.Core
 
         public static SpreadsheetControl Instance
         {
-            get { return ControllerCreator.CreatorInstance; }
+            get { return SpreadsheetControlCreator.CreatorInstance; }
         }
 
         private sealed class SpreadsheetControlCreator
