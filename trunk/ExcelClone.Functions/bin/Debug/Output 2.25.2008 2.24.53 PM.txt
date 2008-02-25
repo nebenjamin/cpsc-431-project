@@ -1,0 +1,17 @@
+---------- A1:3
+3
+Cell is a string
+---------- A2:2
+2
+Cell is a string
+---------- B2:=A1+A2
+=A1+A2
+A1.+.A2.
+Cell Reference
+A1 -> 3
+Cell has a number
+Cell Reference
+A2 -> 2
+Cell has a number
+ADD.(.3.,.2.).
+-----5
