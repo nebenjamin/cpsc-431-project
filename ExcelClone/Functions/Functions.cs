@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Collections;
 
-namespace FunctionsTeamSandbox
+namespace ExcelClone.Functions
 {
     class Functions
     {

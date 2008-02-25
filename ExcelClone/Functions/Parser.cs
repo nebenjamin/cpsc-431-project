@@ -5,7 +5,9 @@ using System.Collections;
 using System.Reflection;
 using System.IO;
 
-namespace FunctionsTeamSandbox
+using ExcelClone.Core;
+
+namespace ExcelClone.Functions
 {
     public class Parser
     {
