@@ -16,7 +16,7 @@ namespace ExcelClone.Graphs
 
     public abstract class Graph  //Graph base class- draw a grid, labels, legend, and Title
     {
-        private List<List<double>> data = new List<List<double>>(); //data in the graph, a list of lists of doubles
+        protected List<List<double>> data = new List<List<double>>(); //data in the graph, a list of lists of doubles
 
         public PointF grLowLeft = new PointF(15, 15);  //points of graph area
         public PointF grUpRight = new PointF(85, 85);
@@ -52,18 +52,7 @@ namespace ExcelClone.Graphs
         
         public Graph()
         {
-            data.Add(new List<double>());  //set data up with two rows of data
-            data.Add(new List<double>());
-
-            Random ran = new Random();
-            //fill in sample data for testing
-            for (int i=0; i < 5; i++)
-            {
-                //((ArrayList)data[0]).Add(i);
-                data[0].Add(i);
-                //((ArrayList)data[1]).Add(ran.Next());
-                data[1].Add(ran.Next());
-            }
+            sampleData();
 
             vGrid = true;
             hGrid = true;
@@ -278,6 +267,23 @@ namespace ExcelClone.Graphs
             number /= (y_max - y_min);
 
             return number+LowL.Y;
+        }
+
+        public void sampleData()
+        {
+            Random ran = new Random();
+            int columns = ran.Next(2, 5);
+            int rows = ran.Next(5, 15);
+
+            for (int i = 0; i < columns; i++)
+            {
+                data.Add(new List<double>());
+                for (int j = 0; j < rows; j++)
+                {
+                    data[i].Add(ran.Next(50));
+                }
+            }
+            int size = data[0].Count;
         }
 
         public abstract void drawGraph(Rectangle clientRect);
