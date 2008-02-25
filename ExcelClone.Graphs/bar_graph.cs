@@ -26,14 +26,14 @@ namespace ExcelClone.Graphs
 
             GL.Begin(OpenTK.OpenGL.Enums.BeginMode.Quads);
 
-            GL.Color3(0.0f, 1.0f, 0.0f);
+            GL.Color3(Color.CadetBlue);
             GL.Vertex2(xOfGraph(0, 4, 0.5f, UpR, LowL), yOfGraph(0, 4, 0, UpR, LowL));
             GL.Vertex2(xOfGraph(0, 4, 0.5f, UpR, LowL), yOfGraph(0, 4, 3, UpR, LowL));
             GL.Vertex2(xOfGraph(0, 4, 1f, UpR, LowL), yOfGraph(0, 4, 3, UpR, LowL));
             GL.Vertex2(xOfGraph(0, 4, 1f, UpR, LowL), yOfGraph(0, 4, 0, UpR, LowL));
 
 
-            GL.Color3(1.0f, 0.0f, 0.0f);
+            GL.Color3(Color.BurlyWood);
             GL.Vertex2(xOfGraph(0, 4, 1f, UpR, LowL), yOfGraph(0, 4, 0, UpR, LowL));
             GL.Vertex2(xOfGraph(0, 4, 1f, UpR, LowL), yOfGraph(0, 4, 2.5f, UpR, LowL));
             GL.Vertex2(xOfGraph(0, 4, 1.5f, UpR, LowL), yOfGraph(0, 4, 2.5f, UpR, LowL));
