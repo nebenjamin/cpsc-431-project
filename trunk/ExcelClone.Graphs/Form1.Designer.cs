@@ -28,7 +28,7 @@ namespace ExcelClone.Graphs
         /// </summary>
         private void InitializeComponent()
         {
-            this.graphControl1 = new ExcelClone.Graphs.GraphControl(Graph_Type.Bar);
+            this.graphControl1 = new ExcelClone.Graphs.GraphControl(Graph_Type.Scatter);
             this.SuspendLayout();
             // 
             // graphControl1

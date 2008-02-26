@@ -91,6 +91,14 @@ namespace ExcelClone.Graphs
            maxXVal = 100;
            minYVal = 0;
            maxYVal = 150;
-        }
+       }
+       public override void setDefaults()
+       {
+           nVertLines = 5;
+           nHorzLines = 5;
+
+           vGrid = true;
+           hGrid = true;
+       }
     }
 }

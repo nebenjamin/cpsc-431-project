@@ -66,15 +66,10 @@ namespace ExcelClone.Graphs
             LegendColors.Add(Color.CornflowerBlue);
             LegendColors.Add(Color.Cyan);
             LegendColors.Add(Color.DarkBlue);
-            
-            nVertLines = 5;
-            nHorzLines = 5;
-
-            vGrid = true;
-            hGrid = true;
 
             sampleData();
             setMinMax();
+            setDefaults();
 
             InitFonts();
             InitLabels();
@@ -92,31 +87,27 @@ namespace ExcelClone.Graphs
         {
             
             //X labels
-            if (data[0].Count == nVertLines)  //label per datum case
+            double delta = (maxXVal-minXVal)/(nVertLines-1);
+            for (double currX = minXVal; currX <= maxXVal; currX += delta)
             {
-                foreach (object obj in (data[0]))
-                {
-                    TextHandle th;
-                    txp.Prepare(obj.ToString(), LabelFont, out th);
-                    XLabels.Add(th);
-                    XLabelOffsets.Add( ((obj.ToString().Length) * LabelFont.Width) / 2.0 + 3);
-                }
+                TextHandle th;
+                txp.Prepare(currX.ToString(), LabelFont, out th);
+                XLabels.Add(th);
+                XLabelOffsets.Add(((currX.ToString().Length) * LabelFont.Width) / 2.0 + 3);
             }
             //Y labels
-            if (data[1].Count == nHorzLines)  //label per datum case
+            delta = (maxYVal - minYVal) / (nHorzLines-1);
+            for (double currY = minYVal; currY <= maxYVal; currY += delta)
             {
-                foreach (object obj in (data[1]))
-                {
-                    TextHandle th;
-                    float w, h;
-                    txp.Prepare(obj.ToString(), LabelFont, out th);
-                    YLabels.Add(th);
-                    LabelFont.MeasureString(obj.ToString(), out w, out h);
-                    YLabelOffsets.Add(w + 4);
+                TextHandle th;
+                float w, h;
+                txp.Prepare(currY.ToString(), LabelFont, out th);
+                YLabels.Add(th);
+                LabelFont.MeasureString(currY.ToString(), out w, out h);
+                YLabelOffsets.Add(w + 4);
 
-                    if ((w + 4) > MaxYOffset)  //track max offset
-                        MaxYOffset = (int)(w + 4);
-                }
+                if ((w + 4) > MaxYOffset)  //track max offset
+                    MaxYOffset = (int)(w + 4);
             }
 
             int i;
@@ -314,15 +305,15 @@ namespace ExcelClone.Graphs
         public void sampleData()
         {
             Random ran = new Random();
-            int columns = nHorzLines;
-            int rows = nVertLines;
+            int columns = 5;
+            int rows = 5;
 
             for (int i = 0; i < columns; i++)
             {
                 data.Add(new List<double>());
                 for (int j = 0; j < rows; j++)
                 {
-                    data[i].Add(ran.Next(50));
+                    data[i].Add(ran.Next(5,50));
                 }
             }
             int size = data[0].Count;
@@ -330,5 +321,6 @@ namespace ExcelClone.Graphs
 
         public abstract void drawGraph(Rectangle r);
         public abstract void setMinMax();
+        public abstract void setDefaults();
     }
 }

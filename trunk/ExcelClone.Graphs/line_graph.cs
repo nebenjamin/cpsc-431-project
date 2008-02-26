@@ -45,6 +45,14 @@ namespace ExcelClone.Graphs
             //return matrix like it was
             GL.PopMatrix();
         }
+        public override void setDefaults()
+        {
+            nVertLines = 5;
+            nHorzLines = 5;
+
+            vGrid = true;
+            hGrid = true;
+        }
         public override void setMinMax()
         {
             minXVal = 0;
