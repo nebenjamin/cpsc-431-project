@@ -10,6 +10,8 @@ namespace ExcelClone.Graphs
 {
     class bar_graph : Graph
     {
+        private float barW;
+
         public override void drawGraph(Rectangle r)
         {
             clientRect = r;
@@ -19,30 +21,29 @@ namespace ExcelClone.Graphs
             DrawLegend();
             DrawLegend();
 
-            //foreach (List<double> list in data)
-            //{
-            //    data.Sort();
-            //}
-
             // Do this so that you don't mess around with base class matrix
             GL.PushMatrix();
             GL.LoadIdentity();
 
-
             GL.Begin(OpenTK.OpenGL.Enums.BeginMode.Quads);
 
-            GL.Color3(Color.CadetBlue);
-            GL.Vertex2(xOfGraph(0.5f), yOfGraph(0));
-            GL.Vertex2(xOfGraph(0.5f), yOfGraph(3));
-            GL.Vertex2(xOfGraph(1f), yOfGraph(3));
-            GL.Vertex2(xOfGraph(1f), yOfGraph(0));
-
-
-            GL.Color3(Color.BurlyWood);
-            GL.Vertex2(xOfGraph(1f), yOfGraph(0));
-            GL.Vertex2(xOfGraph(1f), yOfGraph(2.5f));
-            GL.Vertex2(xOfGraph(1.5f), yOfGraph(2.5f));
-            GL.Vertex2(xOfGraph(1.5f), yOfGraph(0));
+            bar_width();
+            int currentBar = 1;
+            foreach (List<double> list in data)
+            {
+                int currentColor = 0;
+                foreach (double num in list)
+                {
+                    GL.Color3(LegendColors[currentColor]);
+                    GL.Vertex2(xOfGraph((float)currentBar*barW), yOfGraph(0));
+                    GL.Vertex2(xOfGraph((float)currentBar*barW), yOfGraph((float)(num)));//-minYVal)));
+                    GL.Vertex2(xOfGraph((float)(currentBar + 1) * barW), yOfGraph((float)(num)));//-minYVal)));
+                    GL.Vertex2(xOfGraph((float)(currentBar + 1) * barW), yOfGraph(0));
+                    currentColor++;
+                    currentBar++;
+                }
+                currentBar++;
+            }
 
             GL.End();
 
@@ -52,25 +53,40 @@ namespace ExcelClone.Graphs
         }
         public override void setMinMax()
         {
-            minYVal = 0;
-            maxYVal = data.Count;
+            minXVal = 0;
+            maxXVal = data.Count;
 
-            maxXVal = data[0][0];
+            maxYVal = data[0][0];
             foreach(List<double> list in data)
             {
                 foreach(double num in list)
                 {
-                    maxXVal = (num > maxXVal) ? num : maxXVal;
+                    maxYVal = (num > maxYVal) ? num : maxYVal;
                 }
             }
-            minXVal = data[0][0];
-            foreach (List<double> list in data)
-            {
-                foreach (double num in list)
-                {
-                    minXVal = (num < minXVal) ? num : minXVal;
-                }
-            }
+            minYVal = 0;
+            //minYVal = data[0][0];
+            //foreach (List<double> list in data)
+            //{
+            //    foreach (double num in list)
+            //    {
+            //        minYVal = (num < minYVal) ? num : minYVal;
+            //    }
+            //}
+        }
+        public override void setDefaults()
+        {
+            nVertLines = (int)(maxXVal+1);
+            nHorzLines = (int)Math.Ceiling(maxYVal/10);
+
+            vGrid = true;
+            hGrid = true;
+        }
+        public void bar_width()
+        {
+            int totalBars = data.Count + 1;
+            totalBars += data.Count * data[0].Count;
+            barW = (float)(maxXVal - minXVal) / totalBars;
         }
     }
 }
