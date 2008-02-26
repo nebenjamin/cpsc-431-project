@@ -18,13 +18,17 @@ namespace ExcelClone.Graphs
     {
         protected List<List<double>> data = new List<List<double>>(); //data in the graph, a list of lists of doubles
 
+        public Rectangle clientRect;
+
         public PointF grLowLeft = new PointF(15, 15);  //points of graph area
         public PointF grUpRight = new PointF(85, 85);
+        public double minXVal, maxXVal, minYVal, maxYVal;
 
-        public int nVertLines = 5;  //Vertical/Horizontal grid line count
-        public int nHorzLines = 5;
+        // number of horizontal and vertical lines
+        public int nVertLines, nHorzLines;
 
-        public bool vGrid;  //enable / disable grid lines
+        // enable/disable grid lines
+        public bool vGrid; 
         public bool hGrid;
 
         public int XLabelOffset = 8;  //label offsets- distance from edge of graph area to axis label
@@ -54,7 +58,7 @@ namespace ExcelClone.Graphs
         public bool LegendOn = true;
 
         ITextPrinter txp = new TextPrinter();  //Text printer - for drawing all text
-        
+
         public Graph()
         {
             LegendColors.Add(Color.CadetBlue);
@@ -62,11 +66,15 @@ namespace ExcelClone.Graphs
             LegendColors.Add(Color.CornflowerBlue);
             LegendColors.Add(Color.Cyan);
             LegendColors.Add(Color.DarkBlue);
-
-            sampleData();
+            
+            nVertLines = 5;
+            nHorzLines = 5;
 
             vGrid = true;
             hGrid = true;
+
+            sampleData();
+            setMinMax();
 
             InitFonts();
             InitLabels();
@@ -128,7 +136,7 @@ namespace ExcelClone.Graphs
             txp.Prepare(YLabelString, AxesFont, out YAxisLabel);
         }
 
-        public void DrawTitle(Rectangle clientRect)
+        public void DrawTitle()
         {
             //Draw title at top center
             txp.Begin();
@@ -139,7 +147,7 @@ namespace ExcelClone.Graphs
             txp.End();
         }
 
-        public void DrawLegend(Rectangle clientRect) //draw a legend
+        public void DrawLegend() //draw a legend
         {
             double X = grUpRight.X + 2;
             double Y = (grUpRight.Y - grLowLeft.Y) / 2;
@@ -149,7 +157,6 @@ namespace ExcelClone.Graphs
             GL.LoadIdentity();
 
             // draw an item for each legend label
-            int i=0;
             foreach (string s in LegendLabels)
             {
                 //First, the colored box
@@ -164,12 +171,12 @@ namespace ExcelClone.Graphs
         }
 
         //This method checks if the graph needs to shrink so the labels can fit
-        public bool CheckGraphArea(Rectangle rect, out PointF LowLeft, out PointF UpRight)
+        public void CheckGraphArea()
         {
             //Convert X and Y widths to pixels
-            int Xpix = (int)(grLowLeft.Y / 100.0 * rect.Bottom);
-            int Ypix = (int)(grLowLeft.X / 100.0 * rect.Right);
-            int TitlePix = (int)((100 - grUpRight.Y) / 100.0 * rect.Bottom);
+            int Xpix = (int)(grLowLeft.Y / 100.0 * clientRect.Bottom);
+            int Ypix = (int)(grLowLeft.X / 100.0 * clientRect.Right);
+            int TitlePix = (int)((100 - grUpRight.Y) / 100.0 * clientRect.Bottom);
 
             //Now get the width of the labels in each area
             int Xwidth, Ywidth, TitleWidth;
@@ -179,38 +186,27 @@ namespace ExcelClone.Graphs
             Ywidth = (int)(MaxYOffset + LabelFont.Height + YLabelOffset + 2);
             TitleWidth = (int)(TitleFont.Height + 2);
 
-            if (Xpix > Xwidth && Ypix > Ywidth && TitlePix > TitleWidth)
+            if(Xpix <= Xwidth || Ypix <= Ywidth || TitlePix <= TitleWidth)//one or more areas needs fixing
             {
-                //Everything OK
-                LowLeft = grLowLeft;
-                UpRight = grUpRight;
-                return true;
-            }
-            else  //one or more areas needs fixing
-            {
-                LowLeft = grLowLeft;
-                UpRight = grUpRight;
-
                 if (Xpix < Xwidth)
                 {
                     //Need to resize graph area for X labels
-                    LowLeft.Y = (float)Xwidth / (float)rect.Bottom * 100;
+                    grLowLeft.Y = (float)Xwidth / (float)clientRect.Bottom * 100;
                 }
                 if (Ypix < Ywidth)
                 {
                     //Need to resize area to fit Y labels
-                    LowLeft.X = (float)Ywidth / (float)rect.Right * 100;
+                    grLowLeft.X = (float)Ywidth / (float)clientRect.Right * 100;
                 }
                 if (TitlePix < TitleWidth)
                 {
                     //Need to adjust for title area
-                    UpRight.Y = 100 - (float)TitleWidth / (float)rect.Bottom * 100;
+                    grUpRight.Y = 100 - (float)TitleWidth / (float)clientRect.Bottom * 100;
                 }
-                return false;
             }
         }
 
-        public void Draw(PointF UpR, PointF LowL, Rectangle clientRect)  //Draw method, draw the grid/legend/title since this is the base class
+        public void DrawAxis()  //Draw method, draw the grid/legend/title since this is the base class
         {           
             GL.ClearColor(Color.White);
             GL.Clear(OpenTK.OpenGL.Enums.ClearBufferMask.ColorBufferBit | OpenTK.OpenGL.Enums.ClearBufferMask.DepthBufferBit);
@@ -227,8 +223,8 @@ namespace ExcelClone.Graphs
                 {
                     //Cast these to float for a nice smooth divide
                     GL.Begin(OpenTK.OpenGL.Enums.BeginMode.Lines);
-                    GL.Vertex2(LowL.X + i * (UpR.X - LowL.X) / (float)(nVertLines-1), LowL.Y);
-                    GL.Vertex2(LowL.X + i * (UpR.X - LowL.X) / (float)(nVertLines-1), UpR.Y);
+                    GL.Vertex2(grLowLeft.X + i * (grUpRight.X - grLowLeft.X) / (float)(nVertLines - 1), grLowLeft.Y);
+                    GL.Vertex2(grLowLeft.X + i * (grUpRight.X - grLowLeft.X) / (float)(nVertLines - 1), grUpRight.Y);
                     GL.End();
 
                     //Draw X labels
@@ -237,8 +233,8 @@ namespace ExcelClone.Graphs
                     GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMinFilter, (int)OpenTK.OpenGL.Enums.TextureMinFilter.Nearest);
                     GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMagFilter, (int)OpenTK.OpenGL.Enums.TextureMagFilter.Nearest);
                     //Move to label location, convert object coords to pixels
-                    double labelY = (1 - LowL.Y / 100.0) * clientRect.Bottom;
-                    double labelX = ((LowL.X + i * (UpR.X - LowL.X) / (float)(nVertLines - 1)) / 100.0) * clientRect.Right - XLabelOffsets[i];
+                    double labelY = (1 - grLowLeft.Y / 100.0) * clientRect.Bottom;
+                    double labelX = ((grLowLeft.X + i * (grUpRight.X - grLowLeft.X) / (float)(nVertLines - 1)) / 100.0) * clientRect.Right - XLabelOffsets[i];
                     GL.Translate(labelX, labelY, 0);
                     //Draw label using handle of text and end
                     txp.Draw(XLabels[i]);
@@ -252,8 +248,8 @@ namespace ExcelClone.Graphs
                 {
                     //Cast these to float for a nice smooth divide
                     GL.Begin(OpenTK.OpenGL.Enums.BeginMode.Lines);
-                    GL.Vertex2(LowL.X, LowL.Y + i * (UpR.Y - LowL.Y) / (float)(nHorzLines-1));
-                    GL.Vertex2(UpR.X, LowL.Y + i * (UpR.Y - LowL.Y) / (float)(nHorzLines-1));
+                    GL.Vertex2(grLowLeft.X, grLowLeft.Y + i * (grUpRight.Y - grLowLeft.Y) / (float)(nHorzLines - 1));
+                    GL.Vertex2(grUpRight.X, grLowLeft.Y + i * (grUpRight.Y - grLowLeft.Y) / (float)(nHorzLines - 1));
                     GL.End();
 
                     //Draw Y labels
@@ -262,8 +258,8 @@ namespace ExcelClone.Graphs
                     GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMinFilter, (int)OpenTK.OpenGL.Enums.TextureMinFilter.Nearest);
                     GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMagFilter, (int)OpenTK.OpenGL.Enums.TextureMagFilter.Nearest);
                     //Move to label location, convert object coords to pixels
-                    double labelY = (1 - (LowL.Y + i * (UpR.Y - LowL.Y) / (float)(nHorzLines - 1)) / 100.0) * clientRect.Bottom - LabelFont.Height / 2.0;
-                    double labelX = (LowL.X/100.0) * clientRect.Right - YLabelOffsets[i];
+                    double labelY = (1 - (grLowLeft.Y + i * (grUpRight.Y - grLowLeft.Y) / (float)(nHorzLines - 1)) / 100.0) * clientRect.Bottom - LabelFont.Height / 2.0;
+                    double labelX = (grLowLeft.X / 100.0) * clientRect.Right - YLabelOffsets[i];
                     GL.Translate(labelX, labelY, 0);
                     //Draw label using handle of text and end
                     txp.Draw(((TextHandle)YLabels[i]));
@@ -278,7 +274,7 @@ namespace ExcelClone.Graphs
             GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMagFilter, (int)OpenTK.OpenGL.Enums.TextureMagFilter.Nearest);
             float w, h;
             AxesFont.MeasureString(XLabelString, out w, out h);
-            double X = ((UpR.X - LowL.X) / 2 + LowL.X) / 100.0 * clientRect.Right - w/2;
+            double X = ((grUpRight.X - grLowLeft.X) / 2 + grLowLeft.X) / 100.0 * clientRect.Right - w / 2;
             double Y = clientRect.Bottom - AxesFont.Height - XLabelOffset;
             GL.Translate(X, Y, 0.0);
             txp.Draw(XAxisLabel);
@@ -290,31 +286,29 @@ namespace ExcelClone.Graphs
             GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMagFilter, (int)OpenTK.OpenGL.Enums.TextureMagFilter.Nearest);
             AxesFont.MeasureString(YLabelString, out w, out h);
             X = YLabelOffset;
-            Y = ((UpR.Y - LowL.Y) / 2 + (100 - UpR.Y)) / 100.0 * clientRect.Bottom + w/2;
+            Y = ((grUpRight.Y - grLowLeft.Y) / 2 + (100 - grUpRight.Y)) / 100.0 * clientRect.Bottom + w / 2;
             GL.Translate(X, Y, 0.0);
             GL.Rotate(-90.0, 0.0, 0.0, 1.0);
             txp.Draw(YAxisLabel);
             txp.End();
-
-            DrawLegend(clientRect);
         }
 
-        public float xOfGraph(float x_min, float x_max, float x_value, PointF UpR, PointF LowL)
+        public float xOfGraph(float x_value)
         {
-            float number = UpR.X - LowL.X;
+            float number = grUpRight.X - grLowLeft.X;
             number *= x_value;
-            number /= (x_max - x_min);
+            number /= (float)(maxXVal - minXVal);
 
-            return number+LowL.X;
+            return number + grLowLeft.X;
         }
 
-        public float yOfGraph(float y_min, float y_max, float y_value, PointF UpR, PointF LowL)
+        public float yOfGraph(float y_value)
         {
-            float number = UpR.Y - LowL.Y;
+            float number = grUpRight.Y - grLowLeft.Y;
             number *= y_value;
-            number /= (y_max - y_min);
+            number /= (float)(maxYVal - minYVal);
 
-            return number+LowL.Y;
+            return number + grLowLeft.Y;
         }
 
         public void sampleData()
@@ -334,6 +328,7 @@ namespace ExcelClone.Graphs
             int size = data[0].Count;
         }
 
-        public abstract void drawGraph(Rectangle clientRect);
+        public abstract void drawGraph(Rectangle r);
+        public abstract void setMinMax();
     }
 }

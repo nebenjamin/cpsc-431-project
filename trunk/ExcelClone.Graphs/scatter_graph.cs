@@ -18,13 +18,10 @@ namespace ExcelClone.Graphs
         //populate these from data[] ArrayList(you should be able to do this today, no problem)
         private double[] dataX = { 10, 20, 30, 40, 50, 60, 70 };
         private double[] dataY = { 10, 35, 50, 40, 75, 95, 110 };
-
-        float xMin = 0, xMax = 100, yMin = 0, yMax = 150;
-
-        public override void drawGraph(Rectangle clientRect)
+        
+        public override void drawGraph(Rectangle r)
         {
-            
-            
+            clientRect = r;
             //preprocessing section
             //calculate least squares params !!switch to Matricks.Solve(c) when available for ill-conditioning checks and workarounds
 
@@ -51,13 +48,11 @@ namespace ExcelClone.Graphs
             double a = (c0 - (b0 * b))/a0;
 
 
-
-            PointF UpR, LowL;
-            //First, make sure the labels will be on screen
-            CheckGraphArea(clientRect, out LowL, out UpR);
-
-            Draw(UpR, LowL, clientRect);
-            DrawTitle(clientRect);
+            CheckGraphArea();
+            DrawAxis();
+            DrawTitle();
+            DrawLegend();
+            DrawLegend();
 
 
             // Do this so that you don't mess around with base class matrix
@@ -71,7 +66,7 @@ namespace ExcelClone.Graphs
                 GL.Begin(OpenTK.OpenGL.Enums.BeginMode.Points);
                                             
                     for (int i = 0; i < dataX.Length; i++)                   
-                        GL.Vertex2(xOfGraph(xMin, xMax, (float) dataX[i], UpR, LowL), yOfGraph(yMin, yMax, (float) dataY[i], UpR, LowL));
+                        GL.Vertex2(xOfGraph((float) dataX[i]), yOfGraph((float) dataY[i]));
                             
                 GL.End();
 
@@ -81,14 +76,21 @@ namespace ExcelClone.Graphs
                 GL.Color3(lineColor);
                 GL.Begin(OpenTK.OpenGL.Enums.BeginMode.LineStrip);
                     //draw end points
-                    GL.Vertex2(xOfGraph(xMin, xMax, (float) dataX[0], UpR, LowL), yOfGraph(yMin, yMax, (float) ( b + dataX[0] * a), UpR, LowL));
-                    GL.Vertex2(xOfGraph(xMin, xMax, (float) dataX[dataX.Length-1], UpR, LowL), yOfGraph(yMin, yMax, (float) ( b + dataX[dataX.Length-1] * a), UpR, LowL));
+                    GL.Vertex2(xOfGraph((float) dataX[0]), yOfGraph((float) ( b + dataX[0] * a)));
+                    GL.Vertex2(xOfGraph((float) dataX[dataX.Length-1]), yOfGraph((float) ( b + dataX[dataX.Length-1] * a)));
                 GL.End();            
             
 
 
             //return matrix like it was
             GL.PopMatrix();
+        }
+        public override void setMinMax()
+        {
+           minXVal = 0;
+           maxXVal = 100;
+           minYVal = 0;
+           maxYVal = 150;
         }
     }
 }

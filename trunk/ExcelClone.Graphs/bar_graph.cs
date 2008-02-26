@@ -10,14 +10,19 @@ namespace ExcelClone.Graphs
 {
     class bar_graph : Graph
     {
-        public override void drawGraph(Rectangle clientRect)
+        public override void drawGraph(Rectangle r)
         {
-            PointF UpR, LowL;
-            //First, make sure the labels will be on screen
-            CheckGraphArea(clientRect, out LowL, out UpR);
+            clientRect = r;
+            CheckGraphArea();
+            DrawAxis();
+            DrawTitle();
+            DrawLegend();
+            DrawLegend();
 
-            Draw(UpR, LowL, clientRect);
-            DrawTitle(clientRect);
+            //foreach (List<double> list in data)
+            //{
+            //    data.Sort();
+            //}
 
             // Do this so that you don't mess around with base class matrix
             GL.PushMatrix();
@@ -27,23 +32,45 @@ namespace ExcelClone.Graphs
             GL.Begin(OpenTK.OpenGL.Enums.BeginMode.Quads);
 
             GL.Color3(Color.CadetBlue);
-            GL.Vertex2(xOfGraph(0, 4, 0.5f, UpR, LowL), yOfGraph(0, 4, 0, UpR, LowL));
-            GL.Vertex2(xOfGraph(0, 4, 0.5f, UpR, LowL), yOfGraph(0, 4, 3, UpR, LowL));
-            GL.Vertex2(xOfGraph(0, 4, 1f, UpR, LowL), yOfGraph(0, 4, 3, UpR, LowL));
-            GL.Vertex2(xOfGraph(0, 4, 1f, UpR, LowL), yOfGraph(0, 4, 0, UpR, LowL));
+            GL.Vertex2(xOfGraph(0.5f), yOfGraph(0));
+            GL.Vertex2(xOfGraph(0.5f), yOfGraph(3));
+            GL.Vertex2(xOfGraph(1f), yOfGraph(3));
+            GL.Vertex2(xOfGraph(1f), yOfGraph(0));
 
 
             GL.Color3(Color.BurlyWood);
-            GL.Vertex2(xOfGraph(0, 4, 1f, UpR, LowL), yOfGraph(0, 4, 0, UpR, LowL));
-            GL.Vertex2(xOfGraph(0, 4, 1f, UpR, LowL), yOfGraph(0, 4, 2.5f, UpR, LowL));
-            GL.Vertex2(xOfGraph(0, 4, 1.5f, UpR, LowL), yOfGraph(0, 4, 2.5f, UpR, LowL));
-            GL.Vertex2(xOfGraph(0, 4, 1.5f, UpR, LowL), yOfGraph(0, 4, 0, UpR, LowL));
+            GL.Vertex2(xOfGraph(1f), yOfGraph(0));
+            GL.Vertex2(xOfGraph(1f), yOfGraph(2.5f));
+            GL.Vertex2(xOfGraph(1.5f), yOfGraph(2.5f));
+            GL.Vertex2(xOfGraph(1.5f), yOfGraph(0));
 
             GL.End();
 
 
             //return matrix like it was
             GL.PopMatrix();
+        }
+        public override void setMinMax()
+        {
+            minYVal = 0;
+            maxYVal = data.Count;
+
+            maxXVal = data[0][0];
+            foreach(List<double> list in data)
+            {
+                foreach(double num in list)
+                {
+                    maxXVal = (num > maxXVal) ? num : maxXVal;
+                }
+            }
+            minXVal = data[0][0];
+            foreach (List<double> list in data)
+            {
+                foreach (double num in list)
+                {
+                    minXVal = (num < minXVal) ? num : minXVal;
+                }
+            }
         }
     }
 }
