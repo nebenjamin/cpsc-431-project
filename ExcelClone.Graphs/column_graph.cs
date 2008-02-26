@@ -10,14 +10,21 @@ namespace ExcelClone.Graphs
 {
     class column_graph : Graph
     {
-        public override void drawGraph(Rectangle clientRect)
+        public override void drawGraph(Rectangle r)
         {
-            PointF UpR, LowL;
-            //First, make sure the labels will be on screen
-            CheckGraphArea(clientRect, out LowL, out UpR);
-
-            Draw(UpR, LowL, clientRect);
-            DrawTitle(clientRect);
+            clientRect = r;
+            CheckGraphArea();
+            DrawAxis();
+            DrawTitle();
+            DrawLegend();
+            DrawLegend();
+        }
+        public override void setMinMax()
+        {
+            minXVal = 0;
+            maxXVal = 100;
+            minYVal = 0;
+            maxYVal = 150;
         }
     }
 }

@@ -10,14 +10,15 @@ namespace ExcelClone.Graphs
 {
     class test_graph : Graph
     {
-        public override void drawGraph(Rectangle clientRect)
+        public override void drawGraph(Rectangle r)
         {
-            PointF UpR, LowL;
-            //First, make sure the labels will be on screen
-            CheckGraphArea(clientRect, out LowL, out UpR);
+            clientRect = r;
 
-            Draw(UpR, LowL, clientRect);
-            DrawTitle(clientRect);
+            CheckGraphArea();
+            DrawAxis();
+            DrawTitle();
+            DrawLegend();
+            DrawLegend();
 
 
             // Do this so that you don't mess around with base class matrix
@@ -27,14 +28,21 @@ namespace ExcelClone.Graphs
             
             GL.Begin(OpenTK.OpenGL.Enums.BeginMode.Triangles);
                 GL.Color3(0.1f, 0.4f, 0.1f);
-                GL.Vertex2(xOfGraph(0, 4, 1, UpR, LowL), yOfGraph(0, 4, 1, UpR, LowL));
-                GL.Vertex2(xOfGraph(0, 4, 1, UpR, LowL), yOfGraph(0, 4, 3, UpR, LowL));
-                GL.Vertex2(xOfGraph(0, 4, 3, UpR, LowL), yOfGraph(0, 4, 3, UpR, LowL));
+                GL.Vertex2(xOfGraph(1), yOfGraph(1));
+                GL.Vertex2(xOfGraph(1), yOfGraph(3));
+                GL.Vertex2(xOfGraph(3), yOfGraph(3));
             GL.End();
 
 
             //return matrix like it was
             GL.PopMatrix();
+        }
+        public override void setMinMax()
+        {
+            minXVal = 0;
+            maxXVal = 4;
+            minYVal = 0;
+            maxYVal = 4;
         }
     }
 }

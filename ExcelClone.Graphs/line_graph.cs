@@ -18,15 +18,15 @@ namespace ExcelClone.Graphs
         private Color pointColor = Color.Blue;
         private Color lineColor = Color.Black;
         private int pointSize = 5;
-
-        public override void drawGraph(Rectangle clientRect)
+        
+        public override void drawGraph(Rectangle r)
         {
-            PointF UpR, LowL;
-            //First, make sure the labels will be on screen
-            CheckGraphArea(clientRect, out LowL, out UpR);
-
-            Draw(UpR, LowL, clientRect);
-            DrawTitle(clientRect);
+            clientRect = r;
+            CheckGraphArea();
+            DrawAxis();
+            DrawTitle();
+            DrawLegend();
+            DrawLegend();
 
             // Do this so that you don't mess around with base class matrix
             GL.PushMatrix();
@@ -38,12 +38,19 @@ namespace ExcelClone.Graphs
             GL.Begin(OpenTK.OpenGL.Enums.BeginMode.LineStrip);
 
                 for (int i = 0; i < dataX.Length; i++)
-                    GL.Vertex2(xOfGraph(xMin, xMax, (float)dataX[i], UpR, LowL), yOfGraph(yMin, yMax, (float)dataY[i], UpR, LowL));
+                    GL.Vertex2(xOfGraph((float)dataX[i]), yOfGraph((float)dataY[i]));
 
             GL.End();
 
             //return matrix like it was
             GL.PopMatrix();
+        }
+        public override void setMinMax()
+        {
+            minXVal = 0;
+            maxXVal = 100;
+            minYVal = 0;
+            maxYVal = 150;
         }
     }
 }
