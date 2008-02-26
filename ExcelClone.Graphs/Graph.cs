@@ -63,9 +63,12 @@ namespace ExcelClone.Graphs
         {
             LegendColors.Add(Color.CadetBlue);
             LegendColors.Add(Color.BurlyWood);
-            LegendColors.Add(Color.CornflowerBlue);
-            LegendColors.Add(Color.Cyan);
-            LegendColors.Add(Color.DarkBlue);
+            LegendColors.Add(Color.OrangeRed);
+            LegendColors.Add(Color.Yellow);
+            LegendColors.Add(Color.Silver);
+            LegendColors.Add(Color.Purple);
+            LegendColors.Add(Color.SeaGreen);
+            LegendColors.Add(Color.MistyRose);
 
             sampleData();
             setMinMax();
@@ -91,9 +94,9 @@ namespace ExcelClone.Graphs
             for (double currX = minXVal; currX <= maxXVal; currX += delta)
             {
                 TextHandle th;
-                txp.Prepare(currX.ToString(), LabelFont, out th);
+                txp.Prepare(currX.ToString("####.##"), LabelFont, out th);
                 XLabels.Add(th);
-                XLabelOffsets.Add(((currX.ToString().Length) * LabelFont.Width) / 2.0 + 3);
+                XLabelOffsets.Add(((currX.ToString("####.##").Length) * LabelFont.Width) / 2.0 + 3);
             }
             //Y labels
             delta = (maxYVal - minYVal) / (nHorzLines-1);
@@ -101,9 +104,9 @@ namespace ExcelClone.Graphs
             {
                 TextHandle th;
                 float w, h;
-                txp.Prepare(currY.ToString(), LabelFont, out th);
+                txp.Prepare(currY.ToString("####.##"), LabelFont, out th);
                 YLabels.Add(th);
-                LabelFont.MeasureString(currY.ToString(), out w, out h);
+                LabelFont.MeasureString(currY.ToString("####.##"), out w, out h);
                 YLabelOffsets.Add(w + 4);
 
                 if ((w + 4) > MaxYOffset)  //track max offset
@@ -305,15 +308,15 @@ namespace ExcelClone.Graphs
         public void sampleData()
         {
             Random ran = new Random();
-            int columns = 5;
-            int rows = 5;
+            int columns = ran.Next(2,4);
+            int rows = ran.Next(3, 7);
 
             for (int i = 0; i < columns; i++)
             {
                 data.Add(new List<double>());
                 for (int j = 0; j < rows; j++)
                 {
-                    data[i].Add(ran.Next(5,50));
+                    data[i].Add(ran.Next(5,80));
                 }
             }
             int size = data[0].Count;
