@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
@@ -11,10 +12,15 @@ namespace ExcelClone.DataIO
 {
     public class DataIO
     {
-        private List<SpreadsheetModel> book;
-        private String filename;
-        private XmlSerializer xmlSerializer;
-        private XmlTextWriter xmlTextWriter;
+		public const string extension = ".dump";
+
+		private string filename;
+		private string nl = Environment.NewLine;
+
+		private List<SpreadsheetModel> book;
+		private Stream fileStream;
+		private XmlSerializer serializer;
+		private XmlTextWriter textWriter;
 
         public DataIO(String Filename)
         {
@@ -36,12 +42,23 @@ namespace ExcelClone.DataIO
 
         public bool SaveBook()
         {
-            if (book.Count == 0)
-            {
-                MessageBox.Show("Passed an empty book!  Feed me data", "I'm hungry");
-                return false;
-            }
-            return WriteBook();
+			try
+			{
+				if (book.Count == 0) throw new MissingMemberException("Passed an empty book!  Feed me data");
+				return WriteBook();
+			}
+			catch (Exception e)
+			{
+				if (e is System.Security.SecurityException)
+				{
+					MessageBox.Show("I cannot write a file. Please run me with FileIO permissions.", "Error");
+				}
+				else
+				{
+					MessageBox.Show("Error: (" + e.GetType().ToString() + "): " + e.Message, "Error");
+				}
+			}
+			return false;
         }
 
         public bool LoadBook()

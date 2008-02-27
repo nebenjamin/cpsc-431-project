@@ -12,9 +12,8 @@ namespace ExcelClone.TestHarness
     [STAThread]
     static void Main()
     {
-      ExcelClone.DataIO.DataIO data = new ExcelClone.DataIO.DataIO(@"c:\Documents and Settings\" + Environment.UserName.ToString() + @"\Desktop\blah.xml");
-      bool Success = data.SaveBook();
-      MessageBox.Show(Success.ToString());
+      ExcelClone.DataIO.DataIO data = new ExcelClone.DataIO.DataIO(@"c:\Documents and Settings\" + Environment.UserName.ToString() + @"\Desktop\blah.dump");
+      data.SaveBook();
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
       Application.Run(new ExcelClone.Gui.Window());
