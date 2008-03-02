@@ -50,6 +50,8 @@ namespace ExcelClone.Graphs
             nVertLines = 5;
             nHorzLines = 5;
 
+            TitleString = "Line Graph";
+
             vGrid = true;
             hGrid = true;
         }

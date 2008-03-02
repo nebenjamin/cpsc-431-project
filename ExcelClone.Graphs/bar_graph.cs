@@ -35,10 +35,10 @@ namespace ExcelClone.Graphs
                 foreach (double num in list)
                 {
                     GL.Color3(LegendColors[currentColor]);
-                    GL.Vertex2(xOfGraph((float)currentBar*barW), yOfGraph(0));
-                    GL.Vertex2(xOfGraph((float)currentBar*barW), yOfGraph((float)(num)));//-minYVal)));
-                    GL.Vertex2(xOfGraph((float)(currentBar + 1) * barW), yOfGraph((float)(num)));//-minYVal)));
-                    GL.Vertex2(xOfGraph((float)(currentBar + 1) * barW), yOfGraph(0));
+                    GL.Vertex2(xOfGraph(0), yOfGraph((float)currentBar*barW));
+                    GL.Vertex2(xOfGraph((float)(num)), yOfGraph((float)currentBar*barW));
+                    GL.Vertex2(xOfGraph((float)(num)), yOfGraph((float)(currentBar + 1) * barW));
+                    GL.Vertex2(xOfGraph(0), yOfGraph((float)(currentBar + 1) * barW));
                     currentColor++;
                     currentBar++;
                 }
@@ -53,31 +53,25 @@ namespace ExcelClone.Graphs
         }
         public override void setMinMax()
         {
-            minXVal = 0;
-            maxXVal = data.Count;
+            minYVal = 0;
+            maxYVal = data.Count;
 
-            maxYVal = data[0][0];
+            maxXVal = data[0][0];
             foreach(List<double> list in data)
             {
                 foreach(double num in list)
                 {
-                    maxYVal = (num > maxYVal) ? num : maxYVal;
+                    maxXVal = (num > maxXVal) ? num : maxXVal;
                 }
             }
-            minYVal = 0;
-            //minYVal = data[0][0];
-            //foreach (List<double> list in data)
-            //{
-            //    foreach (double num in list)
-            //    {
-            //        minYVal = (num < minYVal) ? num : minYVal;
-            //    }
-            //}
+            minXVal = 0;
         }
         public override void setDefaults()
         {
-            nVertLines = (int)(maxXVal+1);
-            nHorzLines = (int)Math.Ceiling(maxYVal/10);
+            nHorzLines = (int)(maxYVal+1);
+            nVertLines = (int)Math.Ceiling(maxXVal / 10);
+
+            TitleString = "Bar Graph";
 
             vGrid = true;
             hGrid = true;
@@ -86,7 +80,7 @@ namespace ExcelClone.Graphs
         {
             int totalBars = data.Count + 1;
             totalBars += data.Count * data[0].Count;
-            barW = (float)(maxXVal - minXVal) / totalBars;
+            barW = (float)(maxYVal - minYVal) / totalBars;
         }
     }
 }

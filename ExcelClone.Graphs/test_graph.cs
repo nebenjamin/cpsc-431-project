@@ -29,8 +29,8 @@ namespace ExcelClone.Graphs
             GL.Begin(OpenTK.OpenGL.Enums.BeginMode.Triangles);
                 GL.Color3(0.1f, 0.4f, 0.1f);
                 GL.Vertex2(xOfGraph(1), yOfGraph(1));
-                GL.Vertex2(xOfGraph(1), yOfGraph(4.4f));
-                GL.Vertex2(xOfGraph(3), yOfGraph(4.4f));
+                GL.Vertex2(xOfGraph(1), yOfGraph(3));
+                GL.Vertex2(xOfGraph(3), yOfGraph(3));
             GL.End();
 
 
@@ -48,6 +48,8 @@ namespace ExcelClone.Graphs
         {
             nVertLines = 5;
             nHorzLines = 5;
+
+            TitleString = "Test Graph";
 
             vGrid = true;
             hGrid = true;

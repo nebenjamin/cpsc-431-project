@@ -97,6 +97,8 @@ namespace ExcelClone.Graphs
            nVertLines = 5;
            nHorzLines = 5;
 
+           TitleString = "Scatter Graph";
+
            vGrid = true;
            hGrid = true;
        }
