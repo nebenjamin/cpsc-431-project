@@ -31,6 +31,8 @@ namespace ExcelClone.Graphs
             nVertLines = 5;
             nHorzLines = 5;
 
+            TitleString = "Pie Graph";
+
             vGrid = true;
             hGrid = true;
         }
