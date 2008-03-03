@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Collections;
 using ExcelClone.Core;
+using ExcelClone.Gui;
 
 namespace ExcelClone
 {
@@ -59,6 +60,8 @@ namespace ExcelClone
                     UpdateCellValue(key, val);
                     lastUpdated = key;
                 }
+                val = Controller.Instance.Parser.Parse(SpreadsheetView.MakeColumnLabel(key.C) + key.R + ":" + Controller.Instance.SpreadsheetModel.Cells[key].Formula);
+                UpdateCellValue(key, val);
                 //updateCellValue(key, parse(key, m.Cells[key].value)); call the parse function for this cell key
             }
         }

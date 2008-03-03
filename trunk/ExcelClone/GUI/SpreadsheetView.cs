@@ -59,6 +59,7 @@ namespace ExcelClone.Gui
         {
             int row = e.RowIndex;
             int col = e.ColumnIndex;
+            SpreadsheetControl.Instance.CellChanged(new CellKey(row, col));
             SpreadsheetModel model = Controller.Instance.SpreadsheetModel;
 
             Cell cell = model.Cells[row, col];
