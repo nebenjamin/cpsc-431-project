@@ -16,8 +16,7 @@ namespace ExcelClone.Graphs
             CheckGraphArea();
             DrawAxis();
             DrawTitle();
-            DrawLegend();
-            DrawLegend();
+            DrawLegend(r);
         }
         public override void setMinMax()
         {

@@ -88,10 +88,12 @@ namespace ExcelClone.Graphs
 
         public void InitLabels()  //come up with labels based on data, line count
         {
-            
+            int i = 0;
+
             //X labels
             double delta = (maxXVal-minXVal)/(nVertLines-1);
-            for (double currX = minXVal; currX <= maxXVal; currX += delta)
+            double currX = minXVal;
+            for (i = 0; i < nVertLines; i++, currX += delta )
             {
                 TextHandle th;
                 txp.Prepare(currX.ToString("####.##"), LabelFont, out th);
@@ -100,7 +102,8 @@ namespace ExcelClone.Graphs
             }
             //Y labels
             delta = (maxYVal - minYVal) / (nHorzLines-1);
-            for (double currY = minYVal; currY <= maxYVal; currY += delta)
+            double currY = minYVal;
+            for (i = 0; i < nHorzLines; i++, currY += delta )
             {
                 TextHandle th;
                 float w, h;
@@ -113,12 +116,11 @@ namespace ExcelClone.Graphs
                     MaxYOffset = (int)(w + 4);
             }
 
-            int i;
             if (this is scatter_graph)
                 i = 1;
             else
                 i = 0;
-            for ( ; i < data.Count; i++ )
+            for ( ; i < data[0].Count; i++ )
             {
                 LegendLabels.Add("Series" + (i+1).ToString());
             }
@@ -141,25 +143,44 @@ namespace ExcelClone.Graphs
             txp.End();
         }
 
-        public void DrawLegend() //draw a legend
+        public void DrawLegend(Rectangle ClientR) //draw a legend
         {
-            double X = grUpRight.X + 2;
-            double Y = (grUpRight.Y - grLowLeft.Y) / 2;
+            float X = grUpRight.X + 2;
+            float Y = (grUpRight.Y - grLowLeft.Y) / 2 + grLowLeft.Y;
 
             GL.MatrixMode(OpenTK.OpenGL.Enums.MatrixMode.Modelview);
             GL.PushMatrix();
             GL.LoadIdentity();
 
             // draw an item for each legend label
+            int i = 0;
             foreach (string s in LegendLabels)
             {
+                float w, h;
+                w = LabelFont.Width;
+                h = LabelFont.Height;
+                //Convert measurement from pixels to relative coords
+                w = w / ClientR.Right * 100;
+                h = h / ClientR.Bottom * 100;
                 //First, the colored box
-                //GL.Translate(0, -5 * i, 0);
-                GL.Color3(Color.BurlyWood);
+                GL.Color3(LegendColors[i]); 
+                i++;
                 GL.Begin(OpenTK.OpenGL.Enums.BeginMode.Quads);
-                GL.Vertex2(0, 0);
-                GL.Vertex2(20,  20);
+                GL.Vertex2(X, Y);
+                GL.Vertex2(X+w,  Y);
+                GL.Vertex2(X + w, Y - h);
+                GL.Vertex2(X, Y - h);
                 GL.End();
+                //Now print the series name next to the colored box
+                txp.Begin();
+                GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMinFilter, (int)OpenTK.OpenGL.Enums.TextureMinFilter.Nearest);
+                GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMagFilter, (int)OpenTK.OpenGL.Enums.TextureMagFilter.Nearest);
+                TextHandle th;
+                GL.Translate( ((X + w)/100) * ClientR.Right, (1 - Y/100) * ClientR.Bottom, 0.0);
+                txp.Prepare(s, LabelFont, out th);
+                txp.Draw(th);
+                txp.End();
+                Y -= h + 2;
             }
             GL.PopMatrix();
         }
@@ -167,6 +188,10 @@ namespace ExcelClone.Graphs
         //This method checks if the graph needs to shrink so the labels can fit
         public void CheckGraphArea()
         {
+            //Reset to defaults
+            grLowLeft = new PointF(15, 15);
+            grUpRight = new PointF(85, 85);
+
             //Convert X and Y widths to pixels
             int Xpix = (int)(grLowLeft.Y / 100.0 * clientRect.Bottom);
             int Ypix = (int)(grLowLeft.X / 100.0 * clientRect.Right);
@@ -309,7 +334,7 @@ namespace ExcelClone.Graphs
         {
             Random ran = new Random();
             int columns = ran.Next(2,4);
-            int rows = ran.Next(3, 7);
+            int rows = 7;//ran.Next(3, 7);
 
             for (int i = 0; i < columns; i++)
             {
