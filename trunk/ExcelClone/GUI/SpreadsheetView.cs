@@ -33,6 +33,45 @@ namespace ExcelClone.Gui
                 AllowUserToOrderColumns = false;
                 SelectionMode = DataGridViewSelectionMode.ColumnHeaderSelect;
             };
+
+            CellEndEdit += new DataGridViewCellEventHandler(SpreadsheetView_CellEndEdit);
+            CellBeginEdit += new DataGridViewCellCancelEventHandler(SpreadsheetView_CellBeginEdit);
+        }
+
+        void SpreadsheetView_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            int row = e.RowIndex;
+            int col = e.ColumnIndex;
+            SpreadsheetModel model = Controller.Instance.SpreadsheetModel;
+
+            Cell cell = model.Cells[row, col];
+
+            if (cell == null)
+            {
+                cell = new Cell();
+                model.Cells[row, col] = cell;
+            }
+
+            this[e.RowIndex, e.ColumnIndex].Value = cell.Formula;
+        }
+
+        void SpreadsheetView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            int row = e.RowIndex;
+            int col = e.ColumnIndex;
+            SpreadsheetModel model = Controller.Instance.SpreadsheetModel;
+
+            Cell cell = model.Cells[row, col];
+
+            if (cell == null)
+            {
+                cell = new Cell();
+                model.Cells[row, col] = cell;
+            }
+
+            cell.Formula = this[row, col].Value + "";
+
+            //TODO: Have the formulas class give the value of the cell and put it into the view
         }
 
         void SpreadsheetView_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)

@@ -1,14 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ExcelClone.Core;
 
-namespace ExcelClone.Controller
+namespace ExcelClone
 {
     class Controller
     {
         private Controller()
         {
+            SpreadsheetModel = new SpreadsheetModel(new CellCollection());
         }
+
+        private SpreadsheetModel spreadsheetModel;
+        public SpreadsheetModel SpreadsheetModel
+        {
+            get { return spreadsheetModel; }
+            set { spreadsheetModel = value; }
+        }
+
         protected void ClickNew() { }
         protected void ClickOpen() { }
         protected void ClickClose() { }
