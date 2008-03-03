@@ -25,7 +25,7 @@ namespace ExcelClone.Functions
          */
         public string Parse(string Cell_String)
         {
-            Cell_String = Cell_String.ToUpper();
+            Cell_String = Cell_String.ToUpper().Replace(" ", "");
             OutFile.WriteLine("---------- " + Cell_String);
             //Form1.Step("---------- " + Cell_String);
 
