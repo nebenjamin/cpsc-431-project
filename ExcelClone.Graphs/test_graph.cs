@@ -17,8 +17,7 @@ namespace ExcelClone.Graphs
             CheckGraphArea();
             DrawAxis();
             DrawTitle();
-            DrawLegend();
-            DrawLegend();
+            DrawLegend(r);
 
 
             // Do this so that you don't mess around with base class matrix

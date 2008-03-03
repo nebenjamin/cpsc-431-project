@@ -50,19 +50,12 @@
     <Compile Include="pie_graph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GraphControl.cs">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GraphControl.Designer.cs">
       <DependentUpon>GraphControl.cs</DependentUpon>
     </Compile>
     <Compile Include="scatter_graph.cs" />
     <Compile Include="test_graph.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\OpenTK\OpenTK.csproj">
-      <Project>{A8DE4406-5E00-4B4E-9A98-71F9E5A42A29}</Project>
-      <Name>OpenTK</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">
@@ -76,6 +69,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenTK\OpenTK.csproj">
+      <Project>{A8DE4406-5E00-4B4E-9A98-71F9E5A42A29}</Project>
+      <Name>OpenTK</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
