@@ -18,27 +18,27 @@ namespace ExcelClone.Gui
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickNew();
+            Controller.Instance.ClickNew();
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickOpen();
+            Controller.Instance.ClickOpen();
         }
 
         private void closeMenuItem1_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickClose();
+            Controller.Instance.ClickClose();
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickSave();
+            Controller.Instance.ClickSave();
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickSaveAs();
+            Controller.Instance.ClickSaveAs();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -48,92 +48,92 @@ namespace ExcelClone.Gui
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickCut();
+            Controller.Instance.ClickCut();
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickCopy();
+            Controller.Instance.ClickCopy();
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickPaste();
+            Controller.Instance.ClickPaste();
         }
 
         private void worksheetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickInsertWorksheet();
+            Controller.Instance.ClickInsertWorksheet();
         }
 
         private void chartToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickChart();
+            Controller.Instance.ClickChart();
         }
 
         private void functionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickInsertFunction();
+            Controller.Instance.ClickInsertFunction();
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickNew();
+            Controller.Instance.ClickNew();
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickOpen();
+            Controller.Instance.ClickOpen();
         }
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickClose();
+            Controller.Instance.ClickClose();
         }
 
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickSave();
+            Controller.Instance.ClickSave();
         }
 
         private void toolStripButton5_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickSaveAs();
+            Controller.Instance.ClickSaveAs();
         }
 
         private void toolStripButton14_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickCut();
+            Controller.Instance.ClickCut();
         }
 
         private void toolStripButton16_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickCopy();
+            Controller.Instance.ClickCopy();
         }
 
         private void toolStripButton15_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickPaste();
+            Controller.Instance.ClickPaste();
         }
 
         private void toolStripButton13_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickChart();
+            Controller.Instance.ClickChart();
         }
 
         private void cutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickCut();
+            Controller.Instance.ClickCut();
         }
 
         private void copyToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickCopy();
+            Controller.Instance.ClickCopy();
         }
 
         private void pasteToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Controller.Controller.Instance.ClickPaste();
+            Controller.Instance.ClickPaste();
         }
     }
 }
