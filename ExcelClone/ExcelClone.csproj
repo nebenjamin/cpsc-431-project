@@ -37,6 +37,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\Controller.cs" />
+    <Compile Include="Controller\ISpreadsheetControl.cs" />
+    <Compile Include="Controller\SpreadsheetControl.cs" />
     <Compile Include="Core\Cell.cs" />
     <Compile Include="Core\CellCollection.cs" />
     <Compile Include="Core\Drawing\BrushFactory.cs" />
@@ -55,8 +57,6 @@
     <Compile Include="Core\ICell.cs" />
     <Compile Include="Core\ICellCollection.cs" />
     <Compile Include="Core\IGridModel.cs" />
-    <Compile Include="Core\ISpreadsheetControl.cs" />
-    <Compile Include="Core\SpreadsheetControl.cs" />
     <Compile Include="Core\SpreadsheetModel.cs" />
     <Compile Include="DataIO\DataIO.cs">
       <SubType>
