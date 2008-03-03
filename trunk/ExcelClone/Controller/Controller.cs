@@ -19,18 +19,18 @@ namespace ExcelClone
             set { spreadsheetModel = value; }
         }
 
-        protected void ClickNew() { }
-        protected void ClickOpen() { }
-        protected void ClickClose() { }
-        protected void ClickSave() { }
-        protected void ClickSaveAs() { }
-        protected void ClickCut() { }
-        protected void ClickCopy() { }
-        protected void ClickPaste() { }
-        protected void ClickFontAttributes() { }
-        protected void ClickChart() { }
-        protected void ClickInsertWorksheet() { }
-        protected void ClickInsertFunction() { }
+        public void ClickNew() { }
+        public void ClickOpen() { }
+        public void ClickClose() { }
+        public void ClickSave() { }
+        public void ClickSaveAs() { }
+        public void ClickCut() { }
+        public void ClickCopy() { }
+        public void ClickPaste() { }
+        public void ClickFontAttributes() { }
+        public void ClickChart() { }
+        public void ClickInsertWorksheet() { }
+        public void ClickInsertFunction() { }
 
         public static Controller Instance
         {
