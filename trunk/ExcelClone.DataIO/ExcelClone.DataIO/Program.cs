@@ -11,13 +11,13 @@ namespace ExcelClone.TestHarness
     /// </summary>
     [STAThread]
     static void Main()
-    {
+    {      
       ExcelClone.DataIO.DataIO data = new ExcelClone.DataIO.DataIO(@"c:\Documents and Settings\" + Environment.UserName.ToString() + @"\Desktop\template.xml");
-      //data.SaveBook();
+      data.SaveBook();
       data.LoadBook();
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
-      Application.Run(new ExcelClone.Gui.Window());
+      Application.Run(new ExcelClone.Gui.Window());      
     }
   }
 }
