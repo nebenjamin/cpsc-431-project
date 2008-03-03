@@ -26,7 +26,7 @@ namespace ExcelClone.Controller
         {
             get
             {
-                return ControllerCreator.CreatorInstance;
+                return ControllerCreator.ControllerInstance;
             }
 
         }

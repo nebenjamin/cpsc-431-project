@@ -7,11 +7,13 @@ using ExcelClone.Core;
 
 namespace ExcelClone.Gui
 {
+    [System.ComponentModel.ReadOnly(true)]
     public class SpreadsheetView : DataGridView
     {
         public SpreadsheetView()
             : base()
         {
+            Dock = DockStyle.Fill;
             CellMouseDoubleClick += new DataGridViewCellMouseEventHandler(SpreadsheetView_CellMouseDoubleClick);
             RowHeaderMouseClick += new DataGridViewCellMouseEventHandler(SpreadsheetView_RowHeaderMouseClick);
             
