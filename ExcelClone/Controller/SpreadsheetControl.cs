@@ -7,8 +7,7 @@ using ExcelClone.Core;
 namespace ExcelClone
 {
     public class SpreadsheetControl : ISpreadsheetControl
-    {
-        private SpreadsheetModel m;
+    {        
         private Queue<CellKey> InvalidCells;
 
         public static SpreadsheetControl Instance
@@ -27,8 +26,7 @@ namespace ExcelClone
         }
 
         public SpreadsheetControl()
-        {
-            m = new SpreadsheetModel(new CellCollection());
+        {           
             InvalidCells = new Queue<CellKey>();
         }
 
@@ -72,25 +70,25 @@ namespace ExcelClone
 
         public void UpdateCellValue(CellKey key, string value)
         {
-            m.Cells[key].Value = value;
+            Controller.Instance.SpreadsheetModel.Cells[key].Value = value;
         }
 
         public void UpdateCellFormula(CellKey key, string formula)
         {
-            m.Cells[key].Formula = formula;
+            Controller.Instance.SpreadsheetModel.Cells[key].Formula = formula;
             //repaint
         }
 
         public void ClearCell(CellKey key)
         {
-            m.Cells[key].Formula = null;
-            m.Cells[key].Value = "";
+            Controller.Instance.SpreadsheetModel.Cells[key].Formula = null;
+            Controller.Instance.SpreadsheetModel.Cells[key].Value = "";
             //repaint
         }
 
         public void LoadSheet(ICellCollection c)
         {
-            m.Cells = (CellCollection)c;
+            Controller.Instance.SpreadsheetModel.Cells = (CellCollection)c;
             //change  view!           
         }
 
