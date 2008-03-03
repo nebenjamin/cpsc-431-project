@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Collections;
+using ExcelClone.Core;
 
-namespace ExcelClone.Core
+namespace ExcelClone
 {
     public class SpreadsheetControl : ISpreadsheetControl
     {
