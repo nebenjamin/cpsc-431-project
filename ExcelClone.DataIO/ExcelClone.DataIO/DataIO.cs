@@ -23,6 +23,7 @@ namespace ExcelClone.DataIO
 		private Stream fileStream;
 		private XmlSerializer serializer;
 		private XmlTextWriter textWriter;
+        private XmlTextReader textReader;
 		
 		public DataIO(String Filename)
 		{
@@ -44,9 +45,14 @@ namespace ExcelClone.DataIO
 
 		public bool SaveBook()
 		{
+            /***** TEST CODE *****/
+
+            book.Add(new SpreadsheetModel(new CellCollection()));
+
+            /***** END TEST CODE *****/
 			try
 			{
-				//if (book.Count == 0) throw new MissingMemberException("Passed an empty book!  Feed me data");
+				if (book.Count == 0) throw new MissingMemberException("Passed an empty book!  Feed me data");
 				return WriteBook();
 			}
 			catch (Exception e)
@@ -68,165 +74,176 @@ namespace ExcelClone.DataIO
 			return ReadBook();
 		}
 
-		private bool WriteBook()
-		{
-			Cell temp = new Cell();
+        private bool WriteBook()
+        {
+            Cell theCell = new Cell();
 
-			fileStream = new FileStream(filename, FileMode.Create);
-			textWriter = new XmlTextWriter(fileStream, Encoding.Unicode);
+            fileStream = new FileStream(filename, FileMode.Create);
+            textWriter = new XmlTextWriter(fileStream, Encoding.Unicode);
 
-			string fontTags = "";
+            string startTags = "";
+            string endTags = "";
 
-			try
-			{
+            try
+            {
+                textWriter.WriteStartElement(filename.Substring(filename.LastIndexOf("\\") + 1,
+                                                                filename.LastIndexOf(".") - filename.LastIndexOf("\\") - 1));
+                textWriter.WriteString(Environment.NewLine);
 
-				/************  HEY SCOTT!!!!!!!!!! ************/
-				//This is how Nathan and Chris want the file formmating to be. Talk to us
-				//if you have any questions
+                textWriter.WriteStartElement("sheet");
+                textWriter.WriteString(Environment.NewLine);
 
-				textWriter.WriteStartElement(filename.Substring(filename.LastIndexOf("\\") + 1));
-				textWriter.WriteString(nl);
-				
-				textWriter.WriteStartElement("sheet");
-				textWriter.WriteString(nl);
-
-				/*if (book[0].Author.Equals("")) textWriter.WriteElementString("author = " + Environment.UserName, "");
-				else*/ textWriter.WriteElementString("author = " + "Nathan Benjamin", "");
-				textWriter.WriteString(nl + "other metadata" + nl);
-				textWriter.WriteEndElement();
-				
-				textWriter.WriteString(nl);
-
-				/**********************************************/
+                /*if (book[0].Author.Equals("")) textWriter.WriteElementString("author = " + Environment.UserName, "");
+                else*/
+                textWriter.WriteStartElement("author", "Nathan Benjamin");
+                textWriter.WriteEndElement();
+                textWriter.WriteString(Environment.NewLine + "other metadata" + Environment.NewLine);
 
 
-				int rows = book[0].Cells.Rows;
-				int cols = book[0].Cells.Columns;
-				textWriter.WriteString("<columns number = " + cols);
-				textWriter.WriteString(" />\n<rows number = " + rows + " />\n");
+                int rows = book[0].Cells.Rows;
+                int cols = book[0].Cells.Columns;
 
-				//Scan each column value, then go down a row and scan each column again.
-				for (int y = 1; y < cols; y++)
-				{
-					textWriter.WriteString("<column " + y + ">\n");
-					for (int x = 1; x < rows; x++)
-					{
-						temp = book[0].Cells[x, y];
+                textWriter.WriteStartElement("columns", cols.ToString());
+                textWriter.WriteEndElement();
+                textWriter.WriteString(Environment.NewLine);
 
-						fontTags = "";
-						bool theTruth = temp.Formula.Equals(null);
-						String s = "";
-						int tempT = -1;
-						//Color tempC = new Color();
-						//tempC = temp.CellFormat.BackgroundBrush.BackColor;
+                textWriter.WriteStartElement("rows", rows.ToString());
+                textWriter.WriteEndElement();
+                textWriter.WriteString(Environment.NewLine);
 
-						//s = temp.CellFormat.BackgroundBrush.GetType();
-						/* if (temp.CellFormat == null)
-						 {//Leave the cell blank
-						 }
-						 else
-						 {
+                //Scan each column value, then go down a row and scan each column again.
+                for (int y = 1; y < cols; y++)
+                {
+                    textWriter.WriteElementString("column ", y.ToString());
+                    textWriter.WriteString(Environment.NewLine);
+                    for (int x = 1; x < rows; x++)
+                    {
+                        theCell = book[0].Cells[x, y];
 
-							 if (temp.CellFormat.Font.Equals(null) == true)
-							 {//ignore
-							 }
-							 else
-							 {
-								  textWriter.WriteString("<row " + x + ">\n");
-								  if (tempFormat.Font.fontFamily() != "Times New Roman")
-								  {
-									  textWriter.WriteString("<text-font = " + tempFormat.Font.fontFamily.get() + ">");
-									  fontTags = fontTags + "</text-font>";
-								  }
-								  if (tempFormat.Font.emSize.get() != 12)
-								  {
-									  textWriter.WriteString("text-size = " << tempFormat.Font.emSize.get() << ">");
-									  fontTags = fontTags + "</text-size>";
-								  }
-								  if (tempFormat.Font.bold == true){
-									  textWriter.WriteString("<b>");
-									  fontTags = fontTags + "</b>";
-								  }
-								  if (tempFormat.Font.italics == true){
-									  textWriter.WriteString("<i>");
-									  fontTags = fontTags + "</i>";
-								  }
-								  if (tempFormat.Font.underlined == true){
-									  textWriter.WriteString("<u>");
-									  fontTags = fontTags + "</u>";
-								  }
-							 }//end of Font check
+                        startTags = "";
+                        endTags = "";
+                        bool formulaBool = theCell.Formula.Equals("");
+                        bool valueBool = theCell.Value.Equals("");
+                        bool formatBool = theCell.CellFormat.Equals(null);
+                        String s = "";
+                        Color tempC = new Color();
 
-                            
-							 if (temp.CellFormat.FontBrush.Equals(null) == true)
-							 {//ignore
-							 }
-							 else
-							 {
-								 if (tempFormat.FontBrush.color.get() != "#000000"){
-									textWriter.WriteString("<text-color = " << tempFormat.FontBrush.Color.get() << ">");
+                        //tempC.ToString();
+                        //theCell.CellFormat.BackgroundBrush.Color.Equals(Color.Red);
+                        /*LETS FIRST DEAL WITH FORMATTING*/
+                        if (formatBool == true)
+                        {//change nothing
+                        }
+                        else
+                        {
+
+                            if (theCell.CellFormat.Font.Equals(null) == true)
+                            {//ignore
+                            }
+                            else
+                            {
+                                //textWriter.WriteElementString("<row " + x + ">\n", "");
+                                if (theCell.CellFormat.Font.FontFamily.ToString() != "Times New Roman")
+                                {
+                                    textWriter.WriteElementString(theCell.CellFormat.Font.FontFamily.GetType().ToString(), theCell.CellFormat.Font.FontFamily.ToString());
+                                    //textWriter.WriteString("<text-font = " + theCell.CellFormat.Font.FontFamily.ToString() + ">");
+                                    //fontTags = fontTags + "</text-font>";
+                                }
+                                if (theCell.CellFormat.Font.EmSize.Equals(12))
+                                { }//default, do nothing
+                                else
+                                {
+                                    textWriter.WriteElementString(theCell.CellFormat.Font.EmSize.GetType().ToString(), theCell.CellFormat.Font.EmSize.ToString());
+                                    textWriter.WriteEndElement();
+
+                                }
+                                if (theCell.CellFormat.Font.Bold.Equals(true))
+                                {
+                                    startTags = startTags + "<b>";
+                                    endTags = endTags + "</b>";
+                                }
+                                if (theCell.CellFormat.Font.Italics.Equals(true))
+                                {
+                                    startTags = startTags + "<i>";
+                                    endTags = endTags + "</i>";
+                                }
+                                if (theCell.CellFormat.Font.Underlined.Equals(true))
+                                {
+                                    startTags = startTags + "<u>";
+                                    endTags = endTags + "</u>";
+                                }
+                            }//end of Font check
+
+                            if (theCell.CellFormat.FontBrush.Equals(null))
+                            {//ignore
+                            }
+                            else
+                            {
+                                /* if (theCell.CellFormat.FontBrush.color.get() != "#000000")
+                                 {
+                                     textWriter.WriteString("<text-color = " << theCell.CellFormat.FontBrush.Color.get() << ">");
 									fontTags = fontTags + "</text-color>";
 								 }
-								 if (tempFormat.FontBrush.brushStyle.get() != null){
-									 textWriter.WriteString("<brush-style = " << tempFormat.FontBrush.BrushStyle.get() << ">");
+                                 if (theCell.CellFormat.FontBrush.brushStyle.get() != null)
+                                 {
+									 textWriter.WriteString("<brush-style = " << theCell.CellFormat.FontBrush.BrushStyle.get() << ">");
 									 fontTags = fontTags + "</brush-style>";
 								 }
-								 if (tempFormat.FontBrush.backColor.get() != "#FFFFFF"){
-									 textWriter.WriteString("cell-bg-color = " << tempFormat.FontBrush.backColor.get() << ">");
+								 if (theCell.CellFormat.FontBrush.backColor.get() != "#FFFFFF"){
+									 textWriter.WriteString("cell-bg-color = " << theCell.CellFormat.FontBrush.backColor.get() << ">");
 									 fontTags = fontTags + "</cell-bg-color>";
-								 }
-							 }
-						 }//end of Format check
-						  */
-						/*if (temp.Formula.Equals(null) == true)
-						{
-							if (temp.Formula.Value(null) == true)
-							{
-							   }
-							   else{//write the value
-								   if(tempFormat == null){//we haven't printed out row yet
-								   textWriter.WriteString("<row " << x << ">\n");
-								   }
-								   textWriter.WriteString("<content = number>\n" << tempCell.Value.get());
-								   textWriter.WriteString("\n</content>\n");
-								   textWriter.WriteString("</row>\n");
-							   }
-						   }
-						   else{//write the formula
-							   if(tempFormat == null){//we haven't printed out row yet
-									 textWriter.WriteString("<row " << x << ">\n");
-								 }
-									 textWriter.WriteString("<content = formula>\n" << tempCell.Formula.get());
-									 textWriter.WriteString("\n</content>\n");
-									 textWriter.WriteString("</row>\n");
+								 }*/
+                            }
+                        }//end of Format check
+
+                        /*if (temp.Formula.Equals(null) == true)
+                        {
+                            if (temp.Formula.Value(null) == true)
+                            {
+                               }
+                               else{//write the value
+                                   if(tempFormat == null){//we haven't printed out row yet
+                                   textWriter.WriteString("<row " << x << ">\n");
+                                   }
+                                   textWriter.WriteString("<content = number>\n" << tempCell.Value.get());
+                                   textWriter.WriteString("\n</content>\n");
+                                   textWriter.WriteString("</row>\n");
+                               }
+                           }
+                           else{//write the formula
+                               if(tempFormat == null){//we haven't printed out row yet
+                                     textWriter.WriteString("<row " << x << ">\n");
+                                 }
+                                     textWriter.WriteString("<content = formula>\n" << tempCell.Formula.get());
+                                     textWriter.WriteString("\n</content>\n");
+                                     textWriter.WriteString("</row>\n");
                         
-							 }*/
+                             }*/
 
+                    }//end of row loop
+                    textWriter.WriteEndElement();
+                    textWriter.WriteString(Environment.NewLine);
+                }//end of col loop*/
 
+                textWriter.WriteEndElement();
+                textWriter.WriteString(Environment.NewLine);
+                textWriter.Flush();
 
-					}//end of row loop
-					textWriter.WriteString("</column>\n");
-				}//end of col loop*/
-
-				textWriter.WriteString("</sheet>\n");
-				textWriter.WriteString("</template>\n");
-				textWriter.Flush();
-
-			}
-			catch (Exception e)
-			{
-				MessageBox.Show("Error: (" + e.GetType().ToString() + "): " + e.Message, "Error");
-			}
-			finally
-			{
-				if (textWriter != null)
-				{
-				    textWriter.Close();
-					textWriter = null;
-				}
-			}
-			return true;
-		}
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error: (" + e.GetType().ToString() + "): " + e.Message, "Error");
+            }
+            finally
+            {
+                if (textWriter != null)
+                {
+                    textWriter.Close();
+                    textWriter = null;
+                }
+            }
+            return true;
+        }
 
 		private bool ReadBook()
 		{               
