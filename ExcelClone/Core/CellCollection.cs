@@ -28,7 +28,7 @@ namespace ExcelClone.Core
 
         public Cell this[int r, int c] 
         { 
-            get { return cells[new CellKey(r, c)]; }
+            get { return this[new CellKey(r, c)]; }
             set { this[new CellKey(r, c)] = value; }
         }
 
