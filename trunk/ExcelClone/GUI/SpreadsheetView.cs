@@ -52,7 +52,7 @@ namespace ExcelClone.Gui
                 model.Cells[row, col] = cell;
             }
 
-            this[e.RowIndex, e.ColumnIndex].Value = cell.Formula;
+            this.Rows[row].Cells[col].Value = cell.Formula;
         }
 
         void SpreadsheetView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -69,11 +69,12 @@ namespace ExcelClone.Gui
                 model.Cells[row, col] = cell;
             }
 
-            cell.Formula = this[row, col].Value + "";
+            cell.Formula = this.Rows[row].Cells[col].Value + "";
 
-            //TODO: Have the formulas class give the value of the cell and put it into the view
+            cell.Value = Controller.Instance.Parser.Parse(MakeColumnLabel(col) + row + ":" + cell.Formula);
+            this.Rows[row].Cells[col].Value = cell.Value;
         }
-
+            
         void SpreadsheetView_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             ClearSelection();
