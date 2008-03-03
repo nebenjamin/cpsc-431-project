@@ -22,3 +22,12 @@ H:\CPSC-431\Source\ExcelClone\obj\Debug\ExcelClone.Properties.Resources.resource
 H:\CPSC-431\Source\ExcelClone\obj\Debug\ExcelClone.csproj.GenerateResource.Cache
 H:\CPSC-431\Source\ExcelClone\obj\Debug\ExcelClone.exe
 H:\CPSC-431\Source\ExcelClone\obj\Debug\ExcelClone.pdb
+C:\Documents and Settings\rrussell\Desktop\excel\ExcelClone\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\rrussell\Desktop\excel\ExcelClone\obj\Debug\ExcelClone.Gui.NewWindow.resources
+C:\Documents and Settings\rrussell\Desktop\excel\ExcelClone\obj\Debug\ExcelClone.Gui.Window.resources
+C:\Documents and Settings\rrussell\Desktop\excel\ExcelClone\obj\Debug\ExcelClone.Properties.Resources.resources
+C:\Documents and Settings\rrussell\Desktop\excel\ExcelClone\obj\Debug\ExcelClone.csproj.GenerateResource.Cache
+C:\Documents and Settings\rrussell\Desktop\excel\ExcelClone\obj\Debug\ExcelClone.exe
+C:\Documents and Settings\rrussell\Desktop\excel\ExcelClone\bin\Debug\ExcelClone.exe
+C:\Documents and Settings\rrussell\Desktop\excel\ExcelClone\bin\Debug\ExcelClone.pdb
+C:\Documents and Settings\rrussell\Desktop\excel\ExcelClone\obj\Debug\ExcelClone.pdb
