@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ExcelClone.Core;
+using ExcelClone.Functions;
 
 namespace ExcelClone
 {
@@ -10,6 +11,7 @@ namespace ExcelClone
         private Controller()
         {
             SpreadsheetModel = new SpreadsheetModel(new CellCollection());
+            Parser = new Parser();
         }
 
         private SpreadsheetModel spreadsheetModel;
@@ -17,6 +19,13 @@ namespace ExcelClone
         {
             get { return spreadsheetModel; }
             set { spreadsheetModel = value; }
+        }
+
+        private Parser parser;
+        public Parser Parser
+        {
+            get { return parser; }
+            set { parser = value; }
         }
 
         public void ClickNew() { }
