@@ -5,8 +5,6 @@ using System.Collections;
 using System.Reflection;
 using System.IO;
 
-using ExcelClone.Core;
-
 namespace ExcelClone.Functions
 {
     public class Parser
@@ -515,7 +513,14 @@ namespace ExcelClone.Functions
                     Parts.RemoveAt(i);
                     //string temp = "=1+2";//temp will equal the output of the UI's function
                     //FIXME
-                    string temp = "=1+2";// Form1.getCellFormula(cell_ref);
+                    ArrayList atemp = BreakReference(cell_ref);
+                    int c = (int)atemp[0];
+                    int r = (int)atemp[1];
+                    string temp;
+                    if (Controller.Instance.SpreadsheetModel.Cells[r, c] != null)
+                        temp = Controller.Instance.SpreadsheetModel.Cells[r, c].Formula;// Form1.getCellFormula(cell_ref);
+                    else
+                        temp = "0";
 
                     OutFile.WriteLine(cell_ref + " -> " + temp);
                     //Form1.Step(cell_ref + " -> " + temp);
@@ -584,6 +589,37 @@ namespace ExcelClone.Functions
             catch
             {
                 return false;
+            }
+        }
+
+        private ArrayList BreakReference(string Reference)
+        {
+            ArrayList temp = new ArrayList();
+            try
+            {
+                if (char.IsLetter(Reference, 0) && char.IsLetter(Reference, 1))
+                {
+                    if (Convert.ToInt32(Reference.Substring(2)) > 0)
+                    {
+                        temp.Add((((int)Reference[0]) - ((int)'A'))*10 + (((int)Reference[1]) - ((int)'A')));
+                        temp.Add(Convert.ToInt32(Reference.Substring(2))-1);
+                        return temp;
+                    }
+                }
+                if (char.IsLetter(Reference, 0))
+                {
+                    if (Convert.ToInt32(Reference.Substring(1)) > 0)
+                    {
+                        temp.Add(((int)Reference[0]) - ((int)'A'));
+                        temp.Add(Convert.ToInt32(Reference.Substring(1))-1);
+                        return temp;
+                    }
+                }
+                return null;
+            }
+            catch
+            {
+                return null;
             }
         }
 
