@@ -24,12 +24,12 @@ namespace ExcelClone.Functions
         public string Parse(string Cell_String)
         {
             Cell_String = Cell_String.ToUpper().Replace(" ", "");
-            OutFile.WriteLine("---------- " + Cell_String);
-            //Form1.Step("---------- " + Cell_String);
 
-            Base_Cell = Cell_String.Substring(0, Cell_String.IndexOf(':'));
+            Base_Cell = IncrementBaseCell(Cell_String.Substring(0, Cell_String.IndexOf(':')));
             Base_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1);
             Cell_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1);
+            OutFile.WriteLine("---------- " + Base_Cell + ":" + Cell_String);
+            //Form1.Step("---------- " + Cell_String);
 
             OutFile.WriteLine(Cell_String);
 
@@ -518,9 +518,10 @@ namespace ExcelClone.Functions
                     int r = (int)atemp[1];
                     string temp;
                     if (Controller.Instance.SpreadsheetModel.Cells[r, c] != null)
-                        temp = Controller.Instance.SpreadsheetModel.Cells[r, c].Formula;// Form1.getCellFormula(cell_ref);
+                        temp = Controller.Instance.SpreadsheetModel.Cells[r, c].Formula.ToUpper();// Form1.getCellFormula(cell_ref);
                     else
-                        temp = "0";
+                        temp = "NULL";
+                    if (temp.Length <= 0) temp = "NULL";
 
                     OutFile.WriteLine(cell_ref + " -> " + temp);
                     //Form1.Step(cell_ref + " -> " + temp);
@@ -545,6 +546,8 @@ namespace ExcelClone.Functions
                         }
                         catch
                         {
+                            Parts.Insert(i, "NULL");
+
                             OutFile.WriteLine("Cell has a string");
                             //Form1.Step("Cell has a string");
                             //ERROR: Cell has a string
@@ -576,12 +579,12 @@ namespace ExcelClone.Functions
             {
                 if (char.IsLetter(Reference, 0) && char.IsLetter(Reference, 1))
                 {
-                    if (Convert.ToInt32(Reference.Substring(2)) > 0)
+                    if (Convert.ToInt32(Reference.Substring(2)) >= 0)
                         return true;
                 }
                 if (char.IsLetter(Reference, 0))
                 {
-                    if (Convert.ToInt32(Reference.Substring(1)) > 0)
+                    if (Convert.ToInt32(Reference.Substring(1)) >= 0)
                         return true;
                 }
                 return false;
@@ -589,6 +592,32 @@ namespace ExcelClone.Functions
             catch
             {
                 return false;
+            }
+        }
+
+        private string IncrementBaseCell(string BaseCell)
+        {
+            try
+            {
+                if (char.IsLetter(BaseCell, 0) && char.IsLetter(BaseCell, 1))
+                {
+                    if (Convert.ToInt32(BaseCell.Substring(2)) > 0)
+                    {
+                        return BaseCell[0] + BaseCell[1] + (Convert.ToInt32(BaseCell.Substring(2)) + 1).ToString();
+                    }
+                }
+                if (char.IsLetter(BaseCell, 0))
+                {
+                    if (Convert.ToInt32(BaseCell.Substring(1)) > 0)
+                    {
+                        return BaseCell[0] + (Convert.ToInt32(BaseCell.Substring(1)) + 1).ToString();
+                    }
+                }
+                return BaseCell;
+            }
+            catch
+            {
+                return BaseCell;
             }
         }
 
