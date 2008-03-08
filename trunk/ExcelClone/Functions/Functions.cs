@@ -124,34 +124,58 @@ namespace ExcelClone.Functions
         {
             double total = 0;
             for (int i = 1; i < Arguments.Count; i = i + 2)
+            {
+                if (Arguments[i].ToString().Contains("NULL")) continue;
                 total += Convert.ToDouble(Arguments[i]);
+            }
 
             return total.ToString();
         }
 
         private string Subtract(ArrayList Arguments) //Subtracts Argument2 from Argument1
         {
-            double total = Convert.ToDouble(Arguments[1]);
+            double total;
+            if (Arguments[1].ToString().Contains("NULL"))
+                total = 0;
+            else
+                total = Convert.ToDouble(Arguments[1]);
             for (int i = 3; i < Arguments.Count; i = i + 2)
+            {
+                if (Arguments[i].ToString().Contains("NULL")) continue;
                 total -= Convert.ToDouble(Arguments[i]);
+            }
 
             return total.ToString();
         }
 
         private string Multiply(ArrayList Arguments) //Multiplies Argument1 by Argument2
         {
-            double total = Convert.ToDouble(Arguments[1]);
+            double total;
+            if (Arguments[1].ToString().Contains("NULL"))
+                total = 0;
+            else
+                total = Convert.ToDouble(Arguments[1]);
             for (int i = 3; i < Arguments.Count; i = i + 2)
+            {
+                if (Arguments[i].ToString().Contains("NULL")) continue;
                 total *= Convert.ToDouble(Arguments[i]);
+            }
 
             return total.ToString();
         }
 
         private string Divide(ArrayList Arguments) //Divides Argument1 by Argument2
         {
-            double total = Convert.ToDouble(Arguments[1]);
+            double total;
+            if (Arguments[1].ToString().Contains("NULL"))
+                total = 0;
+            else
+                total = Convert.ToDouble(Arguments[1]);
             for (int i = 3; i < Arguments.Count; i = i + 2)
+            {
+                if (Arguments[i].ToString().Contains("NULL")) continue;
                 total /= Convert.ToDouble(Arguments[i]);
+            }
 
             return total.ToString();
         }
@@ -162,6 +186,7 @@ namespace ExcelClone.Functions
             double total = 0;
             for (int i = 1; i < Arguments.Count; i = i + 2)
             {
+                if (Arguments[i].ToString().Contains("NULL")) continue;
                 count++;
                 total += Convert.ToDouble(Arguments[i]);
             }
@@ -172,20 +197,34 @@ namespace ExcelClone.Functions
 
         private string Minimum(ArrayList Arguments) //Finds the minimum number out of all arguments passed
         {
-            double total = Convert.ToDouble(Arguments[1]);
+            double total;
+            if (Arguments[1].ToString().Contains("NULL"))
+                total = 0;
+            else
+                total = Convert.ToDouble(Arguments[1]);
             for (int i = 3; i < Arguments.Count; i = i + 2)
+            {
+                if (Arguments[i].ToString().Contains("NULL")) continue;
                 if (Convert.ToDouble(Arguments[i]) < total)
                     total = Convert.ToDouble(Arguments[i]);
+            }
 
             return total.ToString();
         }
 
         private string Maximum(ArrayList Arguments) //Finds the maximum number out of all arguments passed
         {
-            double total = Convert.ToDouble(Arguments[1]);
+            double total;
+            if (Arguments[1].ToString().Contains("NULL"))
+                total = 0;
+            else
+                total = Convert.ToDouble(Arguments[1]);
             for (int i = 3; i < Arguments.Count; i = i + 2)
+            {
+                if (Arguments[i].ToString().Contains("NULL")) continue;
                 if (Convert.ToDouble(Arguments[i]) > total)
                     total = Convert.ToDouble(Arguments[i]);
+            }
 
             return total.ToString();
         }
@@ -194,68 +233,83 @@ namespace ExcelClone.Functions
         {
             double total = 0;
             for (int i = 1; i < Arguments.Count; i = i + 2)
+            {
+                if (Arguments[i].ToString().Contains("NULL")) continue;
                 total++;
+            }
 
             return total.ToString();
         }
 
         private string Absolute(ArrayList Arguments) //Absolute value of Argument1
         {
+            if (Arguments[1].ToString().Contains("NULL")) return "0";
             return Math.Abs(Convert.ToDouble(Arguments[1])).ToString();
         }
 
         private string Log10(ArrayList Arguments) //Log of Argument1 to base 10
         {
+            if (Arguments[1].ToString().Contains("NULL")) return "0";
             return Math.Log10(Convert.ToDouble(Arguments[1])).ToString();
         }
 
         private string Log(ArrayList Arguments) //Log of Argument1 to base of Argument2
         {
+            if (Arguments[1].ToString().Contains("NULL") || Arguments[3].ToString().Contains("NULL")) return "0";
             return Math.Log(Convert.ToDouble(Arguments[1]), Convert.ToDouble(Arguments[3])).ToString();
         }
 
         private string LN(ArrayList Arguments) //Log of Argument1 to base E
         {
+            if (Arguments[1].ToString().Contains("NULL")) return "0";
             return Math.Log(Convert.ToDouble(Arguments[1]), Math.E).ToString();
         }
 
         private string Round(ArrayList Arguments) //Round Argument1 to Argument2's number of decimals
         {
+            if (Arguments.Count < 2) return Math.Round(Convert.ToDouble(Arguments[1])).ToString();
             return Math.Round(Convert.ToDouble(Arguments[1]), Convert.ToInt32(Arguments[3])).ToString();
         }
 
         private string Cos(ArrayList Arguments) //Uses angle in radians
         {
+            if (Arguments[1].ToString().Contains("NULL")) return "0";
             return Math.Cos(Convert.ToDouble(Arguments[1])).ToString();
         }
 
         private string Sin(ArrayList Arguments) //Uses angle in radians
         {
+            if (Arguments[1].ToString().Contains("NULL")) return "0";
             return Math.Sin(Convert.ToDouble(Arguments[1])).ToString();
         }
 
         private string Tan(ArrayList Arguments) //Uses angle in radians
         {
+            if (Arguments[1].ToString().Contains("NULL")) return "0";
             return Math.Tan(Convert.ToDouble(Arguments[1])).ToString();
         }
 
         private string Power(ArrayList Arguments) //Argument1 raised to Argument2
         {
+            if (Arguments[1].ToString().Contains("NULL") || Arguments[3].ToString().Contains("NULL")) return "0";
             return Math.Pow(Convert.ToDouble(Arguments[1]), Convert.ToDouble(Arguments[3])).ToString();
         }
 
         private string SquareRoot(ArrayList Arguments) //Square root of Argument1
         {
+            if (Arguments[1].ToString().Contains("NULL")) return "0";
             return Math.Sqrt(Convert.ToDouble(Arguments[1])).ToString();
         }
 
         private string Degrees(ArrayList Arguments) //Uses Argument1 to change Degrees to Radians
         {
+            if (Arguments[1].ToString().Contains("NULL")) return "0";
             return Convert.ToString(Convert.ToDouble(Arguments[1]) / 180 * Math.PI);
         }
 
         private string Radians(ArrayList Arguments) //Uses Argument1 to change Radians to Degrees
         {
+            if (Arguments[1].ToString().Contains("NULL")) return "0";
             return Convert.ToString(Convert.ToDouble(Arguments[1]) * 180 / Math.PI);
         }
 
