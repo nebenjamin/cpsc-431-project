@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
 namespace ExcelClone.Gui
 {
-    public partial class NewWindow : Form
+    public partial class SpreadsheetUserControl : UserControl
     {
-        public NewWindow()
+        public SpreadsheetUserControl()
         {
             InitializeComponent();
         }
