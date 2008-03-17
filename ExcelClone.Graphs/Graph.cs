@@ -55,12 +55,15 @@ namespace ExcelClone.Graphs
         protected List<Color> LegendColors = new List<Color>();  //Legend stuff- Colors, labels, label handles
         private List<String> LegendLabels = new List<string>();
         private List<TextHandle> LegendTxtHandles = new List<TextHandle>();
+        float LegendY;  //Legend Y location, for scaling purposes
         public bool LegendOn = true;
 
         ITextPrinter txp = new TextPrinter();  //Text printer - for drawing all text
 
         public Graph()
         {
+            LegendY = (grUpRight.Y - grLowLeft.Y) / 2 + grLowLeft.Y;  //Init legend stuff
+
             LegendColors.Add(Color.CadetBlue);
             LegendColors.Add(Color.BurlyWood);
             LegendColors.Add(Color.OrangeRed);
@@ -146,7 +149,7 @@ namespace ExcelClone.Graphs
         public void DrawLegend(Rectangle ClientR) //draw a legend
         {
             float X = grUpRight.X + 2;
-            float Y = (grUpRight.Y - grLowLeft.Y) / 2 + grLowLeft.Y;
+            float Y = LegendY;
 
             GL.MatrixMode(OpenTK.OpenGL.Enums.MatrixMode.Modelview);
             GL.PushMatrix();
@@ -191,22 +194,35 @@ namespace ExcelClone.Graphs
             //Reset to defaults
             grLowLeft = new PointF(15, 15);
             grUpRight = new PointF(85, 85);
+            LegendY = (grUpRight.Y - grLowLeft.Y) / 2 + grLowLeft.Y;
 
             //Convert X and Y widths to pixels
             int Xpix = (int)(grLowLeft.Y / 100.0 * clientRect.Bottom);
             int Ypix = (int)(grLowLeft.X / 100.0 * clientRect.Right);
             int TitlePix = (int)((100 - grUpRight.Y) / 100.0 * clientRect.Bottom);
+            int LegendPix = (int)((100 - grUpRight.X) / 100.0 * clientRect.Right);
 
             //Now get the width of the labels in each area
-            int Xwidth, Ywidth, TitleWidth;
+            int Xwidth, Ywidth, TitleWidth, LegendWidth;
+            float LegendHeight;
 
             Xwidth = (int)(LabelFont.Height + AxesFont.Height + XLabelOffset + 2);
             //Need to use the widest Y label, width varies with character count
             Ywidth = (int)(MaxYOffset + LabelFont.Height + YLabelOffset + 2);
             TitleWidth = (int)(TitleFont.Height + 2);
-
-            if(Xpix <= Xwidth || Ypix <= Ywidth || TitlePix <= TitleWidth)//one or more areas needs fixing
+            LegendWidth = 0;
+            foreach (String s in LegendLabels)
             {
+                float w, h;
+                LabelFont.MeasureString(s, out w, out h);
+                if (w > LegendWidth)
+                    LegendWidth = (int)w;
+            }
+            LegendWidth += (int)LabelFont.Width + (int) (2/100.0 * clientRect.Right) + 5;  //the colored square is one character big
+
+            LegendHeight = (LabelFont.Height / clientRect.Bottom * 100 + 2)  * LegendLabels.Count; //each label has a spacing of 2
+
+            //check each area, correct if necessary to keep everything on screen
                 if (Xpix < Xwidth)
                 {
                     //Need to resize graph area for X labels
@@ -222,6 +238,13 @@ namespace ExcelClone.Graphs
                     //Need to adjust for title area
                     grUpRight.Y = 100 - (float)TitleWidth / (float)clientRect.Bottom * 100;
                 }
+                if (LegendPix < LegendWidth)
+                {
+                    grUpRight.X = 100 - (float)LegendWidth / (float)clientRect.Right * 100;
+                }
+            if( LegendY + LegendHeight > 100 )
+            {
+                LegendY = LegendHeight;
             }
         }
 
