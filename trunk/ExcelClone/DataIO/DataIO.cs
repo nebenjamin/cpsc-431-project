@@ -14,16 +14,14 @@ namespace ExcelClone.DataIO
 {
 	public class DataIO
 	{
-		public const string extension = ".dump";
+		public const string extension = ".xml";
 
 		private string filename;
-		private string nl = Environment.NewLine;
 
 		private List<SpreadsheetModel> book;
 		private Stream fileStream;
 		private XmlSerializer serializer;
 		private XmlTextWriter textWriter;
-        private XmlTextReader textReader;
 		
 		public DataIO(String Filename)
 		{
