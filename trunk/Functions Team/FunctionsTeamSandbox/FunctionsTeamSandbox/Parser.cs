@@ -4,7 +4,7 @@ using System.Text;
 using System.Collections;
 using System.Reflection;
 using System.IO;
-
+ 
 namespace FunctionsTeamSandbox
 {
     public class Parser
@@ -13,6 +13,7 @@ namespace FunctionsTeamSandbox
         private string Base_String;
         private Functions Fun_Class = new Functions();
         private TextWriter OutFile;
+        private DependencyHandler Dependencies = new DependencyHandler();
 
         public Parser() 
         {
@@ -41,6 +42,7 @@ namespace FunctionsTeamSandbox
             }
             if (Cell_String[0].ToString() != "=")
             {
+                //Still need to call a DependencyHandler function
                 OutFile.WriteLine("Cell is a string");
                 Form1.Step("Cell is a string");
                 return Cell_String;
@@ -49,7 +51,10 @@ namespace FunctionsTeamSandbox
             ArrayList Parts = Tokenize(Cell_String);
             PrintArrayList(Parts);
 
+            ArrayList Send = new ArrayList(Parts);
+            Send.Insert(0, Base_Cell);
             //Store the Base_Cell and all References
+            Dependencies.NewStatement(Send);
             //Add in the ability to check if a Base_Cell is changed
             //And to update a cell if is it has reference to this cell
 

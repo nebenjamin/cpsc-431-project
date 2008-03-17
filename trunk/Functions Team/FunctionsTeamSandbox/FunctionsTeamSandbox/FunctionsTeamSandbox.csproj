@@ -38,6 +38,9 @@
   <ItemGroup>
     <Compile Include="Cell.cs" />
     <Compile Include="CellCollection.cs" />
+    <Compile Include="DependencyHandler.cs" />
+    <Compile Include="DependencyList.cs" />
+    <Compile Include="DependencyNode.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

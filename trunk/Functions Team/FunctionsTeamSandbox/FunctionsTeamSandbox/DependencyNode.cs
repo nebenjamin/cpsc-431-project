@@ -3,8 +3,10 @@ using System.Collections.Generic;
 //using System.Linq;
 using System.Text;
 
-namespace Dependencies {
-    class DependencyNode {
+namespace FunctionsTeamSandbox
+{
+    class DependencyNode
+    {
         string Head;
         List<string> Dependents;
 
