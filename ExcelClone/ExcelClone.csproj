@@ -64,11 +64,11 @@
     </Compile>
     <Compile Include="Functions\Functions.cs" />
     <Compile Include="Functions\Parser.cs" />
-    <Compile Include="Gui\NewWindow.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Gui\SpreadsheetUserControl.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Gui\NewWindow.Designer.cs">
-      <DependentUpon>NewWindow.cs</DependentUpon>
+    <Compile Include="Gui\SpreadsheetUserControl.Designer.cs">
+      <DependentUpon>SpreadsheetUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Gui\SpreadsheetView.cs">
       <SubType>Component</SubType>
@@ -81,9 +81,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Gui\NewWindow.resx">
+    <EmbeddedResource Include="Gui\SpreadsheetUserControl.resx">
+      <DependentUpon>SpreadsheetUserControl.cs</DependentUpon>
       <SubType>Designer</SubType>
-      <DependentUpon>NewWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Gui\Window.resx">
       <DependentUpon>Window.cs</DependentUpon>
@@ -99,8 +99,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
