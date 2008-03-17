@@ -28,17 +28,17 @@ namespace ExcelClone.Graphs
         /// </summary>
         private void InitializeComponent()
         {
-            this.graphControl1 = new ExcelClone.Graphs.GraphControl(Graph_Type.Bar);
             this.SuspendLayout();
             // 
             // graphControl1
             // 
+            this.graphControl1 = new GraphControl(Graph_Type.Bar);
             this.graphControl1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.graphControl1.BackColor = System.Drawing.Color.Black;
             this.graphControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.graphControl1.Location = new System.Drawing.Point(0, 0);
             this.graphControl1.Name = "graphControl1";
-            this.graphControl1.Size = new System.Drawing.Size(292, 272);
+            this.graphControl1.Size = new System.Drawing.Size(292, 266);
             this.graphControl1.TabIndex = 0;
             this.graphControl1.VSync = true;
             // 
@@ -46,7 +46,7 @@ namespace ExcelClone.Graphs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 272);
+            this.ClientSize = new System.Drawing.Size(292, 266);
             this.Controls.Add(this.graphControl1);
             this.Name = "Form1";
             this.Text = "Form1";
