@@ -8,7 +8,7 @@ using OpenTK.Fonts;
 
 namespace ExcelClone.Graphs
 {
-    class bar_graph : Graph
+    public class bar_graph : Graph
     {
         private float barW;
 

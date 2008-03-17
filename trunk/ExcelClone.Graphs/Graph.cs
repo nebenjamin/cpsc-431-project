@@ -16,6 +16,22 @@ namespace ExcelClone.Graphs
 
     public abstract class Graph  //Graph base class- draw a grid, labels, legend, and Title
     {
+        public List<List<double>> Data
+        {
+            set 
+            {
+                if (data.Count == 0)
+                    data = new List<List<double>>();
+                foreach( List<double> dlist in Data)
+                {
+                    data.Add(new List<double>(dlist.Count));
+                }
+                data = Data;
+            
+            }
+            get { return data; }
+        }
+
         protected List<List<double>> data = new List<List<double>>(); //data in the graph, a list of lists of doubles
 
         public Rectangle clientRect;
@@ -55,7 +71,7 @@ namespace ExcelClone.Graphs
         protected List<Color> LegendColors = new List<Color>();  //Legend stuff- Colors, labels, label handles
         private List<String> LegendLabels = new List<string>();
         private List<TextHandle> LegendTxtHandles = new List<TextHandle>();
-        float LegendY;  //Legend Y location, for scaling purposes
+        private float LegendY;  //Legend Y location, for scaling purposes
         public bool LegendOn = true;
 
         ITextPrinter txp = new TextPrinter();  //Text printer - for drawing all text

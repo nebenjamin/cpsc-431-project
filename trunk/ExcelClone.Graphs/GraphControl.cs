@@ -4,6 +4,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
+using System.Xml.Serialization;
+using System.Xml;
+using System.IO;
 using System.Windows.Forms;
 using OpenTK.OpenGL;
 
@@ -39,7 +42,25 @@ namespace ExcelClone.Graphs
                     gr = new test_graph();  //use default constructor for a test graph object
                     break;
             }
+
+            /*XmlTextReader xmr = new XmlTextReader("RandomGraph.xml");
+            while (xmr.Read() && xmr.NodeType != XmlNodeType.Element);
+
+            Type grType;
+
+            grType = Type.GetType("ExcelClone.Graphs." + xmr.Name);
+            xmr.Close();
+
+            StreamReader sr = new StreamReader("RandomGraph.xml");
+            XmlSerializer xms = new XmlSerializer(grType);
+            gr = (Graph)xms.Deserialize(sr);
+            sr.Close();
             InitializeComponent();
+
+            XmlSerializer xms = new XmlSerializer( this.gr.GetType() );
+            StreamWriter sw = new StreamWriter("RandomGraph.xml");
+            xms.Serialize(sw, gr);
+            sw.Close();*/
         }
 
         protected override void OnSizeChanged(EventArgs e)
