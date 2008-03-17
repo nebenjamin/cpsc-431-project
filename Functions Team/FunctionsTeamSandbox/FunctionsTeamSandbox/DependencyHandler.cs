@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Collections;
 
-namespace Dependencies {
-    class DependencyHandler {
+namespace FunctionsTeamSandbox
+{
+    class DependencyHandler
+    {
 
         private DependencyList ReferencesTo;    //Heads:        Cells that contain formulas with references to other cells.
                                                 //Dependents:   Cells referenced within the Head cell.
@@ -18,14 +20,18 @@ namespace Dependencies {
             ReferencedBy = new DependencyList();
         }
 
+        public void NewNumber(ArrayList Statement);
+
         /*Parser calls this function: Statement[0] should be the cell
                                       Statement[1]..[n] are references */
         public void NewStatement(ArrayList Statement) {
             string Head = (string)Statement[0];
             Statement.RemoveAt(0);
+
             List<string> Dependents = new List<string>();
             foreach (object Element in Statement) {
-                Dependents.Add((string)Element);
+                if (IsCellReference((string)Element))
+                    Dependents.Add((string)Element);
             }
 
             MaintainLists(Head, Dependents);
@@ -99,6 +105,28 @@ namespace Dependencies {
             RV += "-----------------------------------";
             RV += '\n';
             return RV;
+        }
+
+        private bool IsCellReference(string Reference)
+        {
+            try
+            {
+                if (char.IsLetter(Reference, 0) && char.IsLetter(Reference, 1))
+                {
+                    if (Convert.ToInt32(Reference.Substring(2)) > 0)
+                        return true;
+                }
+                if (char.IsLetter(Reference, 0))
+                {
+                    if (Convert.ToInt32(Reference.Substring(1)) > 0)
+                        return true;
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
