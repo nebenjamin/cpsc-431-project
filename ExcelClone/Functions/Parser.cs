@@ -25,7 +25,7 @@ namespace ExcelClone.Functions
         {
             Cell_String = Cell_String.ToUpper().Replace(" ", "");
 
-            Base_Cell = IncrementBaseCell(Cell_String.Substring(0, Cell_String.IndexOf(':')));
+            Base_Cell = Cell_String.Substring(0, Cell_String.IndexOf(':'));
             Base_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1);
             Cell_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1);
             OutFile.WriteLine("---------- " + Base_Cell + ":" + Cell_String);
@@ -109,6 +109,7 @@ namespace ExcelClone.Functions
         {
             ArrayList temp = new ArrayList();
 
+            #region BREAK APART EACH PART OF THE ORIGINAL STRING
             for (int i = 1; i < Cell_String.Length; i++)
             {
                 for (int j = i; j < Cell_String.Length; j++)
@@ -130,7 +131,9 @@ namespace ExcelClone.Functions
                     }
                 }
             }
+            #endregion
 
+            #region REMOVE ALL EMPTY ELEMENTS IN THE ARRAYLIST
             for (int i = 0; i < temp.Count; i++)
             {
                 if (temp[i].ToString().Equals(""))
@@ -139,49 +142,68 @@ namespace ExcelClone.Functions
                     i--;
                 }
             }
+            #endregion
 
+            #region CHECK FOR NEGATIVE VALUES
             for (int i = 0; i < temp.Count; i++)
             {
-                if (temp[i].ToString().Equals("-"))
+                try
                 {
-                    if ((i - 1 == -1) && char.IsNumber(temp[i + 1].ToString(), 0))
+                    if (temp[i].ToString().Equals("-"))
                     {
-                        temp.RemoveAt(i);
-                        temp[i] = Convert.ToString(Convert.ToInt32(temp[i].ToString()) * -1);
-                        i--;
-                    }
-                    else
-                    {
-                        if (!IsNumber(temp[i + 1].ToString()) && !IsNumber(temp[i + 2].ToString()))
+                        if ((i - 1 == -1) && (i + 1 >= temp.Count))
                         {
-                            temp.RemoveAt(i);
-                            temp.Insert(i, "*");
-                            temp.Insert(i, "-1");
+                            //A lone negative
                         }
                         else
                         {
-                            if ((temp[i - 1].ToString().Equals("(") || temp[i - 1].ToString().Equals("*") ||
-                                temp[i - 1].ToString().Equals("/") || temp[i - 1].ToString().Equals("+") ||
-                                temp[i - 1].ToString().Equals("-") || temp[i - 1].ToString().Equals("=") ||
-                                temp[i - 1].ToString().Equals(","))
-                                && char.IsNumber(temp[i + 1].ToString(), 0))
+                            if ((i - 1 == -1) && IsNumber(temp[i + 1].ToString())) //If -32
                             {
                                 temp.RemoveAt(i);
                                 temp[i] = Convert.ToString(Convert.ToInt32(temp[i].ToString()) * -1);
                                 i--;
                             }
+                            else
+                            {
+                                if (i - 1 == -1) //If -add or -A1 or -text
+                                {
+                                    temp.RemoveAt(i);
+                                    temp.Insert(i, "*");
+                                    temp.Insert(i, "-1");
+                                }
+                                else
+                                {
+                                    if (!IsNumber(temp[i + 1].ToString()) && !IsNumber(temp[i + 2].ToString()))
+                                    {
+                                        temp.RemoveAt(i);
+                                        temp.Insert(i, "*");
+                                        temp.Insert(i, "-1");
+                                    }
+                                    else
+                                    {
+                                        if ((temp[i - 1].ToString().Equals("(") || temp[i - 1].ToString().Equals("*") ||
+                                            temp[i - 1].ToString().Equals("/") || temp[i - 1].ToString().Equals("+") ||
+                                            temp[i - 1].ToString().Equals("-") || temp[i - 1].ToString().Equals("=") ||
+                                            temp[i - 1].ToString().Equals(","))
+                                            && char.IsNumber(temp[i + 1].ToString(), 0))
+                                        {
+                                            temp.RemoveAt(i);
+                                            temp[i] = Convert.ToString(Convert.ToInt32(temp[i].ToString()) * -1);
+                                            i--;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
+                catch (Exception e) { }
             }
+            #endregion
 
             return temp;
         }
 
-        /* NOT COMPLETE YET (Cell Reference,A1) 
-         * THIS NEED TO BE SOLVED BY UI! 
-         * The UI team needs to setup a mathod that takes a Cell Reference as a string and return the formula.
-         */
         private ArrayList Reformat(ArrayList Parts)
         {
             #region SECTION REMOVER ()
@@ -211,6 +233,7 @@ namespace ExcelClone.Functions
                 }
             }
             #endregion
+
             #region SHORTCUT REMOVER * and /
             for (int i = 0; i < Parts.Count; i++)
             {
@@ -341,6 +364,7 @@ namespace ExcelClone.Functions
                 }
             }
             #endregion
+
             #region SHORTCUT REMOVER + and -
             for (int i = 0; i < Parts.Count; i++)
             { //SHORTCUT REMOVER
@@ -471,6 +495,7 @@ namespace ExcelClone.Functions
                 }
             }
             #endregion
+
             #region SHORTCUT REMOVER :
             for (int i = 0; i < Parts.Count; i++)
             { //SHORTCUT REMOVER 1
@@ -492,6 +517,16 @@ namespace ExcelClone.Functions
                 }
             }
             #endregion
+
+            #region DECREMENT ALL CELL REFERENCES
+            for (int i = 0; i < Parts.Count; i++)
+            {
+                if (IsCellReference(Parts[i].ToString()))
+                    Parts[i] = DecrementCellReference(Parts[i].ToString());
+            }
+            #endregion
+
+            #region EXPAND OUT ALL CELL REFERENCES
             for (int i = 0; i < Parts.Count; i++)
             { //CELL REFERENCE
                 if (Base_Cell.CompareTo(Parts[i].ToString().ToUpper()) == 0)
@@ -551,12 +586,13 @@ namespace ExcelClone.Functions
                             OutFile.WriteLine("Cell has a string");
                             //Form1.Step("Cell has a string");
                             //ERROR: Cell has a string
-                            return Parts;
+                            //return Parts;
                         }
                     }
                 }
             }
-            
+            #endregion
+
             return Parts;
         }
 
@@ -595,7 +631,7 @@ namespace ExcelClone.Functions
             }
         }
 
-        private string IncrementBaseCell(string BaseCell)
+        private string DecrementCellReference(string BaseCell)
         {
             try
             {
@@ -603,14 +639,14 @@ namespace ExcelClone.Functions
                 {
                     if (Convert.ToInt32(BaseCell.Substring(2)) > 0)
                     {
-                        return BaseCell[0] + BaseCell[1] + (Convert.ToInt32(BaseCell.Substring(2)) + 1).ToString();
+                        return BaseCell[0] + BaseCell[1] + (Convert.ToInt32(BaseCell.Substring(2)) - 1).ToString();
                     }
                 }
                 if (char.IsLetter(BaseCell, 0))
                 {
                     if (Convert.ToInt32(BaseCell.Substring(1)) > 0)
                     {
-                        return BaseCell[0] + (Convert.ToInt32(BaseCell.Substring(1)) + 1).ToString();
+                        return BaseCell[0] + (Convert.ToInt32(BaseCell.Substring(1)) - 1).ToString();
                     }
                 }
                 return BaseCell;
@@ -628,19 +664,19 @@ namespace ExcelClone.Functions
             {
                 if (char.IsLetter(Reference, 0) && char.IsLetter(Reference, 1))
                 {
-                    if (Convert.ToInt32(Reference.Substring(2)) > 0)
+                    if (Convert.ToInt32(Reference.Substring(2)) >= 0)
                     {
                         temp.Add((((int)Reference[0]) - ((int)'A'))*10 + (((int)Reference[1]) - ((int)'A')));
-                        temp.Add(Convert.ToInt32(Reference.Substring(2))-1);
+                        temp.Add(Convert.ToInt32(Reference.Substring(2)));
                         return temp;
                     }
                 }
                 if (char.IsLetter(Reference, 0))
                 {
-                    if (Convert.ToInt32(Reference.Substring(1)) > 0)
+                    if (Convert.ToInt32(Reference.Substring(1)) >= 0)
                     {
                         temp.Add(((int)Reference[0]) - ((int)'A'));
-                        temp.Add(Convert.ToInt32(Reference.Substring(1))-1);
+                        temp.Add(Convert.ToInt32(Reference.Substring(1)));
                         return temp;
                     }
                 }
