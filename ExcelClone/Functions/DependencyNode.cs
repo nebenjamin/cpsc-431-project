@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 //using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace ExcelClone.Functions
 {
@@ -9,10 +10,13 @@ namespace ExcelClone.Functions
     {
         string Head;
         List<string> Dependents;
+        private TextWriter OutFile;
 
-        public DependencyNode(string NewHead, List<string> NewDependents) {
+
+        public DependencyNode(string NewHead, List<string> NewDependents, TextWriter Out) {
             Head = NewHead;
             Dependents = new List<string>(NewDependents);
+            OutFile = Out;
         }
 
 
@@ -31,10 +35,10 @@ namespace ExcelClone.Functions
         
         //Invalidate all items in Dependents
 		public void Invalidate(){
-            Console.Write("The following must be updated: ");
+            OutFile.Write("The following must be updated: ");
             foreach (string s in Dependents)
-                Console.Write(s + " ");
-            Console.WriteLine();
+                OutFile.Write(s + " ");
+            OutFile.WriteLine();
 		}
 
         public List<string> ReturnDependents() {

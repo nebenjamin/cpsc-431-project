@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 //using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace ExcelClone.Functions
 {
     class DependencyList
     {
         List<DependencyNode> Data;
+        private TextWriter OutFile;
 
-        public DependencyList(){
+        public DependencyList(TextWriter Out){
             Data = new List<DependencyNode>();
+            OutFile = Out;
         }
 
         public void Add(string x, List<string> y) {
@@ -37,7 +40,7 @@ namespace ExcelClone.Functions
         }
 
         private void AddNode(string x, List<string> y){
-            DependencyNode Node = new DependencyNode(x, y);
+            DependencyNode Node = new DependencyNode(x, y, OutFile);
             Data.Add(Node);
         }
 

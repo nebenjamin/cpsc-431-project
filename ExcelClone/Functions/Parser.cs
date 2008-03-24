@@ -13,7 +13,7 @@ namespace ExcelClone.Functions
         private string Base_String;
         private Functions Fun_Class = new Functions();
         private TextWriter OutFile;
-        private DependencyHandler Dependencies = new DependencyHandler();
+        private DependencyHandler Dependencies;
 
         public Parser() 
         {
