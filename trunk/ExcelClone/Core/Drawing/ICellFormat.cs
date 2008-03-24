@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
 
 namespace ExcelClone.Core
 {
     public interface ICellFormat
     {
-        IFontSettings Font { get; }
-        IBrushSettings FontBrush { get; }
-        IBrushSettings BackgroundBrush { get; }
-        IPenSettings BorderPen { get; }
+        Font CellFont { get; set; }
+        Color TextColor { get; set; }
+        Color CellColor { get; set; }
     }
 }

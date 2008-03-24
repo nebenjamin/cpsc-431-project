@@ -74,6 +74,7 @@ namespace ExcelClone.Gui
 
             cell.Value = Controller.Instance.Parser.Parse(MakeColumnLabel(col) + row + ":" + cell.Formula);
             this.Rows[row].Cells[col].Value = cell.Value;
+
         }
             
         void SpreadsheetView_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
