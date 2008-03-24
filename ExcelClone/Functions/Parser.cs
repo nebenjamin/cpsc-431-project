@@ -56,16 +56,16 @@ namespace ExcelClone.Functions
             PrintArrayList(Parts);
 
             //Store the Base_Cell and all References
+            Send = ReformatForDL(new ArrayList(Parts));
+            Send.Insert(0, Base_Cell);
+            Dependencies.NewStatement(Send);
+
+            //Store the Base_Cell and all References
             //Add in the ability to check if a Base_Cell is changed
             //And to update a cell if is it has reference to this cell
 
             ArrayList temp = Reformat(Parts);
             PrintArrayList(temp);
-
-            //Store the Base_Cell and all References
-            Send = ReformatForDL(new ArrayList(Parts));
-            Send.Insert(0, Base_Cell);
-            Dependencies.NewStatement(Send);
 
             string strtmp = Breaker(temp);
 
@@ -216,7 +216,6 @@ namespace ExcelClone.Functions
         }
 
         private ArrayList ReformatForDL(ArrayList Parts) {
-            ArrayList temp = new ArrayList();
 
             #region SHORTCUT REMOVER :
             for (int i = 0; i < Parts.Count; i++)
@@ -248,7 +247,7 @@ namespace ExcelClone.Functions
             }
             #endregion
 
-            return temp;
+            return Parts;
         }
 
         private ArrayList Reformat(ArrayList Parts)
