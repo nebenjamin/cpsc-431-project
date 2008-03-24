@@ -20,8 +20,6 @@ namespace FunctionsTeamSandbox
             ReferencedBy = new DependencyList();
         }
 
-        public void NewNumber(ArrayList Statement);
-
         /*Parser calls this function: Statement[0] should be the cell
                                       Statement[1]..[n] are references */
         public void NewStatement(ArrayList Statement) {
@@ -56,6 +54,9 @@ namespace FunctionsTeamSandbox
                 //Clear the previous elements in the ReferencesTo list and rewrite it
                 ReferencesTo.ChangeNode(Head, Dependents);
                 AddReferencedBy(Head, Dependents);
+
+                ReferencedBy.Clean();   //Clean all nodes that do not have a list
+                ReferencesTo.Clean();
             }
 
             /*Check if Head is in the ReferencedBy list.
@@ -113,12 +114,12 @@ namespace FunctionsTeamSandbox
             {
                 if (char.IsLetter(Reference, 0) && char.IsLetter(Reference, 1))
                 {
-                    if (Convert.ToInt32(Reference.Substring(2)) > 0)
+                    if (Convert.ToInt32(Reference.Substring(2)) >= 0)
                         return true;
                 }
                 if (char.IsLetter(Reference, 0))
                 {
-                    if (Convert.ToInt32(Reference.Substring(1)) > 0)
+                    if (Convert.ToInt32(Reference.Substring(1)) >= 0)
                         return true;
                 }
                 return false;

@@ -34,6 +34,9 @@ namespace FunctionsTeamSandbox
 
             OutFile.WriteLine(Cell_String);
 
+            ArrayList Send = new ArrayList();
+            Send.Add(Base_Cell);
+
             if (Cell_String.Length == 0)
             {
                 OutFile.WriteLine("Cell is empty");
@@ -43,6 +46,7 @@ namespace FunctionsTeamSandbox
             if (Cell_String[0].ToString() != "=")
             {
                 //Still need to call a DependencyHandler function
+                Dependencies.NewStatement(Send);
                 OutFile.WriteLine("Cell is a string");
                 Form1.Step("Cell is a string");
                 return Cell_String;
@@ -51,7 +55,7 @@ namespace FunctionsTeamSandbox
             ArrayList Parts = Tokenize(Cell_String);
             PrintArrayList(Parts);
 
-            ArrayList Send = new ArrayList(Parts);
+            Send = new ArrayList(Parts);
             Send.Insert(0, Base_Cell);
             //Store the Base_Cell and all References
             Dependencies.NewStatement(Send);
