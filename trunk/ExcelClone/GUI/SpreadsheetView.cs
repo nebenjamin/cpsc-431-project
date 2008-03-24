@@ -72,8 +72,8 @@ namespace ExcelClone.Gui
 
             cell.Formula = this.Rows[row].Cells[col].Value + "";
 
-            cell.Value = Controller.Instance.Parser.Parse(MakeColumnLabel(col) + row + ":" + cell.Formula);
-            this.Rows[row].Cells[col].Value = cell.Value;
+            //cell.Value = Controller.Instance.Parser.Parse(MakeColumnLabel(col) + row + ":" + cell.Formula);
+            this.Rows[row].Cells[col].Value = model.Cells[row, col].Value;
 
         }
             
