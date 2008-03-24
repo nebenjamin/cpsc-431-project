@@ -13,6 +13,7 @@ namespace ExcelClone.Functions
         private string Base_String;
         private Functions Fun_Class = new Functions();
         private TextWriter OutFile;
+        private DependencyHandler Dependencies = new DependencyHandler();
 
         public Parser() 
         {
@@ -33,6 +34,9 @@ namespace ExcelClone.Functions
 
             OutFile.WriteLine(Cell_String);
 
+            ArrayList Send = new ArrayList();
+            Send.Add(Base_Cell);
+
             if (Cell_String.Length == 0)
             {
                 OutFile.WriteLine("Cell is empty");
@@ -41,6 +45,7 @@ namespace ExcelClone.Functions
             }
             if (Cell_String[0].ToString() != "=")
             {
+                Dependencies.NewStatement(Send);
                 OutFile.WriteLine("Cell is a string");
                 //Form1.Step("Cell is a string");
                 return Cell_String;
@@ -55,6 +60,11 @@ namespace ExcelClone.Functions
 
             ArrayList temp = Reformat(Parts);
             PrintArrayList(temp);
+
+            //Store the Base_Cell and all References
+            Send = ReformatForDL(new ArrayList(Parts));
+            Send.Insert(0, Base_Cell);
+            Dependencies.NewStatement(Send);
 
             string strtmp = Breaker(temp);
 
@@ -198,6 +208,42 @@ namespace ExcelClone.Functions
                     }
                 }
                 catch (Exception e) { }
+            }
+            #endregion
+
+            return temp;
+        }
+
+        private ArrayList ReformatForDL(ArrayList Parts) {
+            ArrayList temp = new ArrayList();
+
+            #region SHORTCUT REMOVER :
+            for (int i = 0; i < Parts.Count; i++)
+            { //SHORTCUT REMOVER 1
+                if (Parts[i].ToString().Contains(":"))
+                {
+                    //PrintArrayList(Parts);
+
+                    char c = Convert.ToChar(Parts[i].ToString().Substring(0, 1));
+                    int t1 = Convert.ToInt32(Parts[i].ToString().Split(':')[0].Substring(1));
+                    int t2 = Convert.ToInt32(Parts[i].ToString().Split(':')[1].Substring(1));
+
+                    Parts.RemoveAt(i);
+                    for (int j = t2; j >= t1; j--)
+                    {
+                        Parts.Insert(i, c + j.ToString());
+                        if (j != t1)
+                            Parts.Insert(i, ",");
+                    }
+                }
+            }
+            #endregion
+
+            #region DECREMENT ALL CELL REFERENCES
+            for (int i = 0; i < Parts.Count; i++)
+            {
+                if (IsCellReference(Parts[i].ToString()))
+                    Parts[i] = DecrementCellReference(Parts[i].ToString());
             }
             #endregion
 
