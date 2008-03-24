@@ -13,32 +13,39 @@ namespace ExcelClone.Graphs
     {
         public override void drawGraph(Rectangle r)
         {
-            clientRect = r;
-            CheckGraphArea();
-
             double total = 0;
             double heading = 0; // Start pie pieces at 12 noon on the clock.
             double currentsweep = 0;
             int nqo1;
             double innerradius = 0;
             double outerradius = 20;
-            int slices = 16;
+            int slices = 32;
             int loops = 1;
+            
 
+            clientRect = r;
+            CheckGraphArea();
+
+
+            
+            GL.ClearColor(Color.White);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
+            GL.Color3(Color.Black);
             DrawTitle();
             DrawLegend(r);
 
             GL.LoadIdentity();
             GL.Translate(50.0, 50.0, 0.0);
+
+            GL.Enable(EnableCap.PolygonSmooth);
             GL.Begin(OpenTK.OpenGL.Enums.BeginMode.Quads);
 
             nqo1 = Glu.NewQuadric();
 
-            
-
-            foreach (List<double> list in data)
+                    
+            //foreach (List<double> list in data)
+            List<double> list = data[0];
             {
                  total = 0;
                  heading = 0; // Start pie pieces at 12 noon on the clock.
@@ -52,7 +59,7 @@ namespace ExcelClone.Graphs
                 {
                     GL.Color3(LegendColors[currentColor]);
 
-                    currentsweep = (num / total) * 360;//(int)(Math.Ceiling((num / total) * 360));
+                    currentsweep = (num / total) * 360; //(int)(Math.Ceiling((num / total) * 360));
                     GL.Color3(LegendColors[currentColor]);
                     Glu.PartialDisk(nqo1, innerradius, outerradius, slices, loops, heading, currentsweep);
                     currentColor++;
@@ -62,10 +69,11 @@ namespace ExcelClone.Graphs
 
             }
 
+            Glu.DeleteQuadric(nqo1);
             GL.End();
-
-
-
+            
+            
+            
         }
         public override void setMinMax()
         {
