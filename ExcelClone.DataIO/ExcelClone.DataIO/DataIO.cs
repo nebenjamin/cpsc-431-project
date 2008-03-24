@@ -18,8 +18,8 @@ namespace ExcelClone.DataIO
 
     private string filename;
 
-    private List<SpreadsheetModel> book;
     private Cell defaultCell;
+    private List<SpreadsheetModel> book;
     private Stream fileStream;
     private XmlSerializer serializer;
     private XmlTextWriter textWriter;
