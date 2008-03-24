@@ -18,8 +18,8 @@ namespace ExcelClone.Functions
                                                 //Dependents:   Cells that contain a reference to the Head cell.
 
         public DependencyHandler(TextWriter Out) {
-            ReferencesTo = new DependencyList();
-            ReferencedBy = new DependencyList();
+            ReferencesTo = new DependencyList(Out);
+            ReferencedBy = new DependencyList(Out);
             OutFile = Out;
         }
 
