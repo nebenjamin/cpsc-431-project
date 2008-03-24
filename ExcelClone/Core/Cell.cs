@@ -19,7 +19,9 @@ namespace ExcelClone.Core
         public Cell(CellFormat cellFormat)
             : this(null, cellFormat) { }
 
-        public Cell() { }
+        public Cell() {
+            CellFormat = new CellFormat();
+        }
 
         #region ICell Members
 

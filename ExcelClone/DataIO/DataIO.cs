@@ -83,7 +83,7 @@ namespace ExcelClone.DataIO
             string startTags = "";
             string endTags = "";
 
-            try
+            /*try
             {
                 textWriter.WriteStartElement(filename.Substring(filename.LastIndexOf("\\") + 1,
                                                                 filename.LastIndexOf(".") - filename.LastIndexOf("\\") - 1));
@@ -93,7 +93,7 @@ namespace ExcelClone.DataIO
                 textWriter.WriteString(Environment.NewLine);
 
                 /*if (book[0].Author.Equals("")) textWriter.WriteElementString("author = " + Environment.UserName, "");
-                else*/
+                else*//*
                 textWriter.WriteStartElement("author", "Nathan Benjamin");
                 textWriter.WriteEndElement();
                 textWriter.WriteString(Environment.NewLine + "other metadata" + Environment.NewLine);
@@ -129,7 +129,7 @@ namespace ExcelClone.DataIO
 
                         //tempC.ToString();
                         //theCell.CellFormat.BackgroundBrush.Color.Equals(Color.Red);
-                        /*LETS FIRST DEAL WITH FORMATTING*/
+                        /*LETS FIRST DEAL WITH FORMATTING*//*
                         if (formatBool == true)
                         {//change nothing
                         }
@@ -192,8 +192,8 @@ namespace ExcelClone.DataIO
 									 textWriter.WriteString("cell-bg-color = " << theCell.CellFormat.FontBrush.backColor.get() << ">");
 									 fontTags = fontTags + "</cell-bg-color>";
 								 }*/
-                            }
-                        }//end of Format check
+                       //     }
+                     //   }//end of Format check
 
                         /*if (temp.Formula.Equals(null) == true)
                         {
@@ -219,11 +219,11 @@ namespace ExcelClone.DataIO
                         
                              }*/
 
-                    }//end of row loop
+  /*                  }//end of row loop
                     textWriter.WriteEndElement();
                     textWriter.WriteString(Environment.NewLine);
                 }//end of col loop*/
-
+/*
                 textWriter.WriteEndElement();
                 textWriter.WriteString(Environment.NewLine);
                 textWriter.Flush();
@@ -240,7 +240,7 @@ namespace ExcelClone.DataIO
                     textWriter.Close();
                     textWriter = null;
                 }
-            }
+            }*/
             return true;
         }
 

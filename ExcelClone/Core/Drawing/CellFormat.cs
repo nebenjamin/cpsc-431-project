@@ -1,33 +1,50 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
 
 namespace ExcelClone.Core
 {
     public class CellFormat : ICellFormat
     {
-        #region ICellFormat Members
+        private Font _cellFont;
+        public Font CellFont
+        {
+            get
+            {
+                return _cellFont;
+            }
+            set
+            {
+                _cellFont = value;
+            }
+        }
 
-        IFontSettings ICellFormat.Font { get { return Font; } }
+        private Color _textColor;
+        public Color TextColor
+        {
+            get
+            {
+                return _textColor;
+            }
+            set
+            {
+                _textColor = value;
+            }
+        }
 
-        IBrushSettings ICellFormat.FontBrush { get { return FontBrush; } }
+        private Color _cellColor;
+        public Color CellColor
+        {
+            get
+            {
+                return _cellColor;
+            }
+            set
+            {
+                _cellColor = value;
+            }
 
-        IBrushSettings ICellFormat.BackgroundBrush { get { return BackgroundBrush; } }
-
-        IPenSettings ICellFormat.BorderPen { get { return BorderPen; } }
-
-        #endregion
-
-        private FontSettings font;
-        public FontSettings Font { get { return font; } set { font = value; } }
-
-        private BrushSettings fontBrush;
-        public BrushSettings FontBrush { get { return fontBrush; } set { fontBrush = value; } }
-
-        private BrushSettings backgroundBrush;
-        public BrushSettings BackgroundBrush { get { return backgroundBrush; } set { backgroundBrush = value; } }
-
-        private PenSettings borderPen;
-        public PenSettings BorderPen { get { return borderPen; } set { borderPen = value; } }
+        }
     }
 }
