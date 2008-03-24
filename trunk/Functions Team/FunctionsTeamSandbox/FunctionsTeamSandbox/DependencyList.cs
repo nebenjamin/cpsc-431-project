@@ -94,8 +94,19 @@ namespace FunctionsTeamSandbox
                 k++;
             }
             X.Remove(Erase);
-            if (X.IsEmpty())
-                Data.Remove(X);
+        }
+
+        public void Clean(){
+            int Count = Data.Count;
+            int i = 0;
+            do{
+                if (Data[i].IsEmpty()){
+                    Data.Remove(Data[i]);
+                    Count--;
+                }
+                else
+                    i++;
+            } while (i < Count);
         }
 
         public bool Contains(string Reference) {
