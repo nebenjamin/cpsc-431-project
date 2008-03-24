@@ -59,7 +59,7 @@ namespace ExcelClone.Gui
         {
             int row = e.RowIndex;
             int col = e.ColumnIndex;
-            SpreadsheetControl.Instance.CellChanged(new CellKey(row, col));
+            
             SpreadsheetModel model = Controller.Instance.SpreadsheetModel;
 
             Cell cell = model.Cells[row, col];
@@ -70,8 +70,9 @@ namespace ExcelClone.Gui
                 model.Cells[row, col] = cell;
             }
 
-            cell.Formula = this.Rows[row].Cells[col].Value + "";
 
+            cell.Formula = this.Rows[row].Cells[col].Value + "";
+            SpreadsheetControl.Instance.CellChanged(new CellKey(row, col));
             //cell.Value = Controller.Instance.Parser.Parse(MakeColumnLabel(col) + row + ":" + cell.Formula);
             this.Rows[row].Cells[col].Value = model.Cells[row, col].Value;
 
@@ -101,10 +102,7 @@ namespace ExcelClone.Gui
                 
         public void RefreshCell(CellKey key)
         {
-            if (gridModel == null)
-                return;
-
-            this[key.C, key.R].Value = GridModel.Cells[key].Value;
+            this[key.C, key.R].Value = Controller.Instance.SpreadsheetModel.Cells[key].Value;
         }
 
         protected override void OnRowPostPaint(DataGridViewRowPostPaintEventArgs e)
@@ -143,6 +141,23 @@ namespace ExcelClone.Gui
             
             return send;
         }
+
+        public static SpreadsheetView Instance
+        {
+            get { return SpreadsheetViewCreator.CreatorInstance; }
+        }
+
+        private sealed class SpreadsheetViewCreator
+        {
+            private static readonly SpreadsheetView _instance = new SpreadsheetView();
+
+            public static SpreadsheetView CreatorInstance
+            {
+                get { return _instance; }
+            }
+        }
+
+
 
         private IGridModel gridModel;
         public IGridModel GridModel { get { return gridModel; } set { gridModel = value; } }
