@@ -63,6 +63,15 @@ namespace ExcelClone.Graphs
             sw.Close();*/
         }
 
+        public GraphControl()  //Make control from an existing graph, but must init control before graph- need blank constructor
+        {
+        }
+
+        public void SetGraph(Graph newGraph)
+        {
+            gr = newGraph;
+        }
+
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);
