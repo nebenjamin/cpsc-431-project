@@ -154,6 +154,9 @@ namespace ExcelClone.Graphs
         public void DrawTitle()
         {
             //Draw title at top center
+            GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMinFilter, (int)OpenTK.OpenGL.Enums.TextureMinFilter.Nearest);
+            GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMagFilter, (int)OpenTK.OpenGL.Enums.TextureMagFilter.Nearest);
+                
             txp.Begin();
             double titleX = clientRect.Right / 2.0 - TitleFont.Width * TitleString.Length / 2.0;
             double titleY = 0;
@@ -372,7 +375,7 @@ namespace ExcelClone.Graphs
         public void sampleData()
         {
             Random ran = new Random();
-            int columns = ran.Next(2,4);
+            int columns = 1;//ran.Next(2,4);
             int rows = 7;//ran.Next(3, 7);
 
             for (int i = 0; i < columns; i++)
