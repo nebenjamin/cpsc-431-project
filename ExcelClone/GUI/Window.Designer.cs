@@ -500,7 +500,7 @@ namespace ExcelClone.Gui
             this.spreadsheetUserControl1.Location = new System.Drawing.Point(0, 79);
             this.spreadsheetUserControl1.Name = "spreadsheetUserControl1";
             this.spreadsheetUserControl1.Size = new System.Drawing.Size(792, 495);
-            this.spreadsheetUserControl1.TabIndex = 5;
+            this.spreadsheetUserControl1.TabIndex = 1;
             // 
             // Window
             // 

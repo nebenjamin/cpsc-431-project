@@ -7,6 +7,13 @@ namespace ExcelClone.Core
 {
     public class CellFormat : ICellFormat
     {
+
+        public CellFormat(Font f, Color textColor, Color cellColor) {
+            CellFont = f;
+            TextColor = textColor;
+            CellColor = cellColor;
+        }
+
         private Font _cellFont;
         public Font CellFont
         {

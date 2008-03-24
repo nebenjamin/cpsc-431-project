@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ExcelClone.Core;
+using System.Drawing;
 
 namespace ExcelClone.Core
 {
@@ -20,7 +21,7 @@ namespace ExcelClone.Core
             : this(null, cellFormat) { }
 
         public Cell() {
-            CellFormat = new CellFormat();
+            CellFormat = new CellFormat(new Font("Verdana", 14), Color.Red, Color.Blue);
         }
 
         #region ICell Members
