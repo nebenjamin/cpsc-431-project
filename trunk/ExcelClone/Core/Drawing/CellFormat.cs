@@ -53,5 +53,18 @@ namespace ExcelClone.Core
             }
 
         }
+
+        private Boolean _isDefault;
+        public Boolean IsDefault
+        {
+            get
+            {
+                return _isDefault;
+            }
+            set
+            {
+                _isDefault = value;
+            }
+        }
     }
 }
