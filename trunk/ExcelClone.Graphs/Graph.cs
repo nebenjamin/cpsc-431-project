@@ -16,16 +16,16 @@ namespace ExcelClone.Graphs
 
     public abstract class Graph  //Graph base class- draw a grid, labels, legend, and Title
     {
-        public List<List<double>> Data
+        public List<List<double>> Data  //For serialization, all fields must be public or have a public property
         {
             set 
             {
-                if (data.Count == 0)
+                /*if (data.Count == 0)
                     data = new List<List<double>>();
                 foreach( List<double> dlist in Data)
                 {
                     data.Add(new List<double>(dlist.Count));
-                }
+                }*/
                 data = Data;
             
             }

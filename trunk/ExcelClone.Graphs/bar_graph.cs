@@ -5,12 +5,43 @@ using System.Drawing;
 using System.Collections;
 using OpenTK.OpenGL;
 using OpenTK.Fonts;
+using System.Windows.Forms;
 
 namespace ExcelClone.Graphs
 {
     public class bar_graph : Graph
     {
         private float barW;
+
+        //Create a bar graph, add it to a parent form, fill in data
+        public static bar_graph Create_Bar_Graph(Form parent, Rectangle location, string[][] data)
+        {
+            //First, make a bar graph and add the data
+            GraphControl gc = new GraphControl();
+            bar_graph gr = new bar_graph();
+            List<List<double>> newData = new List<List<double>>();
+
+            foreach (string[] strarray in data)  //Fill in and parse incoming cell data
+            {
+                newData.Add(new List<double>() );
+                foreach (string s in strarray)
+                {
+                    double parsedDouble;
+                    if (!Double.TryParse(s, out parsedDouble))
+                        throw new ArgumentException("Invalid data in Cells");
+                    newData[0].Add(parsedDouble);
+                }
+            }
+
+            gr.Data = newData;
+            
+            gc.Location = new Point(location.X, location.Y);  //gc.loc is a point, not rect
+            gc.Size = location.Size;
+            gc.SetGraph(gr);
+            parent.Controls.Add(gc);            
+
+            return gr;
+        }
 
         public override void drawGraph(Rectangle r)
         {
