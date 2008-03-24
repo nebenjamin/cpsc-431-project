@@ -74,12 +74,13 @@ namespace ExcelClone
         public void UpdateCellValue(CellKey key, string value)
         {
             Controller.Instance.SpreadsheetModel.Cells[key].Value = value;
+            SpreadsheetView.Instance.RefreshCell(key);
         }
 
         public void UpdateCellFormula(CellKey key, string formula)
         {
             Controller.Instance.SpreadsheetModel.Cells[key].Formula = formula;
-            //repaint
+            SpreadsheetView.Instance.RefreshCell(key);
         }
 
         public void ClearCell(CellKey key)

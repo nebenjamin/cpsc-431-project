@@ -28,7 +28,7 @@ namespace ExcelClone.Gui
         /// </summary>
         private void InitializeComponent()
         {
-            this.spreadsheetView1 = new ExcelClone.Gui.SpreadsheetView();
+            this.spreadsheetView1 = SpreadsheetView.Instance;
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
