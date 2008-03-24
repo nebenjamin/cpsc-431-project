@@ -10,5 +10,6 @@ namespace ExcelClone.Core
         Font CellFont { get; set; }
         Color TextColor { get; set; }
         Color CellColor { get; set; }
+        Boolean IsDefault { get; set;}
     }
 }
