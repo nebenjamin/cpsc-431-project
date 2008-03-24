@@ -57,9 +57,6 @@ namespace ExcelClone.Functions
                 //Clear the previous elements in the ReferencesTo list and rewrite it
                 ReferencesTo.ChangeNode(Head, Dependents);
                 AddReferencedBy(Head, Dependents);
-
-                ReferencedBy.Clean();   //Clean all nodes that do not have a list
-                ReferencesTo.Clean();
             }
 
             /*Check if Head is in the ReferencedBy list.
@@ -73,6 +70,9 @@ namespace ExcelClone.Functions
                 AddReferencesTo(Head, Dependents);
                 AddReferencedBy(Head, Dependents);
             }
+
+            ReferencedBy.Clean();   //Clean all nodes that do not have a list
+            ReferencesTo.Clean();
         }
 
         /*Creates a new node or appends the dependents list to a pre-existing
