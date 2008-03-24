@@ -40,10 +40,11 @@ namespace ExcelClone.Functions
             foreach (string s in Dependents)
                 OutFile.Write(s + " ");
             OutFile.WriteLine();*/
-
-            ArrayList RC = BreakReference(Head);
-
-            SpreadsheetControl.Instance.InvalidateCell((int)RC[1], (int)RC[0]);
+            foreach (string s in Dependents)
+            {
+                ArrayList RC = BreakReference(s);
+                SpreadsheetControl.Instance.InvalidateCell((int)RC[1], (int)RC[0]);
+            }
 		}
 
         public List<string> ReturnDependents() {
