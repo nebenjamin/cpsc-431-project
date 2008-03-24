@@ -3,11 +3,13 @@ using System.Collections.Generic;
 //using System.Linq;
 using System.Text;
 using System.Collections;
+using System.IO;
 
 namespace ExcelClone.Functions
 {
     class DependencyHandler
     {
+        private TextWriter OutFile;
 
         private DependencyList ReferencesTo;    //Heads:        Cells that contain formulas with references to other cells.
                                                 //Dependents:   Cells referenced within the Head cell.
@@ -15,9 +17,10 @@ namespace ExcelClone.Functions
         private DependencyList ReferencedBy;    //Heads:        Cells that are referenced within another cell.
                                                 //Dependents:   Cells that contain a reference to the Head cell.
 
-        public DependencyHandler() {
+        public DependencyHandler(TextWriter Out) {
             ReferencesTo = new DependencyList();
             ReferencedBy = new DependencyList();
+            OutFile = Out;
         }
 
         /*Parser calls this function: Statement[0] should be the cell

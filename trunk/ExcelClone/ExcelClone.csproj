@@ -62,6 +62,9 @@
       <SubType>
       </SubType>
     </Compile>
+    <Compile Include="Functions\DependencyHandler.cs" />
+    <Compile Include="Functions\DependencyList.cs" />
+    <Compile Include="Functions\DependencyNode.cs" />
     <Compile Include="Functions\Functions.cs" />
     <Compile Include="Functions\Parser.cs" />
     <Compile Include="Gui\SpreadsheetUserControl.cs">
