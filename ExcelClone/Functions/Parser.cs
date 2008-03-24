@@ -18,6 +18,7 @@ namespace ExcelClone.Functions
         public Parser() 
         {
             OutFile = new StreamWriter("Output "+System.DateTime.Now.ToString().Replace(':','.').Replace('/','.')+".txt");
+            Dependencies = new DependencyHandler(OutFile);
         }
 
         /* NOT COMPLETE YET (References Table Implementation)
