@@ -127,7 +127,7 @@ namespace ExcelClone.Functions
                 {
                     if (Cell_String[j].Equals('*') || Cell_String[j].Equals('/') || Cell_String[j].Equals('+') ||
                         Cell_String[j].Equals('-') || Cell_String[j].Equals('(') || Cell_String[j].Equals(')') ||
-                        Cell_String[j].Equals(','))
+                        Cell_String[j].Equals(',') || Cell_String[j].Equals('~'))
                     {
                         temp.Add(Cell_String.Substring(i, j - i));
                         temp.Add(Cell_String.Substring(j, 1));
@@ -155,7 +155,8 @@ namespace ExcelClone.Functions
             }
             #endregion
 
-            #region CHECK FOR NEGATIVE VALUES
+            #region CHECK FOR NEGATIVE VALUES (-)
+            /*
             for (int i = 0; i < temp.Count; i++)
             {
                 try
@@ -210,7 +211,42 @@ namespace ExcelClone.Functions
                 }
                 catch (Exception e) { }
             }
+            */
             #endregion
+            #region CHECK FOR NEGATIVE VALUES (~)
+            for (int i = 0; i < temp.Count; i++)
+            {
+                if (temp[i].ToString().Equals("~"))
+                {
+                    if (i + 1 >= temp.Count) break;
+                    if (IsCellReference(temp[i + 1].ToString())) //Cell Refrence
+                    {
+                        temp.RemoveAt(i);
+                        temp.Insert(i, "*");
+                        temp.Insert(i, "-1");
+                    }
+                    else if (IsNumber(temp[i + 1].ToString())) //Number
+                    {
+                        temp.RemoveAt(i);
+                        temp[i] = Convert.ToString(Convert.ToInt32(temp[i].ToString()) * -1);
+                        i--;
+                    }
+                    else if (Fun_Class.IsFunction(temp[i + 1].ToString())) //Function
+                    {
+                        temp.RemoveAt(i);
+                        temp.Insert(i, "*");
+                        temp.Insert(i, "-1");
+                    }
+                    else //String
+                    {
+                        temp.RemoveAt(i);
+                        temp.Insert(i, "*");
+                        temp.Insert(i, "-1");
+                    }
+                }
+            }
+            #endregion
+
 
             return temp;
         }
