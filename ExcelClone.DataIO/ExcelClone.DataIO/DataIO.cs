@@ -244,83 +244,122 @@ namespace ExcelClone.DataIO
       return true;
     }
 
-    private bool ReadBook()
-    {
-      int i = 0;
-      int currentRow, currentColumn;
-
-      XmlDocument doc = new XmlDocument();
-
-      try
+      private bool ReadBook()
       {
-        doc.Load(filename);
+          int i = 0;
+          int currentRow, currentColumn;
 
-        XmlNodeList sheetList = doc.GetElementsByTagName("sheet");
+          XmlDocument doc = new XmlDocument();
 
-        // Traverse the List of Sheets
-        foreach (XmlNode sheet in sheetList)
-        {
-          CellCollection cells = new CellCollection();
-          XmlElement sheetElement = (XmlElement)sheet;
-          String sheetName = "";
-
-          if (sheetElement.HasAttributes)
+          try
           {
-            if (sheetElement.Attributes[0].Name == "name")
-              sheetName = sheetElement.Attributes["name"].InnerText;
+              doc.Load(filename);
+
+              XmlNodeList sheetList = doc.GetElementsByTagName("sheet");
+
+              // Traverse the List of Sheets
+              foreach (XmlNode sheet in sheetList)
+              {
+                  CellCollection cells = new CellCollection();
+                  XmlElement sheetElement = (XmlElement)sheet;
+                  String sheetName = "";
+
+                  if (sheetElement.HasAttributes)
+                  {
+                      if (sheetElement.Attributes[0].Name == "name")
+                          sheetName = sheetElement.Attributes["name"].InnerText;
+                  }
+
+                  XmlNodeList columnList = sheetElement.GetElementsByTagName("column");
+
+                  // Traverse the List of Columns
+                  foreach (XmlNode column in columnList)
+                  {
+                      XmlElement columnElement = (XmlElement)column;
+                      String columnNumber = "";
+
+                      if (columnElement.HasAttributes)
+                      {
+                          if (columnElement.Attributes[0].Name == "index")
+                              columnNumber = columnElement.Attributes["index"].InnerText;
+                      }
+
+                      currentColumn = Int32.Parse(columnNumber);
+
+                      XmlNodeList rowList = columnElement.GetElementsByTagName("row");
+
+                      // Traverse the List of Rows
+                      foreach (XmlNode row in rowList)
+                      {
+                          XmlElement rowElement = (XmlElement)row;
+                          String rowNumber = "";
+
+                          if (rowElement.HasAttributes)
+                          {
+                              if (rowElement.Attributes[0].Name == "index")
+                                  rowNumber = rowElement.Attributes["index"].InnerText;
+                          }
+
+                          currentRow = Int32.Parse(rowNumber);
+
+                          for (int j = 0; j < rowElement.Attributes.Count; j++)
+                          {
+                              if (rowElement.GetElementsByTagName("content").Count != 0)
+                              {
+                                  // Create Cell and set formula
+                                  String formula = rowElement.GetElementsByTagName("content")[0].InnerText;
+                                  Cell cell = new Cell(formula);
+
+                                  // TEMPORARY: Arial and 12.0F will be replaced with Dynamic Values Later On
+                                  Font font = new Font("Arial", 12.0F);
+
+                                  // Create Content Element
+                                  XmlElement contentElement = (XmlElement)rowElement.GetElementsByTagName("content")[0];
+
+                                  // Check for and assign BOLD attribute
+                                  if (contentElement.HasAttribute("bold"))
+                                  {
+                                      if (contentElement.GetAttribute("bold") == "true")
+                                          font = new Font(font, font.Style | FontStyle.Bold);
+                                  }
+
+                                  // Check for and assign ITALICS attribute
+                                  if (contentElement.HasAttribute("italics"))
+                                  {
+                                      if (contentElement.GetAttribute("italics") == "true")
+                                          font = new Font(font, font.Style | FontStyle.Italic);
+                                  }
+
+                                  // Check for and assign UNDERLINE attribute
+                                  if (contentElement.HasAttribute("underline"))
+                                  {
+                                      if (contentElement.GetAttribute("underline") == "true")
+                                          font = new Font(font, font.Style | FontStyle.Underline);
+                                  }
+
+                                  // TEMPORARY: Colors will be replaced with Dynamic Values Later On
+                                  Color black = Color.FromName("Black");
+                                  Color white = Color.FromName("White");
+
+                                  cell.CellFormat = new CellFormat(font, black, white);
+                                  cell.CellFormat.CellFont = font;
+                                  cells[currentRow, currentColumn] = cell;
+                              }
+
+                          }
+
+                      }
+                  }
+
+                  // Add current CellCollection to book
+                  book.Add(new SpreadsheetModel(cells));
+              }
           }
-
-          XmlNodeList columnList = sheetElement.GetElementsByTagName("column");
-
-          // Traverse the List of Columns
-          foreach (XmlNode column in columnList)
+          catch (Exception e)
           {
-            XmlElement columnElement = (XmlElement)column;
-            String columnNumber = "";
-
-            if (columnElement.HasAttributes)
-            {
-              if (columnElement.Attributes[0].Name == "num")
-                columnNumber = columnElement.Attributes["num"].InnerText;
-            }
-
-            currentColumn = Int32.Parse(columnNumber);
-
-            XmlNodeList rowList = columnElement.GetElementsByTagName("row");
-
-            // Traverse the List of Rows
-            foreach (XmlNode row in rowList)
-            {
-              XmlElement rowElement = (XmlElement)row;
-              String rowNumber = "";
-
-              if (rowElement.HasAttributes)
-              {
-                if (rowElement.Attributes[0].Name == "num")
-                  rowNumber = rowElement.Attributes["num"].InnerText;
-              }
-
-              currentRow = Int32.Parse(rowNumber);
-
-              if (rowElement.GetElementsByTagName("content").Count != 0)
-              {
-                String formula = rowElement.GetElementsByTagName("content")[0].InnerText;
-                Cell cell = new Cell(formula);
-                cells[currentRow, currentColumn] = cell;
-              }
-
-            }
+              MessageBox.Show("Error: (" + e.GetType().ToString() + "): " + e.Message, "Error");
           }
-
-          // Add current CellCollection to book
-          book.Add(new SpreadsheetModel(cells));
-        }
+          return true;
       }
-      catch (Exception e)
-      {
-        MessageBox.Show("Error: (" + e.GetType().ToString() + "): " + e.Message, "Error");
-      }
-      return true;
-    }
   }
 }
