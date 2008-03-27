@@ -14,11 +14,11 @@ namespace ExcelClone.Graphs
         private float barW;
 
         //Create a bar graph, add it to a parent form, fill in data
-        public static bar_graph Create_Bar_Graph(Form parent, Rectangle location, string[][] data)
+        public static Graph Create_Bar_Graph(Form parent, Rectangle location, string[][] data)
         {
             //First, make a bar graph and add the data
             GraphControl gc = new GraphControl();
-            bar_graph gr = new bar_graph();
+            Graph gr = new bar_graph();
             List<List<double>> newData = new List<List<double>>();
 
             foreach (string[] strarray in data)  //Fill in and parse incoming cell data
@@ -34,10 +34,20 @@ namespace ExcelClone.Graphs
             }
 
             gr.Data = newData;
-            
+
+            gc.Location = new Point(0, 0);  //gc.loc is a point, not rect
+            gc.Size = new Size(450,400);
+            gc.SetGraph(gr);
+
+            graphConfig gC = new graphConfig(gr,gc);
+            gC.ShowDialog();
+
+            //gC.Dispose();
+            //gc = new GraphControl();
             gc.Location = new Point(location.X, location.Y);  //gc.loc is a point, not rect
             gc.Size = location.Size;
             gc.SetGraph(gr);
+
             parent.Controls.Add(gc);            
 
             return gr;
@@ -112,5 +122,7 @@ namespace ExcelClone.Graphs
             totalBars += data.Count * data[0].Count;
             barW = (float)(maxYVal - minYVal) / totalBars;
         }
+
+        public override void configTab(TabPage tb) { }
     }
 }

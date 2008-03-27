@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Collections;
+using System.Windows.Forms;
 using OpenTK.OpenGL;
 using OpenTK.OpenGL.Enums;
 using OpenTK.Fonts;
@@ -94,6 +95,8 @@ namespace ExcelClone.Graphs
 
 
         }
+
+        public override void configTab(TabPage tb) { }
     }
 }
 

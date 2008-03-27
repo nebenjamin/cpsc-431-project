@@ -28,26 +28,30 @@ namespace ExcelClone.Graphs
         /// </summary>
         private void InitializeComponent()
         {
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
-            // graphControl1
+            // comboBox1
             // 
-            this.graphControl1 = new GraphControl(Graph_Type.Bar);
-            this.graphControl1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.graphControl1.BackColor = System.Drawing.Color.Black;
-            this.graphControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.graphControl1.Location = new System.Drawing.Point(0, 0);
-            this.graphControl1.Name = "graphControl1";
-            this.graphControl1.Size = new System.Drawing.Size(292, 266);
-            this.graphControl1.TabIndex = 0;
-            this.graphControl1.VSync = true;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Bar Graph",
+            "Column Graph",
+            "Line Graph",
+            "Scatter Graph",
+            "Pie Graph"});
+            this.comboBox1.Location = new System.Drawing.Point(12, 12);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 0;
+            this.comboBox1.SelectedValueChanged += new System.EventHandler(this.comboBox1_SelectedValueChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 266);
-            this.Controls.Add(this.graphControl1);
+            this.ClientSize = new System.Drawing.Size(484, 464);
+            this.Controls.Add(this.comboBox1);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
@@ -56,6 +60,8 @@ namespace ExcelClone.Graphs
 
         #endregion
 
-        private GraphControl graphControl1;
+        private System.Windows.Forms.ComboBox comboBox1;
+
+
     }
 }

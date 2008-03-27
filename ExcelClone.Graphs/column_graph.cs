@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Collections;
+using System.Windows.Forms;
 using OpenTK.OpenGL;
 using OpenTK.Fonts;
 
@@ -81,5 +82,7 @@ namespace ExcelClone.Graphs
             totalBars += data.Count * data[0].Count;
             barW = (float)(maxXVal - minXVal) / totalBars;
         }
+
+        public override void configTab(TabPage tb) { }
     }
 }

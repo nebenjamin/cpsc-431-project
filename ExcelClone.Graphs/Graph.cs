@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Collections;
+using System.Windows.Forms;
 using OpenTK.OpenGL;
 using OpenTK.Fonts;
 
@@ -392,5 +393,6 @@ namespace ExcelClone.Graphs
         public abstract void drawGraph(Rectangle r);
         public abstract void setMinMax();
         public abstract void setDefaults();
+        public abstract void configTab(TabPage tb);
     }
 }
