@@ -13,8 +13,54 @@ namespace ExcelClone.Graphs
     {
         private float barW;
 
+        //Create a bar graph, add it to a parent form, fill in data
+        public static Graph Create_Column_Graph(Form parent, Rectangle location, string[][] data)
+        {
+            //First, make a bar graph and add the data
+            GraphControl gc = new GraphControl();
+            List<List<double>> newData = new List<List<double>>();
+
+            foreach (string[] strarray in data)  //Fill in and parse incoming cell data
+            {
+                newData.Add(new List<double>());
+                foreach (string s in strarray)
+                {
+                    double parsedDouble;
+                    if (!Double.TryParse(s, out parsedDouble))
+                        throw new ArgumentException("Invalid data in Cells");
+                    newData[0].Add(parsedDouble);
+                }
+            }
+
+            Graph gr = new column_graph(newData);
+
+            gc.Location = new Point(0, 0);  //gc.loc is a point, not rect
+            gc.Size = new Size(450, 400);
+            gc.SetGraph(gr);
+
+            graphConfig gC = new graphConfig(gr, gc);
+            gC.ShowDialog();
+
+            //gC.Dispose();
+            //gc = new GraphControl();
+            gc.Location = new Point(location.X, location.Y);  //gc.loc is a point, not rect
+            gc.Size = location.Size;
+            gc.SetGraph(gr);
+
+            parent.Controls.Add(gc);
+
+            return gr;
+        }
+
+        public column_graph(List<List<double>> newData):base(newData){}
+
         public override void drawGraph(Rectangle r)
         {
+            //Graph Title
+            txp.Prepare(TitleString, TitleFont, out Title);
+            //Axis labels
+            txp.Prepare(XLabelString, AxesFont, out XAxisLabel);
+            txp.Prepare(YLabelString, AxesFont, out YAxisLabel);
             clientRect = r;
             CheckGraphArea();
             DrawAxis();

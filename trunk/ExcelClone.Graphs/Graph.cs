@@ -50,34 +50,36 @@ namespace ExcelClone.Graphs
 
         public int XLabelOffset = 8;  //label offsets- distance from edge of graph area to axis label
         public int YLabelOffset = 8;
-        private int MaxYOffset = 0;  //The widest Y label, used for resizing the graph area
+        protected int MaxYOffset = 0;  //The widest Y label, used for resizing the graph area
 
         public string TitleString = "Graph";  //Graph title
         public string XLabelString = "X axis";  //Axis labels
         public string YLabelString = "Y axis";
 
-        private TextureFont LabelFont;  //Font for drawing labels, title, axes
-        private TextureFont TitleFont;
-        private TextureFont AxesFont;
-        private List<TextHandle> XLabels = new List<TextHandle>();  //List of labels to draw for X, Y, title... with offsets
-        private List<double> XLabelOffsets = new List<double>();
-        private List<TextHandle> YLabels = new List<TextHandle>();
-        private List<double> YLabelOffsets = new List<double>();
+        protected TextureFont LabelFont;  //Font for drawing labels, title, axes
+        protected TextureFont TitleFont;
+        protected TextureFont AxesFont;
+        protected List<TextHandle> XLabels = new List<TextHandle>();  //List of labels to draw for X, Y, title... with offsets
+        protected List<double> XLabelOffsets = new List<double>();
+        protected List<TextHandle> YLabels = new List<TextHandle>();
+        protected List<double> YLabelOffsets = new List<double>();
 
-        private TextHandle XAxisLabel;  //Axis labels
-        private TextHandle YAxisLabel;
-        private TextHandle Title;  //Graph Title
-        private double TitleOffset;
+        protected TextHandle XAxisLabel;  //Axis labels
+        protected TextHandle YAxisLabel;
+        protected TextHandle Title;  //Graph Title
+        protected double TitleOffset;
 
         protected List<Color> LegendColors = new List<Color>();  //Legend stuff- Colors, labels, label handles
-        private List<String> LegendLabels = new List<string>();
-        private List<TextHandle> LegendTxtHandles = new List<TextHandle>();
-        private float LegendY;  //Legend Y location, for scaling purposes
+        protected List<String> LegendLabels = new List<string>();
+        protected List<TextHandle> LegendTxtHandles = new List<TextHandle>();
+        protected float LegendY;  //Legend Y location, for scaling purposes
         public bool LegendOn = true;
 
-        ITextPrinter txp = new TextPrinter();  //Text printer - for drawing all text
+        protected ITextPrinter txp = new TextPrinter();  //Text printer - for drawing all text
 
-        public Graph()
+        public Graph() { }
+
+        public Graph(List<List<double>> newData)
         {
             LegendY = (grUpRight.Y - grLowLeft.Y) / 2 + grLowLeft.Y;  //Init legend stuff
 
@@ -90,7 +92,8 @@ namespace ExcelClone.Graphs
             LegendColors.Add(Color.SeaGreen);
             LegendColors.Add(Color.MistyRose);
 
-            sampleData();
+            data = newData;
+
             setMinMax();
             setDefaults();
 
@@ -145,11 +148,6 @@ namespace ExcelClone.Graphs
                 LegendLabels.Add("Series" + (i+1).ToString());
             }
 
-            //Graph Title
-            txp.Prepare(TitleString, TitleFont, out Title);
-            //Axis labels
-            txp.Prepare(XLabelString, AxesFont, out XAxisLabel);
-            txp.Prepare(YLabelString, AxesFont, out YAxisLabel);
         }
 
         public void DrawTitle()
@@ -371,23 +369,6 @@ namespace ExcelClone.Graphs
             number /= (float)(maxYVal - minYVal);
 
             return number + grLowLeft.Y;
-        }
-
-        public void sampleData()
-        {
-            Random ran = new Random();
-            int columns = 1;//ran.Next(2,4);
-            int rows = 7;//ran.Next(3, 7);
-
-            for (int i = 0; i < columns; i++)
-            {
-                data.Add(new List<double>());
-                for (int j = 0; j < rows; j++)
-                {
-                    data[i].Add(ran.Next(5,80));
-                }
-            }
-            int size = data[0].Count;
         }
 
         public abstract void drawGraph(Rectangle r);

@@ -15,56 +15,13 @@ namespace ExcelClone.Graphs
     public partial class GraphControl : OpenTK.GLControl
     {
         private Graph gr;  //the displayed graph object
-
-        public GraphControl( Graph_Type type)
-        {
-            switch (type)
-            {
-                case Graph_Type.Test:
-                    gr = new test_graph();  //use default constructor for a test graph object
-                    break;
-                case Graph_Type.Column:
-                    gr = new column_graph();
-                    break;
-                case Graph_Type.Bar:
-                    gr = new bar_graph();
-                    break;
-                case Graph_Type.Line:
-                    gr = new line_graph();
-                    break;
-                case Graph_Type.Scatter:
-                    gr = new scatter_graph();
-                    break;
-                case Graph_Type.Pie:
-                    gr = new pie_graph();
-                    break;
-                default:
-                    gr = new test_graph();  //use default constructor for a test graph object
-                    break;
-            }
-
-            /*XmlTextReader xmr = new XmlTextReader("RandomGraph.xml");
-            while (xmr.Read() && xmr.NodeType != XmlNodeType.Element);
-
-            Type grType;
-
-            grType = Type.GetType("ExcelClone.Graphs." + xmr.Name);
-            xmr.Close();
-
-            StreamReader sr = new StreamReader("RandomGraph.xml");
-            XmlSerializer xms = new XmlSerializer(grType);
-            gr = (Graph)xms.Deserialize(sr);
-            sr.Close();
-            InitializeComponent();
-
-            XmlSerializer xms = new XmlSerializer( this.gr.GetType() );
-            StreamWriter sw = new StreamWriter("RandomGraph.xml");
-            xms.Serialize(sw, gr);
-            sw.Close();*/
-        }
+        private bool moving;
+        private int initX, initY;
 
         public GraphControl()  //Make control from an existing graph, but must init control before graph- need blank constructor
         {
+            moving = false;
+            InitializeComponent();
         }
 
         public void SetGraph(Graph newGraph)
@@ -92,6 +49,48 @@ namespace ExcelClone.Graphs
             gr.drawGraph(this.ClientRectangle);
             SwapBuffers();
             base.OnPaint(e);
+        }
+
+        private void GraphControl_MouseDown(object sender, MouseEventArgs e)
+        {
+            moving = true;
+            initX = e.X;
+            initY = e.Y;
+        }
+
+        private void GraphControl_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (moving)
+            {
+                int deltaX = e.X - initX;
+                int deltaY = e.Y - initY;
+
+                this.Location = new Point(this.Location.X + deltaX, this.Location.Y + deltaY);
+            }
+        }
+
+        private void GraphControl_MouseUp(object sender, MouseEventArgs e)
+        {
+            moving = false;
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Point prevLoc = this.Location;
+            Size prevSize = this.Size;
+            Form parent = this.ParentForm;
+
+            this.Location = new Point(0, 0);  //gc.loc is a point, not rect
+            this.Size = new Size(450, 400);
+
+            graphConfig gConf = new graphConfig(gr, this);
+            gConf.ShowDialog();
+
+            this.Location = prevLoc;
+            this.Size = prevSize;
+            this.SetGraph(gr);
+
+            parent.Controls.Add(this); 
         }
     }
 }

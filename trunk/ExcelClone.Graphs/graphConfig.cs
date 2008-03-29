@@ -20,8 +20,21 @@ namespace ExcelClone.Graphs
             tabPage3.Controls.Add(gcont);
         }
 
-        private void glControl1_Load(object sender, EventArgs e)
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            switch (tabControl1.SelectedIndex)
+            {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    gr.TitleString = textBox1.Text;
+                    gr.XLabelString = textBox2.Text;
+                    gr.YLabelString = textBox3.Text;
+                    break;
+            }
+
         }
     }
 }
