@@ -18,7 +18,6 @@ namespace ExcelClone.Graphs
         {
             //First, make a bar graph and add the data
             GraphControl gc = new GraphControl();
-            Graph gr = new bar_graph();
             List<List<double>> newData = new List<List<double>>();
 
             foreach (string[] strarray in data)  //Fill in and parse incoming cell data
@@ -33,14 +32,14 @@ namespace ExcelClone.Graphs
                 }
             }
 
-            gr.Data = newData;
+            Graph gr = new bar_graph(newData);
 
             gc.Location = new Point(0, 0);  //gc.loc is a point, not rect
             gc.Size = new Size(450,400);
             gc.SetGraph(gr);
 
-            graphConfig gC = new graphConfig(gr,gc);
-            gC.ShowDialog();
+            graphConfig gConf = new graphConfig(gr,gc);
+            gConf.ShowDialog();
 
             //gC.Dispose();
             //gc = new GraphControl();
@@ -53,8 +52,16 @@ namespace ExcelClone.Graphs
             return gr;
         }
 
+        public bar_graph(List<List<double>> newData):base(newData){}
+
         public override void drawGraph(Rectangle r)
         {
+            //Graph Title
+            txp.Prepare(TitleString, TitleFont, out Title);
+            //Axis labels
+            txp.Prepare(XLabelString, AxesFont, out XAxisLabel);
+            txp.Prepare(YLabelString, AxesFont, out YAxisLabel);
+
             clientRect = r;
             CheckGraphArea();
             DrawAxis();
