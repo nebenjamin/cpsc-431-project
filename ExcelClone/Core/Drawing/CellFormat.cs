@@ -80,6 +80,10 @@ namespace ExcelClone.Core
 
         public string serialize()
         {
+            /*IF YOU CHANGE THIS, you MUST change the order of the settings
+             * in the SettingsPosition enum in the CellFormatFactory to match.
+             * Then, you must change the factory method if you add a setting.
+             */
             string o = "";
             o += ((CellFont.Bold)? 1:0) + ",";
             o += ((CellFont.Italic)? 1:0) + ",";
