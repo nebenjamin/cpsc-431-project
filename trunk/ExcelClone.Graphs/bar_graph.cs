@@ -52,6 +52,8 @@ namespace ExcelClone.Graphs
             gc.Location = new Point(location.X, location.Y);  //gc.loc is a point, not rect
             gc.Size = location.Size;
             gc.SetGraph(gr);
+            gr.InitFonts();
+            gr.InitLabels();
 
             parent.Controls.Add(gc);            
 
