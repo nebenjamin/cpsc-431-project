@@ -28,18 +28,43 @@ namespace ExcelClone
             set { parser = value; }
         }
 
-        public void ClickNew() { }
-        public void ClickOpen() { }
-        public void ClickClose() { }
-        public void ClickSave() { }
-        public void ClickSaveAs() { }
-        public void ClickCut() { }
-        public void ClickCopy() { }
-        public void ClickPaste() { }
-        public void ClickFontAttributes() { }
-        public void ClickChart() { }
-        public void ClickInsertWorksheet() { }
-        public void ClickInsertFunction() { }
+        public void ExecuteNew(object sender, EventArgs e)
+        {
+        }
+        public void ExecuteOpen(object sender, EventArgs e)
+        {
+        }
+        public void ExecuteClose(object sender, EventArgs e)
+        {
+        }
+        public void ExecuteSave(object sender, EventArgs e)
+        {
+        }
+        public void ExecuteSaveAs(object sender, EventArgs e)
+        {
+        }
+        public void ExecuteCut(object sender, EventArgs e)
+        {
+        }
+        public void ExecuteCopy(object sender, EventArgs e)
+        {
+        }
+        public void ExecutePaste(object sender, EventArgs e)
+        {
+        }
+        public void ExecuteChart(object sender, EventArgs e)
+        {
+        }
+        public void ExecuteInsertWorksheet(object sender, EventArgs e)
+        {
+        }
+        public void ExecuteInsertFunction(object sender, EventArgs e)
+        {
+        }
+        public void ExecuteExit(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Application.Exit();
+        }
 
         public static Controller Instance
         {
@@ -62,4 +87,3 @@ namespace ExcelClone
         }
     }
 }
-        
