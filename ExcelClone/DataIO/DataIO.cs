@@ -12,317 +12,330 @@ using ExcelClone.Core;
 
 namespace ExcelClone.DataIO
 {
-	public class DataIO
-	{
-		public const string extension = ".xml";
+ public class DataIO
+ {
+   public const string extension = ".xml";
 
-		private string filename;
+   private string filename;
 
-    private Cell defaultCell;
-		private List<SpreadsheetModel> book;
-		private Stream fileStream;
-		private XmlSerializer serializer;
-		private XmlTextWriter textWriter;
-		
-		public DataIO(String Filename)
-		{
-			book = new List<SpreadsheetModel>();
-			filename = Filename;
-		}
+   private Cell defaultCell;
+   private List<SpreadsheetModel> book;
+   private Stream fileStream;
+   private XmlSerializer serializer;
+   private XmlTextWriter textWriter;
 
-		public bool AddSpreadsheet(SpreadsheetModel sheet)
-		{
-			book.Add(sheet);
-			return true;
-		}
+   public DataIO(String Filename)
+   {
+     book = new List<SpreadsheetModel>();
+     filename = Filename;
+   }
 
-		public bool SetBook(List<SpreadsheetModel> volume)
-		{
-			book = volume;
-			return true;
-		}
+   public bool AddSpreadsheet(SpreadsheetModel sheet)
+   {
+     book.Add(sheet);
+     return true;
+   }
 
-		public bool SaveBook()
-		{
-            /***** TEST CODE *****/
+   public bool SetBook(List<SpreadsheetModel> volume)
+   {
+     book = volume;
+     return true;
+   }
 
-            book.Add(new SpreadsheetModel(new CellCollection()));
+   public bool SaveBook()
+   {
+     /***** TEST CODE *****/
 
-            /***** END TEST CODE *****/
-			try
-			{
-				if (book.Count == 0) throw new MissingMemberException("Passed an empty book!  Feed me data");
-				return WriteBook();
-			}
-			catch (Exception e)
-			{
-				if (e is System.Security.SecurityException)
-				{
-					MessageBox.Show("I cannot write a file. Please run me with FileIO permissions.", "Error");
-				}
-				else
-				{
-					MessageBox.Show("Error: (" + e.GetType().ToString() + "): " + e.Message, "Error");
-				}
-			}
-			return false;
-		}
+     book.Add(new SpreadsheetModel(new CellCollection()));
 
-		public bool LoadBook()
-		{
-			return ReadBook();
-		}
+     /***** END TEST CODE *****/
+     try
+     {
+       if (book.Count == 0) throw new MissingMemberException("Passed an empty book!  Feed me data");
+       return WriteBook();
+     }
+     catch (Exception e)
+     {
+       if (e is System.Security.SecurityException)
+       {
+         MessageBox.Show("I cannot write a file. Please run me with FileIO permissions.", "Error");
+       }
+       else
+       {
+         MessageBox.Show("Error: (" + e.GetType().ToString() + "): " +
+                         e.Message + Environment.NewLine +
+                         "Debug Data: " + e.ToString(), "Error");
+       }
+     }
+     return false;
+   }
 
-        private bool WriteBook()
-        {
-            Cell theCell = new Cell();
+   public bool LoadBook()
+   {
+     return ReadBook();
+   }
 
-            fileStream = new FileStream(filename, FileMode.Create);
-            textWriter = new XmlTextWriter(fileStream, Encoding.Unicode);
+     private bool WriteBook()
+     {
+         Cell theCell = new Cell();
+         Cell defaultCell = new Cell();
 
-            string startTags = "";
-            string endTags = "";
+         Cell tempCell = new Cell();
 
-            /*try
-            {
-                textWriter.WriteStartElement(filename.Substring(filename.LastIndexOf("\\") + 1,
-                                                                filename.LastIndexOf(".") - filename.LastIndexOf("\\") - 1));
-                textWriter.WriteString(Environment.NewLine);
+         /**** TEST Code*/
 
-                textWriter.WriteStartElement("sheet");
-                textWriter.WriteString(Environment.NewLine);
+         CellCollection cc = new CellCollection();
+         FontFamily blahFamily = new FontFamily("Arial");
+         Font blahFont = new Font(blahFamily, 13);
+         CellFormat blahFormat = new CellFormat(blahFont,Color.Orange, Color.Green);
+         Font f = new Font(FontFamily.GenericSansSerif, 12.0F, FontStyle.Bold);
+         f = new Font(f, f.Style | FontStyle.Italic);
+         CellFormat blahFormat2 = new CellFormat(f, Color.Black, Color.Black);
+         //blahFormat.CellColor = Color.Yellow;
+         //blahFormat.TextColor = Color.Purple;
+         //tempCell.CellFormat = blahFormat;
 
-                /*if (book[0].Author.Equals("")) textWriter.WriteElementString("author = " + Environment.UserName, "");
-                else*//*
-                textWriter.WriteStartElement("author", "Nathan Benjamin");
-                textWriter.WriteEndElement();
-                textWriter.WriteString(Environment.NewLine + "other metadata" + Environment.NewLine);
+         cc[0, 0] = new Cell("= SUM()", blahFormat);
+         cc[0, 0].Value = "42";
+         cc[0, 1] = new Cell("", tempCell.CellFormat);
+         cc[0, 2] = new Cell("", tempCell.CellFormat);
+         cc[1, 0] = new Cell("", tempCell.CellFormat);
+         cc[1, 0].Value = "blah";
+         cc[1, 1] = new Cell("= AVG()", tempCell.CellFormat);
+         cc[1, 1].Value = "47";
+         cc[1, 2] = new Cell("", blahFormat2);
+         cc[1, 2].Value = "99";
+         cc[2, 0] = new Cell("", tempCell.CellFormat);
+         cc[2, 0].Value = "YourFather";
+         cc[2, 1] = new Cell("", tempCell.CellFormat);
+         cc[2, 2] = new Cell("", tempCell.CellFormat);
+
+         book[0] = new SpreadsheetModel(cc);
+         //Cell theCell = new Cell();
+
+         //END TEST CODE
+
+         double tempDouble = new double();
+         bool blank = false;
+         fileStream = new FileStream(filename, FileMode.Create);
+         textWriter = new XmlTextWriter(fileStream, Encoding.Unicode);
+
+         try
+         {
+
+             textWriter.WriteStartElement(filename.Substring(filename.LastIndexOf("\\") + 1,
+                                          filename.LastIndexOf(".") - filename.LastIndexOf("\\") - 1));
+             textWriter.WriteStartElement("sheet");
+             textWriter.WriteStartElement("author");
+             textWriter.WriteAttributeString("name", "Nathan Benjamin");
+             textWriter.WriteEndElement();
+
+             textWriter.WriteString(Environment.NewLine + "other metadata" + Environment.NewLine);
+
+             int bookRows = book[0].Cells.Rows;
+             int bookColumns = book[0].Cells.Columns;
+
+             for (int column = 0; column < bookColumns; column++)
+             {
+                 textWriter.WriteStartElement("column");
+                 textWriter.WriteAttributeString("index", column.ToString());
 
 
-                int rows = book[0].Cells.Rows;
-                int cols = book[0].Cells.Columns;
+                 for (int row = 0; row < bookRows; row++)
+                 {
+                     theCell = book[0].Cells[row, column];
+                     /*IS CELL DEFAULT CHECK*/
+                     blank = false;
+                     if (theCell.Value == null) { blank = true; }
+                     else if (theCell.Value.Equals("")) { blank = true; }
+                     /*CELL FORMAT needs to be instantiated*/
+                     //if (theCell.CellFormat.IsDefault == false) { blank = true; }
 
-                textWriter.WriteStartElement("columns", cols.ToString());
-                textWriter.WriteEndElement();
-                textWriter.WriteString(Environment.NewLine);
+                     if (blank == true)
+                     {//skip writing the row, go on to the next cell.
+                     }
+                     else
+                     {
+                         textWriter.WriteStartElement("row");
+                         textWriter.WriteAttributeString("index", row.ToString());
 
-                textWriter.WriteStartElement("rows", rows.ToString());
-                textWriter.WriteEndElement();
-                textWriter.WriteString(Environment.NewLine);
-
-                //Scan each column value, then go down a row and scan each column again.
-                for (int y = 1; y < cols; y++)
-                {
-                    textWriter.WriteElementString("column ", y.ToString());
-                    textWriter.WriteString(Environment.NewLine);
-                    for (int x = 1; x < rows; x++)
-                    {
-                        theCell = book[0].Cells[x, y];
-
-                        startTags = "";
-                        endTags = "";
-                        bool formulaBool = theCell.Formula.Equals("");
-                        bool valueBool = theCell.Value.Equals("");
-                        bool formatBool = theCell.CellFormat.Equals(null);
-                        String s = "";
-                        Color tempC = new Color();
-
-                        //tempC.ToString();
-                        //theCell.CellFormat.BackgroundBrush.Color.Equals(Color.Red);
-                        /*LETS FIRST DEAL WITH FORMATTING*//*
-                        if (formatBool == true)
-                        {//change nothing
-                        }
-                        else
-                        {
-
-                            if (theCell.CellFormat.Font.Equals(null) == true)
-                            {//ignore
-                            }
-                            else
-                            {
-                                //textWriter.WriteElementString("<row " + x + ">\n", "");
-                                if (theCell.CellFormat.Font.FontFamily.ToString() != "Times New Roman")
-                                {
-                                    textWriter.WriteElementString(theCell.CellFormat.Font.FontFamily.GetType().ToString(), theCell.CellFormat.Font.FontFamily.ToString());
-                                    //textWriter.WriteString("<text-font = " + theCell.CellFormat.Font.FontFamily.ToString() + ">");
-                                    //fontTags = fontTags + "</text-font>";
-                                }
-                                if (theCell.CellFormat.Font.EmSize.Equals(12))
-                                { }//default, do nothing
-                                else
-                                {
-                                    textWriter.WriteElementString(theCell.CellFormat.Font.EmSize.GetType().ToString(), theCell.CellFormat.Font.EmSize.ToString());
-                                    textWriter.WriteEndElement();
-
-                                }
-                                if (theCell.CellFormat.Font.Bold.Equals(true))
-                                {
-                                    startTags = startTags + "<b>";
-                                    endTags = endTags + "</b>";
-                                }
-                                if (theCell.CellFormat.Font.Italics.Equals(true))
-                                {
-                                    startTags = startTags + "<i>";
-                                    endTags = endTags + "</i>";
-                                }
-                                if (theCell.CellFormat.Font.Underlined.Equals(true))
-                                {
-                                    startTags = startTags + "<u>";
-                                    endTags = endTags + "</u>";
-                                }
-                            }//end of Font check
-
-                            if (theCell.CellFormat.FontBrush.Equals(null))
-                            {//ignore
-                            }
-                            else
-                            {
-                                /* if (theCell.CellFormat.FontBrush.color.get() != "#000000")
+                         if (theCell != null)
+                         {
+                             /*CONTENT TYPE CHECK*/
+                             textWriter.WriteStartElement("content");
+                             if (theCell.Formula.Contains("="))
+                             {
+                                 textWriter.WriteAttributeString("type", "Formula");
+                             }
+                             else
+                             {
+                                 try
                                  {
-                                     textWriter.WriteString("<text-color = " << theCell.CellFormat.FontBrush.Color.get() << ">");
-									fontTags = fontTags + "</text-color>";
-								 }
-                                 if (theCell.CellFormat.FontBrush.brushStyle.get() != null)
-                                 {
-									 textWriter.WriteString("<brush-style = " << theCell.CellFormat.FontBrush.BrushStyle.get() << ">");
-									 fontTags = fontTags + "</brush-style>";
-								 }
-								 if (theCell.CellFormat.FontBrush.backColor.get() != "#FFFFFF"){
-									 textWriter.WriteString("cell-bg-color = " << theCell.CellFormat.FontBrush.backColor.get() << ">");
-									 fontTags = fontTags + "</cell-bg-color>";
-								 }*/
-                       //     }
-                     //   }//end of Format check
-
-                        /*if (temp.Formula.Equals(null) == true)
-                        {
-                            if (temp.Formula.Value(null) == true)
-                            {
-                               }
-                               else{//write the value
-                                   if(tempFormat == null){//we haven't printed out row yet
-                                   textWriter.WriteString("<row " << x << ">\n");
-                                   }
-                                   textWriter.WriteString("<content = number>\n" << tempCell.Value.get());
-                                   textWriter.WriteString("\n</content>\n");
-                                   textWriter.WriteString("</row>\n");
-                               }
-                           }
-                           else{//write the formula
-                               if(tempFormat == null){//we haven't printed out row yet
-                                     textWriter.WriteString("<row " << x << ">\n");
+                                     tempDouble = double.Parse(theCell.Value);
+                                     textWriter.WriteAttributeString("type", "Number");
                                  }
-                                     textWriter.WriteString("<content = formula>\n" << tempCell.Formula.get());
-                                     textWriter.WriteString("\n</content>\n");
-                                     textWriter.WriteString("</row>\n");
-                        
-                             }*/
+                                 catch (System.FormatException e)
+                                 {
+                                     textWriter.WriteAttributeString("type", "Text");
+                                 }
+                             }
 
-  /*                  }//end of row loop
-                    textWriter.WriteEndElement();
-                    textWriter.WriteString(Environment.NewLine);
-                }//end of col loop*/
-/*
-                textWriter.WriteEndElement();
-                textWriter.WriteString(Environment.NewLine);
-                textWriter.Flush();
-
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Error: (" + e.GetType().ToString() + "): " + e.Message, "Error");
-            }
-            finally
-            {
-                if (textWriter != null)
-                {
-                    textWriter.Close();
-                    textWriter = null;
-                }
-            }*/
-            return true;
-        }
-
-		private bool ReadBook()
-		{               
-            int i = 0;
-            int currentRow, currentColumn;
-
-            XmlDocument doc = new XmlDocument();
-
-            try
-            {
-                doc.Load(filename);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Error: (" + e.GetType().ToString() + "): " + e.Message, "Error");
-            }
+                             textWriter.WriteAttributeString("CellFormat", theCell.CellFormat.serialize());
 
 
-            XmlNodeList sheetList = doc.GetElementsByTagName("sheet");
-            
-            // Traverse the List of Sheets
-            foreach (XmlNode node in sheetList)
-            {
-                CellCollection cells = new CellCollection();
-                XmlElement sheetElement = (XmlElement)node;
-                String sheetName = "";
+                             /*IF THE CELLFORMAT IS DEFAULT, WE WRITE NOTHING ABOUT CELL FORMAT
+                             if(theCell.CellFormat.IsDefault){//skip the cell
+                             }
+                             else{
+                                 //Each Format attribute is compared to the default cell. If that .Equals method returns false
+                                 //Then theCell has an attribute different from defaultCell, and that attribute must be written.
+                                 //CellColor
+                                 if (theCell.CellFormat.CellColor.Equals(defaultCell.CellFormat.CellColor) == false)
+                                     textWriter.WriteAttributeString("CellColor", theCell.CellFormat.CellColor.ToString());
+                                 //TextColor
+                                 if (theCell.CellFormat.TextColor.Equals(defaultCell.CellFormat.TextColor) == false)
+                                     textWriter.WriteAttributeString("TextColor", theCell.CellFormat.TextColor.ToString());
+                                 //Bold
+                                 if (theCell.CellFormat.CellFont.Bold.Equals(defaultCell.CellFormat.CellFont.Bold) == false)
+                                     textWriter.WriteAttributeString("Bold", "true");
+                                 //Italics
+                                 if (theCell.CellFormat.CellFont.Italic.Equals(defaultCell.CellFormat.CellFont.Italic) == false)
+                                     textWriter.WriteAttributeString("Italic", "true");
+                                 //Underline
+                                 if (theCell.CellFormat.CellFont.Underline.Equals(defaultCell.CellFormat.CellFont.Underline) == false)
+                                     textWriter.WriteAttributeString("Underline", "true");
+                                 //FontFamily
+                                 if (theCell.CellFormat.CellFont.FontFamily.Equals(defaultCell.CellFormat.CellFont.FontFamily) == false)
+                                     textWriter.WriteAttributeString("FontFamily", theCell.CellFormat.CellFont.FontFamily.ToString());
+                                 //Size
+                                 if (theCell.CellFormat.CellFont.Size.Equals(defaultCell.CellFormat.CellFont.Size) == false)
+                                     textWriter.WriteAttributeString("Size", theCell.CellFormat.CellFont.Size.ToString());
+                             }//end of Format Check
+                             */
 
-                if (sheetElement.HasAttributes)
-                {
-                    if (sheetElement.Attributes[0].Name == "name")
-                        sheetName = sheetElement.Attributes["name"].InnerText;
-                }
 
-                XmlNodeList columnList = sheetElement.GetElementsByTagName("column");
-                
-                // Traverse the List of Columns
-                foreach (XmlNode node2 in columnList)
-                {
-                    XmlElement columnElement = (XmlElement)node2;
-                    String columnNumber = "";
+                             //FORMULA CHECK
+                             if (theCell.Formula.Equals("") || theCell.Formula.Equals(null))
+                             {} //ignore
+                             else{
+                                 textWriter.WriteElementString("Formula", theCell.Formula.ToString());
+                             }
+                             //VALUE CHECK
+                             if (theCell.Value.Equals("") || theCell.Value.Equals(null))
+                             { } //ignore
+                             else
+                             {
+                                 textWriter.WriteElementString("Value", theCell.Value.ToString());
+                             }
+                             textWriter.WriteEndElement();//end of content type element?
+                         }//end of theCell != null if
+                         /*****Where do all these other write elements correspond to?*/
 
-                    if (columnElement.HasAttributes)
-                    {
-                        if (columnElement.Attributes[0].Name == "num")
-                            columnNumber = columnElement.Attributes["num"].InnerText;
-                    }
+                         textWriter.WriteEndElement();
+                     }//end of blank cell check if/else
+                     
+                 }//end of row loop
+                 textWriter.WriteEndElement();
+             }//end of column loop
+             textWriter.WriteEndElement();
+             textWriter.WriteEndElement();
+             textWriter.Flush();
+         }
+         catch (Exception e)
+         {
+             MessageBox.Show("Error: (" + e.GetType().ToString() + "): " +
+                             e.Message + Environment.NewLine +
+                             "Debug Data: " + e.ToString(), "Error");
+         }
+         finally
+         {
+             if (textWriter != null)
+             {
+                 textWriter.Close();
+                 textWriter = null;
+             }
+         }
+         return true;
+     }
+   private bool ReadBook()
+   {
+     int i = 0;
+     int currentRow, currentColumn;
 
-                    currentColumn = Int32.Parse(columnNumber);
+     XmlDocument doc = new XmlDocument();
 
-                    XmlNodeList rowList = columnElement.GetElementsByTagName("row");
+     try
+     {
+       doc.Load(filename);
 
-                    // Traverse the List of Rows
-                    foreach (XmlNode node3 in rowList)
-                    {
-                        XmlElement rowElement = (XmlElement)node3;
-                        String rowNumber = "";
+       XmlNodeList sheetList = doc.GetElementsByTagName("sheet");
 
-                        if (rowElement.HasAttributes)
-                        {
-                            if (rowElement.Attributes[0].Name == "num")
-                                rowNumber = rowElement.Attributes["num"].InnerText;
-                        }
+       // Traverse the List of Sheets
+       foreach (XmlNode sheet in sheetList)
+       {
+         CellCollection cells = new CellCollection();
+         XmlElement sheetElement = (XmlElement)sheet;
+         String sheetName = "";
 
-                        currentRow = Int32.Parse(rowNumber);
+         if (sheetElement.HasAttributes)
+         {
+           if (sheetElement.Attributes[0].Name == "name")
+             sheetName = sheetElement.Attributes["name"].InnerText;
+         }
 
-                        if (rowElement.GetElementsByTagName("content").Count != 0) 
-                        {
-                            String formula = rowElement.GetElementsByTagName("content")[0].InnerText;
-                            Cell cell = new Cell(formula);
-                            cells[currentRow, currentColumn] = cell;
-                        }
+         XmlNodeList columnList = sheetElement.GetElementsByTagName("column");
 
-                    }
-                }
+         // Traverse the List of Columns
+         foreach (XmlNode column in columnList)
+         {
+           XmlElement columnElement = (XmlElement)column;
+           String columnNumber = "";
 
-                // Add current CellCollection to book
-                book.Add(new SpreadsheetModel(cells));
+           if (columnElement.HasAttributes)
+           {
+             if (columnElement.Attributes[0].Name == "index")
+               columnNumber = columnElement.Attributes["index"].InnerText;
+           }
+
+           currentColumn = Int32.Parse(columnNumber);
+
+           XmlNodeList rowList = columnElement.GetElementsByTagName("row");
+
+           // Traverse the List of Rows
+           foreach (XmlNode row in rowList)
+           {
+             XmlElement rowElement = (XmlElement)row;
+             String rowNumber = "";
+
+             if (rowElement.HasAttributes)
+             {
+               if (rowElement.Attributes[0].Name == "index")
+                 rowNumber = rowElement.Attributes["index"].InnerText;
              }
 
-             return true;
-		}
-	}
+             currentRow = Int32.Parse(rowNumber);
+
+             if (rowElement.GetElementsByTagName("content").Count != 0)
+             {
+               String formula = rowElement.GetElementsByTagName("content")[0].InnerText;
+               Cell cell = new Cell(formula);
+               cells[currentRow, currentColumn] = cell;
+             }
+
+           }
+         }
+
+         // Add current CellCollection to book
+         book.Add(new SpreadsheetModel(cells));
+       }
+     }
+     catch (Exception e)
+     {
+         MessageBox.Show("Error: (" + e.GetType().ToString() + "): " +
+                         e.Message + Environment.NewLine +
+                         "Debug Data: " + e.ToString(), "Error");
+     }
+     return true;
+   }
+ }
 }
