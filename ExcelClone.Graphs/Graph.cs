@@ -105,6 +105,7 @@ namespace ExcelClone.Graphs
         {
             //Init Fonts to defaults
             LabelFont = new TextureFont(new Font(FontFamily.GenericSansSerif, 10.0f));
+            LabelFont.RebuildTextures();
             TitleFont = new TextureFont(new Font(FontFamily.GenericSansSerif, 18.0f));
             AxesFont = new TextureFont(new Font(FontFamily.GenericSansSerif, 14.0f, FontStyle.Bold));
         }
@@ -114,6 +115,7 @@ namespace ExcelClone.Graphs
             int i = 0;
 
             //X labels
+            XLabels = new List<TextHandle>();
             double delta = (maxXVal-minXVal)/(nVertLines-1);
             double currX = minXVal;
             for (i = 0; i < nVertLines; i++, currX += delta )
@@ -124,6 +126,7 @@ namespace ExcelClone.Graphs
                 XLabelOffsets.Add(((currX.ToString("####.##").Length) * LabelFont.Width) / 2.0 + 3);
             }
             //Y labels
+            YLabels = new List<TextHandle>();
             delta = (maxYVal - minYVal) / (nHorzLines-1);
             double currY = minYVal;
             for (i = 0; i < nHorzLines; i++, currY += delta )
@@ -139,6 +142,7 @@ namespace ExcelClone.Graphs
                     MaxYOffset = (int)(w + 4);
             }
 
+            LegendLabels = new List<string>();
             if (this is scatter_graph)
                 i = 1;
             else

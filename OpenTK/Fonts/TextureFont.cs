@@ -133,6 +133,12 @@ namespace OpenTK.Fonts
 
         #endregion
 
+        //NATHAN: fix stupid texture issues
+        public void RebuildTextures()
+        {
+            PrepareTexturePacker();
+        }
+
         #region private void LoadGlyph(char c, out Box2 rectangle)
 
         /// <summary>
