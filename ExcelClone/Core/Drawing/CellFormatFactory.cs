@@ -11,14 +11,14 @@ namespace ExcelClone.Core
         {
             string[] s = settings.Split(',');
             CellFormat c = new CellFormat();
-            FontStyle style =  (((int.Parse(s[SettingPosition.Bold]) == 1)? FontStyle.Bold : 0) | 
-                ((int.Parse(s[SettingPosition.Italic]) == 1)? FontStyle.Italic : 0) |
-                ((int.Parse(s[SettingPosition.Underline]) == 1)? FontStyle.Underline : 0));
-            c.CellColor = Color.FromArgb(int.Parse(s[SettingPosition.CellColor]));
-            c.TextColor = Color.FromArgb(int.Parse(s[SettingPosition.TextColor]));
+            FontStyle style =  (((int.Parse(s[(int)SettingPosition.Bold]) == 1)? FontStyle.Bold : 0) | 
+                ((int.Parse(s[(int)SettingPosition.Italic]) == 1)? FontStyle.Italic : 0) |
+                ((int.Parse(s[(int)SettingPosition.Underline]) == 1)? FontStyle.Underline : 0));
+            c.CellColor = Color.FromArgb(int.Parse(s[(int)SettingPosition.CellColor]));
+            c.TextColor = Color.FromArgb(int.Parse(s[(int)SettingPosition.TextColor]));
             
-            c.CellFont = FontFactory.CreateFont(s[SettingPosition.FontFamily], 
-                float.Parse(s[SettingPosition.FontSize]), style);
+            c.CellFont = FontFactory.CreateFont(s[(int)SettingPosition.FontFamily], 
+                float.Parse(s[(int)SettingPosition.FontSize]), style);
             return c;
         }
     }
