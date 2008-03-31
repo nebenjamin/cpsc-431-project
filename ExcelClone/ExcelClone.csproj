@@ -42,6 +42,7 @@
     <Compile Include="Controller\SpreadsheetControl.cs" />
     <Compile Include="Core\Cell.cs" />
     <Compile Include="Core\CellCollection.cs" />
+    <Compile Include="Core\Drawing\CellFormatFactory.cs" />
     <Compile Include="Core\Drawing\BrushFactory.cs" />
     <Compile Include="Core\Drawing\BrushSettings.cs" />
     <Compile Include="Core\Drawing\CellFormat.cs" />

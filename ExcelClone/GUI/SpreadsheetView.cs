@@ -36,6 +36,9 @@ namespace ExcelClone.Gui
 
             CellEndEdit += new DataGridViewCellEventHandler(SpreadsheetView_CellEndEdit);
             CellBeginEdit += new DataGridViewCellCancelEventHandler(SpreadsheetView_CellBeginEdit);
+
+            this.DefaultCellStyle.Font = new Font("Verdana", 10);
+
         }
 
         void SpreadsheetView_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)

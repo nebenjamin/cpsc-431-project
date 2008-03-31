@@ -15,6 +15,16 @@ namespace ExcelClone.Core
 
             return new Font(new FontFamily(fontSettings.FontFamily), fontSettings.EmSize, style);
         }
+
+        public static Font CreateDefaultFont()
+        {
+            return new Font(new FontFamily("Verdana"),10);
+        }
+
+        public static Font CreateFont(string family, float size, FontStyle s)
+        {
+            return new Font(new FontFamily(family), size, s);
+        }
     }
 
 }
