@@ -12,6 +12,12 @@ namespace ExcelClone.Graphs
     public class bar_graph : Graph
     {
         private float barW;
+        private TextBox yAxis_tb;
+        private CheckBox yAxis_cb;
+        private Label yAxis_lb;
+        private CheckBox xAxis_cb;
+        private TextBox xAxis_tb;
+        private Label xAxis_lb;
 
         //Create a bar graph, add it to a parent form, fill in data
         public static Graph Create_Bar_Graph(Form parent, Rectangle location, string[][] data)
@@ -41,8 +47,8 @@ namespace ExcelClone.Graphs
             graphConfig gConf = new graphConfig(gr,gc);
             gConf.ShowDialog();
 
-            //gC.Dispose();
-            //gc = new GraphControl();
+ 
+            gc = new GraphControl();
             gc.Location = new Point(location.X, location.Y);  //gc.loc is a point, not rect
             gc.Size = location.Size;
             gc.SetGraph(gr);
@@ -130,6 +136,85 @@ namespace ExcelClone.Graphs
             barW = (float)(maxYVal - minYVal) / totalBars;
         }
 
-        public override void configTab(TabPage tb) { }
+        public override void configTab(TabPage tp)
+        {
+            yAxis_cb = new CheckBox();
+            yAxis_cb.AutoSize = true;
+            yAxis_cb.Location = new System.Drawing.Point(266, 102);
+            yAxis_cb.Name = "checkBox3";
+            yAxis_cb.Size = new System.Drawing.Size(100, 17);
+            yAxis_cb.TabIndex = 8;
+            yAxis_cb.Text = "No Y-axis Label";
+            yAxis_cb.UseVisualStyleBackColor = true;
+            tp.Controls.Add(yAxis_cb);
+            yAxis_cb.CheckedChanged += new EventHandler(yAxis_cb_CheckedChanged);
+
+            yAxis_tb = new TextBox();
+            yAxis_tb.Location = new System.Drawing.Point(9, 100);
+            yAxis_tb.Name = "textBox3";
+            yAxis_tb.Size = new System.Drawing.Size(250, 20);
+            yAxis_tb.TabIndex = 7;
+            yAxis_tb.Text = "Y-axis";
+            tp.Controls.Add(yAxis_tb);
+            yAxis_tb.TextChanged += new EventHandler(yAxis_tb_TextChanged);
+
+            yAxis_lb = new Label();
+            yAxis_lb.AutoSize = true;
+            yAxis_lb.Location = new System.Drawing.Point(6, 83);
+            yAxis_lb.Name = "label3";
+            yAxis_lb.Size = new System.Drawing.Size(64, 13);
+            yAxis_lb.TabIndex = 6;
+            yAxis_lb.Text = "Y-axis Label";
+            tp.Controls.Add(yAxis_lb);
+
+            xAxis_cb = new CheckBox();
+            xAxis_cb.AutoSize = true;
+            xAxis_cb.Location = new System.Drawing.Point(266, 62);
+            xAxis_cb.Name = "checkBox2";
+            xAxis_cb.Size = new System.Drawing.Size(100, 17);
+            xAxis_cb.TabIndex = 5;
+            xAxis_cb.Text = "No X-axis Label";
+            xAxis_cb.UseVisualStyleBackColor = true;
+            tp.Controls.Add(xAxis_cb);
+            xAxis_cb.CheckedChanged += new EventHandler(xAxis_cb_CheckedChanged);
+
+            xAxis_tb = new TextBox();
+            xAxis_tb.Location = new System.Drawing.Point(9, 60);
+            xAxis_tb.Name = "textBox2";
+            xAxis_tb.Size = new System.Drawing.Size(250, 20);
+            xAxis_tb.TabIndex = 4;
+            xAxis_tb.Text = "X-axis";
+            tp.Controls.Add(xAxis_tb);
+            xAxis_tb.TextChanged += new EventHandler(xAxis_tb_TextChanged);
+
+            xAxis_lb = new Label();
+            xAxis_lb.AutoSize = true;
+            xAxis_lb.Location = new System.Drawing.Point(6, 43);
+            xAxis_lb.Name = "label2";
+            xAxis_lb.Size = new System.Drawing.Size(64, 13);
+            xAxis_lb.TabIndex = 3;
+            xAxis_lb.Text = "X-axis Label";
+            tp.Controls.Add(xAxis_lb);
+        }
+
+        void xAxis_cb_CheckedChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        void xAxis_tb_TextChanged(object sender, EventArgs e)
+        {
+            XLabelString = xAxis_tb.Text;
+        }
+
+        void yAxis_cb_CheckedChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        void yAxis_tb_TextChanged(object sender, EventArgs e)
+        {
+            YLabelString = yAxis_tb.Text;
+        }
     }
 }
