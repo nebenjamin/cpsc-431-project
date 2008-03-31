@@ -21,8 +21,6 @@ namespace ExcelClone.Functions
             Dependencies = new DependencyHandler(OutFile);
         }
 
-        /* NOT COMPLETE YET (References Table Implementation)
-         */
         public string Parse(string Cell_String)
         {
             Cell_String = Cell_String.ToUpper().Replace(" ", "");
@@ -69,8 +67,8 @@ namespace ExcelClone.Functions
 
             string strtmp = Breaker(temp);
 
-            OutFile.WriteLine("-----" + strtmp);
-            //Form1.Step("-----" + strtmp);
+            OutFile.WriteLine("----- " + strtmp);
+            //Form1.Step("----- " + strtmp);
             OutFile.Flush();
             try
             {
@@ -156,97 +154,104 @@ namespace ExcelClone.Functions
             #endregion
 
             #region CHECK FOR NEGATIVE VALUES (-)
-            /*
-            for (int i = 0; i < temp.Count; i++)
+            bool first = true;
+            if (first)
             {
-                try
+                temp.Insert(0, "=");
+                for (int i = 0; i < temp.Count; i++)
                 {
                     if (temp[i].ToString().Equals("-"))
                     {
-                        if ((i - 1 == -1) && (i + 1 >= temp.Count))
+                        if (i + 1 >= temp.Count || i - 1 < 0) break;
+                        if (IsCellReference(temp[i + 1].ToString())) //Cell Refrence
                         {
-                            //A lone negative
+                            if (temp[i - 1].ToString().Equals("=") || temp[i - 1].ToString().Equals("+") ||
+                                temp[i - 1].ToString().Equals("-") || temp[i - 1].ToString().Equals("*") ||
+                                temp[i - 1].ToString().Equals("/") || temp[i - 1].ToString().Equals("(") ||
+                                temp[i - 1].ToString().Equals(","))
+                            {
+                                temp.RemoveAt(i);
+                                temp.Insert(i, "*");
+                                temp.Insert(i, "-1");
+                            }
                         }
-                        else
+                        else if (IsNumber(temp[i + 1].ToString())) //Number
                         {
-                            if ((i - 1 == -1) && IsNumber(temp[i + 1].ToString())) //If -32
+                            if (temp[i - 1].ToString().Equals("=") || temp[i - 1].ToString().Equals("+") ||
+                                temp[i - 1].ToString().Equals("-") || temp[i - 1].ToString().Equals("*") ||
+                                temp[i - 1].ToString().Equals("/") || temp[i - 1].ToString().Equals("(") ||
+                                temp[i - 1].ToString().Equals(","))
                             {
                                 temp.RemoveAt(i);
                                 temp[i] = Convert.ToString(Convert.ToInt32(temp[i].ToString()) * -1);
                                 i--;
                             }
-                            else
+                        }
+                        else if (Fun_Class.IsFunction(temp[i + 1].ToString())) //Function
+                        {
+                            if (temp[i - 1].ToString().Equals("=") || temp[i - 1].ToString().Equals("+") ||
+                                temp[i - 1].ToString().Equals("-") || temp[i - 1].ToString().Equals("*") ||
+                                temp[i - 1].ToString().Equals("/") || temp[i - 1].ToString().Equals("(") ||
+                                temp[i - 1].ToString().Equals(","))
                             {
-                                if (i - 1 == -1) //If -add or -A1 or -text
-                                {
-                                    temp.RemoveAt(i);
-                                    temp.Insert(i, "*");
-                                    temp.Insert(i, "-1");
-                                }
-                                else
-                                {
-                                    if (!IsNumber(temp[i + 1].ToString()) && !IsNumber(temp[i + 2].ToString()))
-                                    {
-                                        temp.RemoveAt(i);
-                                        temp.Insert(i, "*");
-                                        temp.Insert(i, "-1");
-                                    }
-                                    else
-                                    {
-                                        if ((temp[i - 1].ToString().Equals("(") || temp[i - 1].ToString().Equals("*") ||
-                                            temp[i - 1].ToString().Equals("/") || temp[i - 1].ToString().Equals("+") ||
-                                            temp[i - 1].ToString().Equals("-") || temp[i - 1].ToString().Equals("=") ||
-                                            temp[i - 1].ToString().Equals(","))
-                                            && char.IsNumber(temp[i + 1].ToString(), 0))
-                                        {
-                                            temp.RemoveAt(i);
-                                            temp[i] = Convert.ToString(Convert.ToInt32(temp[i].ToString()) * -1);
-                                            i--;
-                                        }
-                                    }
-                                }
+                                temp.RemoveAt(i);
+                                temp.Insert(i, "*");
+                                temp.Insert(i, "-1");
+                            }
+                        }
+                        else //String
+                        {
+                            if (temp[i - 1].ToString().Equals("=") || temp[i - 1].ToString().Equals("+") ||
+                                temp[i - 1].ToString().Equals("-") || temp[i - 1].ToString().Equals("*") ||
+                                temp[i - 1].ToString().Equals("/") || temp[i - 1].ToString().Equals("(") ||
+                                temp[i - 1].ToString().Equals(","))
+                            {
+                                temp.RemoveAt(i);
+                                temp.Insert(i, "*");
+                                temp.Insert(i, "-1");
                             }
                         }
                     }
                 }
-                catch (Exception e) { }
+                temp.RemoveAt(0);
             }
-            */
             #endregion
             #region CHECK FOR NEGATIVE VALUES (~)
-            for (int i = 0; i < temp.Count; i++)
+            if (first)
             {
-                if (temp[i].ToString().Equals("~"))
+                for (int i = 0; i < temp.Count; i++)
                 {
-                    if (i + 1 >= temp.Count) break;
-                    if (IsCellReference(temp[i + 1].ToString())) //Cell Refrence
+                    if (temp[i].ToString().Equals("~"))
                     {
-                        temp.RemoveAt(i);
-                        temp.Insert(i, "*");
-                        temp.Insert(i, "-1");
-                    }
-                    else if (IsNumber(temp[i + 1].ToString())) //Number
-                    {
-                        temp.RemoveAt(i);
-                        temp[i] = Convert.ToString(Convert.ToInt32(temp[i].ToString()) * -1);
-                        i--;
-                    }
-                    else if (Fun_Class.IsFunction(temp[i + 1].ToString())) //Function
-                    {
-                        temp.RemoveAt(i);
-                        temp.Insert(i, "*");
-                        temp.Insert(i, "-1");
-                    }
-                    else //String
-                    {
-                        temp.RemoveAt(i);
-                        temp.Insert(i, "*");
-                        temp.Insert(i, "-1");
+                        if (i + 1 >= temp.Count) break;
+                        if (IsCellReference(temp[i + 1].ToString())) //Cell Refrence
+                        {
+                            temp.RemoveAt(i);
+                            temp.Insert(i, "*");
+                            temp.Insert(i, "-1");
+                        }
+                        else if (IsNumber(temp[i + 1].ToString())) //Number
+                        {
+                            temp.RemoveAt(i);
+                            temp[i] = Convert.ToString(Convert.ToInt32(temp[i].ToString()) * -1);
+                            i--;
+                        }
+                        else if (Fun_Class.IsFunction(temp[i + 1].ToString())) //Function
+                        {
+                            temp.RemoveAt(i);
+                            temp.Insert(i, "*");
+                            temp.Insert(i, "-1");
+                        }
+                        else //String
+                        {
+                            temp.RemoveAt(i);
+                            temp.Insert(i, "*");
+                            temp.Insert(i, "-1");
+                        }
                     }
                 }
             }
             #endregion
-
 
             return temp;
         }
@@ -375,7 +380,7 @@ namespace ExcelClone.Functions
                                         found--;
                                 }
 
-                                Parts.Insert(start + i, ")");
+                                Parts.Insert(start + 1, ")"); //Parts.Insert(start + i, ")");
                                 Parts.Insert(i + 1, ",");
                                 Parts.Insert(i + 1, Parts[i - 1]);
                                 Parts.Insert(i + 1, "(");
@@ -439,7 +444,7 @@ namespace ExcelClone.Functions
                     }
                     catch
                     {
-                        OutFile.WriteLine("ERROR: INCORRECT INPUT STRING"); //ERROR: INCORRECT INPUT STRING
+                        OutFile.WriteLine("ERROR: INCORRECT INPUT STRING (/,*)"); //ERROR: INCORRECT INPUT STRING
                         //Form1.Step("ERROR: INCORRECT INPUT STRING");
                         return Tokenize(Base_String);
                     }
@@ -570,7 +575,7 @@ namespace ExcelClone.Functions
                     }
                     catch
                     {
-                        OutFile.WriteLine("ERROR: INCORRECT INPUT STRING"); //ERROR: INCORRECT INPUT STRING
+                        OutFile.WriteLine("ERROR: INCORRECT INPUT STRING  (+,-)"); //ERROR: INCORRECT INPUT STRING
                         //Form1.Step("ERROR: INCORRECT INPUT STRING");
                         return Tokenize(Base_String);
                     }
