@@ -45,14 +45,20 @@ namespace ExcelClone.Graphs
             gc.Size = new Size(450, 400);
             gc.SetGraph(gr);
 
-            graphConfig gC = new graphConfig(gr, gc);
-            gC.ShowDialog();
+            graphConfig gConf = new graphConfig(gr, gc);
+            gConf.ShowDialog();
 
-            //gC.Dispose();
-            //gc = new GraphControl();
-            gc.Location = new Point(location.X, location.Y);  //gc.loc is a point, not rect
-            gc.Size = location.Size;
-            gc.SetGraph(gr);
+            if (gConf.DialogResult == DialogResult.OK)
+            {
+                gc = new GraphControl();
+                gc.Location = new Point(location.X, location.Y);  //gc.loc is a point, not rect
+                gc.Size = location.Size;
+                gc.SetGraph(gr);
+                gr.InitFonts();
+                gr.InitLabels();
+
+                parent.Controls.Add(gc);
+            }
 
             parent.Controls.Add(gc);
 
@@ -97,8 +103,10 @@ namespace ExcelClone.Graphs
 
             CheckGraphArea();
             DrawAxis();
-            DrawTitle();
-            DrawLegend(r);
+            if (draw_title)
+                DrawTitle();
+            if (LegendOn)
+                DrawLegend(r);
 
 
             // Do this so that you don't mess around with base class matrix

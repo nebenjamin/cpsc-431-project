@@ -47,15 +47,17 @@ namespace ExcelClone.Graphs
             graphConfig gConf = new graphConfig(gr,gc);
             gConf.ShowDialog();
 
- 
-            gc = new GraphControl();
-            gc.Location = new Point(location.X, location.Y);  //gc.loc is a point, not rect
-            gc.Size = location.Size;
-            gc.SetGraph(gr);
-            gr.InitFonts();
-            gr.InitLabels();
+            if (gConf.DialogResult == DialogResult.OK)
+            {
+                gc = new GraphControl();
+                gc.Location = new Point(location.X, location.Y);  //gc.loc is a point, not rect
+                gc.Size = location.Size;
+                gc.SetGraph(gr);
+                gr.InitFonts();
+                gr.InitLabels();
 
-            parent.Controls.Add(gc);            
+                parent.Controls.Add(gc);
+            }
 
             return gr;
         }
@@ -73,8 +75,10 @@ namespace ExcelClone.Graphs
             clientRect = r;
             CheckGraphArea();
             DrawAxis();
-            DrawTitle();
-            DrawLegend(r);
+            if(draw_title)
+                DrawTitle();
+            if(LegendOn)
+                DrawLegend(r);
 
             // Do this so that you don't mess around with base class matrix
             GL.PushMatrix();
@@ -146,7 +150,7 @@ namespace ExcelClone.Graphs
             yAxis_cb.Name = "checkBox3";
             yAxis_cb.Size = new System.Drawing.Size(100, 17);
             yAxis_cb.TabIndex = 8;
-            yAxis_cb.Text = "No Y-axis Label";
+            yAxis_cb.Text = "Draw Y-axis Label";
             yAxis_cb.UseVisualStyleBackColor = true;
             tp.Controls.Add(yAxis_cb);
             yAxis_cb.CheckedChanged += new EventHandler(yAxis_cb_CheckedChanged);
@@ -156,8 +160,9 @@ namespace ExcelClone.Graphs
             yAxis_tb.Name = "textBox3";
             yAxis_tb.Size = new System.Drawing.Size(250, 20);
             yAxis_tb.TabIndex = 7;
-            yAxis_tb.Text = "Y-axis";
+            yAxis_tb.Text = "Create Y-axis Label";
             tp.Controls.Add(yAxis_tb);
+            yAxis_tb.Click += new EventHandler(yAxis_tb_Click);
             yAxis_tb.TextChanged += new EventHandler(yAxis_tb_TextChanged);
 
             yAxis_lb = new Label();
@@ -175,7 +180,7 @@ namespace ExcelClone.Graphs
             xAxis_cb.Name = "checkBox2";
             xAxis_cb.Size = new System.Drawing.Size(100, 17);
             xAxis_cb.TabIndex = 5;
-            xAxis_cb.Text = "No X-axis Label";
+            xAxis_cb.Text = "Draw X-axis Label";
             xAxis_cb.UseVisualStyleBackColor = true;
             tp.Controls.Add(xAxis_cb);
             xAxis_cb.CheckedChanged += new EventHandler(xAxis_cb_CheckedChanged);
@@ -185,8 +190,9 @@ namespace ExcelClone.Graphs
             xAxis_tb.Name = "textBox2";
             xAxis_tb.Size = new System.Drawing.Size(250, 20);
             xAxis_tb.TabIndex = 4;
-            xAxis_tb.Text = "X-axis";
+            xAxis_tb.Text = "Create X-axis Label";
             tp.Controls.Add(xAxis_tb);
+            xAxis_tb.Click += new EventHandler(xAxis_tb_Click);
             xAxis_tb.TextChanged += new EventHandler(xAxis_tb_TextChanged);
 
             xAxis_lb = new Label();
@@ -199,9 +205,21 @@ namespace ExcelClone.Graphs
             tp.Controls.Add(xAxis_lb);
         }
 
+        void yAxis_tb_Click(object sender, EventArgs e)
+        {
+            yAxis_tb.Text = "";
+            yAxis_cb.Checked = true;
+        }
+
+        void xAxis_tb_Click(object sender, EventArgs e)
+        {
+            xAxis_tb.Text = "";
+            xAxis_cb.Checked = true;
+        }
+
         void xAxis_cb_CheckedChanged(object sender, EventArgs e)
         {
-            
+            draw_xLabel = xAxis_cb.Checked;
         }
 
         void xAxis_tb_TextChanged(object sender, EventArgs e)
@@ -211,7 +229,8 @@ namespace ExcelClone.Graphs
 
         void yAxis_cb_CheckedChanged(object sender, EventArgs e)
         {
-            
+
+            draw_yLabel = yAxis_cb.Checked;
         }
 
         void yAxis_tb_TextChanged(object sender, EventArgs e)

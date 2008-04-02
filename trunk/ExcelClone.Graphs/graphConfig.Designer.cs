@@ -37,6 +37,7 @@ namespace ExcelClone.Graphs
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
@@ -54,6 +55,7 @@ namespace ExcelClone.Graphs
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.checkBox2);
             this.tabPage1.Controls.Add(this.checkBox1);
             this.tabPage1.Controls.Add(this.textBox1);
             this.tabPage1.Controls.Add(this.label1);
@@ -70,10 +72,11 @@ namespace ExcelClone.Graphs
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(266, 22);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(63, 17);
+            this.checkBox1.Size = new System.Drawing.Size(74, 17);
             this.checkBox1.TabIndex = 2;
-            this.checkBox1.Text = "No Title";
+            this.checkBox1.Text = "Draw Title";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // textBox1
             // 
@@ -81,8 +84,9 @@ namespace ExcelClone.Graphs
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(250, 20);
             this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "Graph";
+            this.textBox1.Text = "Create Title Label";
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textBox1.Click += new System.EventHandler(this.textBox1_Click);
             // 
             // label1
             // 
@@ -133,6 +137,17 @@ namespace ExcelClone.Graphs
             this.button2.Text = "OK";
             this.button2.UseVisualStyleBackColor = true;
             // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(346, 23);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(90, 17);
+            this.checkBox2.TabIndex = 3;
+            this.checkBox2.Text = "Draw Legend";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            // 
             // graphConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -165,6 +180,7 @@ namespace ExcelClone.Graphs
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox checkBox2;
 
     }
 }
