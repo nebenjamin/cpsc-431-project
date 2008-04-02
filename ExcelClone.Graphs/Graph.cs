@@ -73,7 +73,11 @@ namespace ExcelClone.Graphs
         protected List<String> LegendLabels = new List<string>();
         protected List<TextHandle> LegendTxtHandles = new List<TextHandle>();
         protected float LegendY;  //Legend Y location, for scaling purposes
-        public bool LegendOn = true;
+
+        public bool LegendOn = false;
+        public bool draw_xLabel = false;
+        public bool draw_yLabel = false;
+        public bool draw_title = false;
 
         protected ITextPrinter txp = new TextPrinter();  //Text printer - for drawing all text
 
@@ -332,29 +336,36 @@ namespace ExcelClone.Graphs
             }
            //Draw axis labels
 
-            //X
-            txp.Begin();
-            GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMinFilter, (int)OpenTK.OpenGL.Enums.TextureMinFilter.Nearest);
-            GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMagFilter, (int)OpenTK.OpenGL.Enums.TextureMagFilter.Nearest);
-            float w, h;
-            AxesFont.MeasureString(XLabelString, out w, out h);
-            double X = ((grUpRight.X - grLowLeft.X) / 2 + grLowLeft.X) / 100.0 * clientRect.Right - w / 2;
-            double Y = clientRect.Bottom - AxesFont.Height - XLabelOffset;
-            GL.Translate(X, Y, 0.0);
-            txp.Draw(XAxisLabel);
-            txp.End();
+            if (draw_xLabel)
+            {
+                //X
+                txp.Begin();
+                GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMinFilter, (int)OpenTK.OpenGL.Enums.TextureMinFilter.Nearest);
+                GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMagFilter, (int)OpenTK.OpenGL.Enums.TextureMagFilter.Nearest);
+                float w, h;
+                AxesFont.MeasureString(XLabelString, out w, out h);
+                double X = ((grUpRight.X - grLowLeft.X) / 2 + grLowLeft.X) / 100.0 * clientRect.Right - w / 2;
+                double Y = clientRect.Bottom - AxesFont.Height - XLabelOffset;
+                GL.Translate(X, Y, 0.0);
+                txp.Draw(XAxisLabel);
+                txp.End();
+            }
 
-            //Y
-            txp.Begin();
-            GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMinFilter, (int)OpenTK.OpenGL.Enums.TextureMinFilter.Nearest);
-            GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMagFilter, (int)OpenTK.OpenGL.Enums.TextureMagFilter.Nearest);
-            AxesFont.MeasureString(YLabelString, out w, out h);
-            X = YLabelOffset;
-            Y = ((grUpRight.Y - grLowLeft.Y) / 2 + (100 - grUpRight.Y)) / 100.0 * clientRect.Bottom + w / 2;
-            GL.Translate(X, Y, 0.0);
-            GL.Rotate(-90.0, 0.0, 0.0, 1.0);
-            txp.Draw(YAxisLabel);
-            txp.End();
+            if (draw_yLabel)
+            {
+                //Y
+                txp.Begin();
+                GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMinFilter, (int)OpenTK.OpenGL.Enums.TextureMinFilter.Nearest);
+                GL.TexParameter(OpenTK.OpenGL.Enums.TextureTarget.Texture2d, OpenTK.OpenGL.Enums.TextureParameterName.TextureMagFilter, (int)OpenTK.OpenGL.Enums.TextureMagFilter.Nearest);
+                float w, h;
+                AxesFont.MeasureString(YLabelString, out w, out h);
+                double X = YLabelOffset;
+                double Y = ((grUpRight.Y - grLowLeft.Y) / 2 + (100 - grUpRight.Y)) / 100.0 * clientRect.Bottom + w / 2;
+                GL.Translate(X, Y, 0.0);
+                GL.Rotate(-90.0, 0.0, 0.0, 1.0);
+                txp.Draw(YAxisLabel);
+                txp.End();
+            }
         }
 
         public float xOfGraph(float x_value)
