@@ -69,6 +69,24 @@
     <Compile Include="Functions\DependencyNode.cs" />
     <Compile Include="Functions\Functions.cs" />
     <Compile Include="Functions\Parser.cs" />
+    <Compile Include="Graphs\bar_graph.cs" />
+    <Compile Include="Graphs\column_graph.cs" />
+    <Compile Include="Graphs\Graph.cs" />
+    <Compile Include="Graphs\graphConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Graphs\graphConfig.Designer.cs">
+      <DependentUpon>graphConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Graphs\GraphControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Graphs\GraphControl.Designer.cs">
+      <DependentUpon>GraphControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Graphs\line_graph.cs" />
+    <Compile Include="Graphs\pie_graph.cs" />
+    <Compile Include="Graphs\scatter_graph.cs" />
     <Compile Include="Gui\SpreadsheetUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -86,6 +104,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Graphs\graphConfig.resx">
+      <DependentUpon>graphConfig.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Gui\SpreadsheetUserControl.resx">
       <DependentUpon>SpreadsheetUserControl.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -113,6 +135,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenTK\OpenTK.csproj">
+      <Project>{A8DE4406-5E00-4B4E-9A98-71F9E5A42A29}</Project>
+      <Name>OpenTK</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
