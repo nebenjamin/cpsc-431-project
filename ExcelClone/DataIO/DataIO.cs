@@ -88,16 +88,17 @@ namespace ExcelClone.DataIO
      opener.DefaultExt = ".xml";
      opener.Filter = ".xml Files|*.xml";
      opener.InitialDirectory = "c:\\documents and settings\\" + Environment.UserName + "\\desktop\\";
-     opener.ShowDialog();
-     filename = opener.FileName;
-     if (ReadBook())
+
+     if (opener.ShowDialog() == DialogResult.OK)
      {
-       return book[0];
+       filename = opener.FileName;
+
+       if (ReadBook())
+       {
+         return book[0];
+       }
      }
-     else
-     {
-       return new SpreadsheetModel(new CellCollection());
-     }
+     return new SpreadsheetModel(new CellCollection());
    }
 
      private bool WriteBook()
