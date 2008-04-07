@@ -36,9 +36,18 @@ namespace ExcelClone.Gui
 
             CellEndEdit += new DataGridViewCellEventHandler(SpreadsheetView_CellEndEdit);
             CellBeginEdit += new DataGridViewCellCancelEventHandler(SpreadsheetView_CellBeginEdit);
+            RowsRemoved += new DataGridViewRowsRemovedEventHandler(SpreadsheetView_RowsRemoved);
+
 
             this.DefaultCellStyle.Font = new Font("Verdana", 10);
 
+        }
+
+        void SpreadsheetView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            Console.WriteLine("row removed");
+            //int row = e.RowIndex;
+            //int col = e.
         }
 
         void SpreadsheetView_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -60,6 +69,7 @@ namespace ExcelClone.Gui
 
         void SpreadsheetView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            Console.WriteLine("called");
             int row = e.RowIndex;
             int col = e.ColumnIndex;
             
@@ -90,13 +100,28 @@ namespace ExcelClone.Gui
 
         void SpreadsheetView_KeyDown(object sender, KeyEventArgs e)
         {
+            Cell c;
             if (e.KeyCode == Keys.Delete && !CurrentCell.IsInEditMode)
                 foreach (DataGridViewCell cell in SelectedCells)
+                {
                     cell.Value = "";
+                    if (cell.RowIndex >= 0 && cell.ColumnIndex >= 0)
+                    {
+                        c = Controller.Instance.SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex];
+                        if (c != null)
+                        {
+                            c.Value = "";
+                            c.Formula = "";
+                        }
+                    }
+                }
         }
 
         void SpreadsheetView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            //out of bounds double click
+            if (e.ColumnIndex < 0 || e.RowIndex < 0)
+                return;
             CurrentCell = this[e.ColumnIndex, e.RowIndex];
             BeginEdit(false);
         }
