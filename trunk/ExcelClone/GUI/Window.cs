@@ -69,10 +69,43 @@ namespace ExcelClone.Gui
 
         private void barToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Rectangle r = new Rectangle( 0,50,400,300 );
-            string[][] data = Graphs.Graph.sampleData();
+            Rectangle r = new Rectangle(0, 50, 400, 300);
 
-            Graphs.Graph gr = Graphs.bar_graph.Create_Bar_Graph(this, r, data);
+            //Done by David, Caleb, & Scott
+            int cellCount = Gui.SpreadsheetView.Instance.SelectedCells.Count;
+            int max_col, min_col, max_row, min_row;
+            max_col = max_row = 0;
+            min_col = min_row = 51;
+            for (int i = 0; i < cellCount; i++)
+            {
+                int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
+                int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
+                if (rI < min_row)
+                    min_row = rI;
+                if (rI > max_row)
+                    max_row = rI;
+                if (cI < min_col)
+                    min_col = cI;
+                if (cI > max_col)
+                    max_col = cI;
+            }
+            int colCount = max_col - min_col + 1;
+            int rowCount = max_row - min_row + 1;
+
+            if (colCount >= 2 && rowCount >= 1)
+            {
+                string[][] data = new string[rowCount][];
+                for (int i = 0; i < data.Length; i++)
+                    data[i] = new string[colCount];
+                for (int i = 0; i < cellCount; i++)
+                {
+                    int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
+                    int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
+                    data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
+                }
+
+                Graphs.Graph gr = Graphs.bar_graph.Create_Bar_Graph(this, r, data);
+            }
         }
 
         private void columnToolStripMenuItem_Click(object sender, EventArgs e)
