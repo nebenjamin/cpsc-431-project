@@ -6,18 +6,18 @@ namespace ExcelClone
 {
     enum CommandType
     {
-        New,
-        Open,
+        About,
         Close,
-        Save,
-        SaveAs,
         Copy,
         Cut,
-        Paste,
         Exit,
         InsertWorksheet,
         InsertGraph,
         InsertFunction,
-        About
+        New,
+        Open,
+        Paste,
+        Save,
+        SaveAs,
     }
 }
