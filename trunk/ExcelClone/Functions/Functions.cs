@@ -152,7 +152,7 @@ namespace ExcelClone.Functions
         {
             double total;
             if (Arguments[1].ToString().Contains("NULL"))
-                total = 0;
+                total = 1;
             else
                 total = Convert.ToDouble(Arguments[1]);
             for (int i = 3; i < Arguments.Count; i = i + 2)
