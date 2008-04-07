@@ -389,8 +389,8 @@ namespace ExcelClone.Graphs
         public static string[][] sampleData()
         {
             Random ran = new Random();
-            int columns = 1;//ran.Next(2,4);
-            int rows = 7;//ran.Next(3, 7);
+            int columns = ran.Next(2,4);
+            int rows = ran.Next(3, 7);
 
             string[][] data = new string[columns][];
 
