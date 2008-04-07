@@ -134,7 +134,14 @@ namespace ExcelClone.Gui
                 
         public void RefreshCell(CellKey key)
         {
-            this[key.C, key.R].Value = Controller.Instance.SpreadsheetModel.Cells[key].Value;
+            //if null, we dont care!
+            try
+            {
+                this[key.C, key.R].Value = Controller.Instance.SpreadsheetModel.Cells[key].Value;
+            }
+            catch (NullReferenceException e)
+            {
+            }
         }
 
         public void RefreshView()
@@ -143,7 +150,7 @@ namespace ExcelClone.Gui
             {
                 for (int j = 0; j < RowCount; j++)
                 {
-                    RefreshCell(new CellKey(j, i));
+                    RefreshCell(j, i);
                 }
             }
         }
