@@ -17,7 +17,7 @@ namespace ExcelClone
         Exit,
         InsertWorksheet,
         InsertGraph,
-        insertFunction,
+        InsertFunction,
         About
     }
 }
