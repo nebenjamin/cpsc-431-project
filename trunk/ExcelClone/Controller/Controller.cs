@@ -38,6 +38,9 @@ namespace ExcelClone
         case CommandType.Open:
           ExecuteOpen();
           break;
+        case CommandType.Save:
+          ExecuteSave();
+          break;
         default:
           break;
       }
