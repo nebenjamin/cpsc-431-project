@@ -6,10 +6,14 @@ using System.Drawing;
 using ExcelClone.Core;
 
 namespace ExcelClone.Gui
-{
+{    
+
     [System.ComponentModel.ReadOnly(true)]
     public class SpreadsheetView : DataGridView
     {
+        public readonly int RowCount = 50;
+        public readonly int ColumnCount = 26;
+
         public SpreadsheetView()
             : base()
         {
@@ -22,13 +26,13 @@ namespace ExcelClone.Gui
             {
                 Columns.Clear();
 
-                for (int k = 0; k < 26; k++)
+                for (int k = 0; k < ColumnCount; k++)
                 {
                     Columns.Add(MakeColumnLabel(k), MakeColumnLabel(k));
                     Columns[k].SortMode = DataGridViewColumnSortMode.NotSortable;
                 }
 
-                Rows.Add(50);
+                Rows.Add(RowCount);
 
                 AllowUserToOrderColumns = false;
                 SelectionMode = DataGridViewSelectionMode.ColumnHeaderSelect;
@@ -131,6 +135,17 @@ namespace ExcelClone.Gui
         public void RefreshCell(CellKey key)
         {
             this[key.C, key.R].Value = Controller.Instance.SpreadsheetModel.Cells[key].Value;
+        }
+
+        public void RefreshView()
+        {
+            for (int i = 0; i < ColumnCount; i++)
+            {
+                for (int j = 0; j < RowCount; j++)
+                {
+                    RefreshCell(new CellKey(j, i));
+                }
+            }
         }
 
         protected override void OnRowPostPaint(DataGridViewRowPostPaintEventArgs e)
