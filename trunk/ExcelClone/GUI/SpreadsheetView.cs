@@ -137,7 +137,8 @@ namespace ExcelClone.Gui
             //if null, we dont care!
             try
             {
-                this[key.C, key.R].Value = Controller.Instance.SpreadsheetModel.Cells[key].Value;
+                if(Controller.Instance.SpreadsheetModel.Cells[key] != null)
+                  this[key.C, key.R].Value = Controller.Instance.SpreadsheetModel.Cells[key].Value;
             }
             catch (NullReferenceException e)
             {
