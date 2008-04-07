@@ -12,6 +12,7 @@ namespace ExcelClone.Graphs
 {
     class pie_graph : Graph
     {
+        private CheckBox outLining_cb;
         //Create a bar graph, add it to a parent form, fill in data
         public static Graph Create_Pie_Graph(Form parent, Rectangle location, string[][] data)
         {
@@ -116,8 +117,19 @@ namespace ExcelClone.Graphs
                     GL.Color3(LegendColors[currentColor]);
 
                     currentsweep = (num / total) * 360; //(int)(Math.Ceiling((num / total) * 360));
+
+                    //Drawing Filled Partialdisk pie piece.
                     GL.Color3(LegendColors[currentColor]);
+                    Glu.QuadricDrawStyle(nqo1, QuadricDrawStyle.Fill);
                     Glu.PartialDisk(nqo1, innerradius, outerradius, slices, loops, heading, currentsweep);
+
+                    if (outLining_cb.Checked)
+                    {
+                        //Drawing Black Outline to Pie Piece
+                        GL.Color3(Color.Black);
+                        Glu.QuadricDrawStyle(nqo1, QuadricDrawStyle.Silhouette);
+                        Glu.PartialDisk(nqo1, innerradius, outerradius, slices, loops, heading, currentsweep);
+                    }
                     currentColor++;
                     heading = heading + currentsweep;
 
@@ -159,7 +171,24 @@ namespace ExcelClone.Graphs
 
         }
 
-        public override void configTab(TabPage tb) { }
+        public override void configTab(TabPage tb) 
+        {
+            outLining_cb = new CheckBox();
+            outLining_cb.AutoSize = true;
+            outLining_cb.Location = new System.Drawing.Point(266, 102);
+            outLining_cb.Name = "checkBoxOL";
+            outLining_cb.Size = new System.Drawing.Size(100, 17);
+            outLining_cb.TabIndex = 8;
+            outLining_cb.Text = "Draw Black Outlines";
+            outLining_cb.UseVisualStyleBackColor = true;
+            tb.Controls.Add(outLining_cb);
+            outLining_cb.CheckedChanged += new EventHandler(outLining_cb_CheckedChanged);
+        }
+        void outLining_cb_CheckedChanged(object sender, EventArgs e)
+        {
+
+            outLining_cb.Checked = outLining_cb.Checked;
+        }
     }
 }
 
