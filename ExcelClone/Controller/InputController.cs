@@ -14,6 +14,7 @@ namespace ExcelClone.InputController
             }
 
         }
+
         private sealed class InputControllerCreator
         {
             private static readonly InputController _instance = new InputController();

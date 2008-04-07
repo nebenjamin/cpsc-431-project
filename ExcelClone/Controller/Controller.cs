@@ -28,6 +28,18 @@ namespace ExcelClone
             set { parser = value; }
         }
 
+        public void ExecuteCommand(object sender, EventArgs e, CommandType command)
+        {
+            switch (command)
+            {
+                case CommandType.Exit:
+                    System.Windows.Forms.Application.Exit();
+                    break;
+                default:
+                    break;
+            }
+        }
+
         public void ExecuteNew(object sender, EventArgs e)
         {
         }

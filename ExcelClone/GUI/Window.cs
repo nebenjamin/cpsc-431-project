@@ -17,7 +17,8 @@ namespace ExcelClone.Gui
         }
         private void ExecuteNew(object sender, EventArgs e)
         {
-            Controller.Instance.ExecuteNew(sender, e);
+            Controller.Instance.ExecuteCommand(sender, e, CommandType.New);
+            //Controller.Instance.ExecuteNew(sender, e);
         }
         private void ExecuteOpen(object sender, EventArgs e)
         {
@@ -61,7 +62,8 @@ namespace ExcelClone.Gui
         }
         private void ExecuteExit(object sender, EventArgs e)
         {
-            Controller.Instance.ExecuteExit(sender, e);
+            Controller.Instance.ExecuteCommand(sender, e, CommandType.Exit);
+            //Controller.Instance.ExecuteExit(sender, e);
         }
 
         private void barToolStripMenuItem_Click(object sender, EventArgs e)
