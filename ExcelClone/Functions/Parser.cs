@@ -23,6 +23,8 @@ namespace ExcelClone.Functions
 
         public string Parse(string Cell_String)
         {
+            string Original_Cell_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1); ;
+
             Cell_String = Cell_String.ToUpper().Replace(" ", "");
 
             Base_Cell = Cell_String.Substring(0, Cell_String.IndexOf(':'));
@@ -40,14 +42,14 @@ namespace ExcelClone.Functions
             {
                 OutFile.WriteLine("Cell is empty");
                 //Form1.Step("Cell is empty");
-                return Cell_String;
+                return Original_Cell_String;
             }
             if (Cell_String[0].ToString() != "=")
             {
                 Dependencies.NewStatement(Send);
                 OutFile.WriteLine("Cell is a string");
                 //Form1.Step("Cell is a string");
-                return Cell_String;
+                return Original_Cell_String;
             }
 
             ArrayList Parts = Tokenize(Cell_String);
@@ -81,7 +83,7 @@ namespace ExcelClone.Functions
                 //Form1.Step("ERROR: FORMATING ERROR");
                 OutFile.Flush();
                 //ERROR: FORMATING ERROR
-                return Base_String;
+                return Original_Cell_String;
             }
         }
 
