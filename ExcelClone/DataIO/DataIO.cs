@@ -24,10 +24,9 @@ namespace ExcelClone.DataIO
    private XmlSerializer serializer;
    private XmlTextWriter textWriter;
 
-   public DataIO(String Filename)
+   public DataIO()
    {
      book = new List<SpreadsheetModel>();
-     filename = Filename;
    }
 
    public bool AddSpreadsheet(SpreadsheetModel sheet)
