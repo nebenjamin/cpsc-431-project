@@ -20,15 +20,15 @@ namespace ExcelClone.Graphs
             GraphControl gc = new GraphControl();
             List<List<double>> newData = new List<List<double>>();
 
-            foreach (string[] strarray in data)  //Fill in and parse incoming cell data
+            for (int i = 0; i < data.Length; i++)
             {
                 newData.Add(new List<double>());
-                foreach (string s in strarray)
+                for (int j = 0; j < data[i].Length; j++)
                 {
                     double parsedDouble;
-                    if (!Double.TryParse(s, out parsedDouble))
+                    if (!Double.TryParse(data[i][j], out parsedDouble))
                         throw new ArgumentException("Invalid data in Cells");
-                    newData[0].Add(parsedDouble);
+                    newData[i].Add(parsedDouble);
                 }
             }
 

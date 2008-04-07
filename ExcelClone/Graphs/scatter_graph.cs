@@ -27,15 +27,15 @@ namespace ExcelClone.Graphs
             GraphControl gc = new GraphControl();
             List<List<double>> newData = new List<List<double>>();
 
-            foreach (string[] strarray in data)  //Fill in and parse incoming cell data
+            for (int i = 0; i < data.Length; i++)
             {
                 newData.Add(new List<double>());
-                foreach (string s in strarray)
+                for (int j = 0; j < data[i].Length; j++)
                 {
                     double parsedDouble;
-                    if (!Double.TryParse(s, out parsedDouble))
+                    if (!Double.TryParse(data[i][j], out parsedDouble))
                         throw new ArgumentException("Invalid data in Cells");
-                    newData[0].Add(parsedDouble);
+                    newData[i].Add(parsedDouble);
                 }
             }
 
@@ -120,9 +120,21 @@ namespace ExcelClone.Graphs
                 GL.PointSize(pointSize);
             
                 GL.Begin(OpenTK.OpenGL.Enums.BeginMode.Points);
-                                            
-                    for (int i = 0; i < dataX.Length; i++)                   
-                        GL.Vertex2(xOfGraph((float) dataX[i]), yOfGraph((float) dataY[i]));
+
+                // data[row][column]
+                // x | y1 | y2 | y3 | ...
+                // -----------------------
+                // 6 | 2  | 3  | 4  | ...
+                // 5 | 6  | 7  | 8  | ...
+                // ....
+
+                for (int i = 1; i < data[0].Count; i++)
+                {
+                    for (int j = 0; j < data.Count; j++)
+                    {
+                        GL.Vertex2(xOfGraph((float)data[j][0]), yOfGraph((float)data[j][i]));
+                    }
+                }
                             
                 GL.End();
 
