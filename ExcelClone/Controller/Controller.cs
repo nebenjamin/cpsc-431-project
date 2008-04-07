@@ -45,12 +45,18 @@ namespace ExcelClone
         }
         public void ExecuteOpen()
         {
+          DataIO.DataIO opener = new ExcelClone.DataIO.DataIO();
+          opener.AddSpreadsheet(spreadsheetModel);
+          spreadsheetModel = opener.LoadBook();       
         }
         public void ExecuteClose()
         {
         }
         public void ExecuteSave()
         {
+          DataIO.DataIO saver = new ExcelClone.DataIO.DataIO();
+          saver.AddSpreadsheet(spreadsheetModel);
+          saver.SaveBook();
         }
         public void ExecuteSaveAs()
         {

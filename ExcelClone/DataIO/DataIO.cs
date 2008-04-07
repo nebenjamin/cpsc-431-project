@@ -48,6 +48,16 @@ namespace ExcelClone.DataIO
      book.Add(new SpreadsheetModel(new CellCollection()));
 
      /***** END TEST CODE *****/
+
+     SaveFileDialog saver = new SaveFileDialog();
+     saver.AddExtension = true;
+     saver.CheckPathExists = true;
+     saver.DefaultExt = ".xml";
+     saver.Filter = ".xml Files|*.xml";
+     saver.InitialDirectory = "c:\\documents and settings\\" + Environment.UserName + "\\desktop\\";
+     saver.ShowDialog();
+     filename = saver.FileName;
+
      try
      {
        if (book.Count == 0) throw new MissingMemberException("Passed an empty book!  Feed me data");
@@ -69,9 +79,25 @@ namespace ExcelClone.DataIO
      return false;
    }
 
-   public bool LoadBook()
+   public SpreadsheetModel LoadBook()
    {
-     return ReadBook();
+     OpenFileDialog opener = new OpenFileDialog();
+     opener.AddExtension = true;
+     opener.CheckFileExists = true;
+     opener.CheckPathExists = true;
+     opener.DefaultExt = ".xml";
+     opener.Filter = ".xml Files|*.xml";
+     opener.InitialDirectory = "c:\\documents and settings\\" + Environment.UserName + "\\desktop\\";
+     opener.ShowDialog();
+     filename = opener.FileName;
+     if (ReadBook())
+     {
+       return book[0];
+     }
+     else
+     {
+       return new SpreadsheetModel(new CellCollection());
+     }
    }
 
      private bool WriteBook()
@@ -83,7 +109,7 @@ namespace ExcelClone.DataIO
 
          /**** TEST Code*/
 
-         CellCollection cc = new CellCollection();
+         /*CellCollection cc = new CellCollection();
          FontFamily blahFamily = new FontFamily("Arial");
          Font blahFont = new Font(blahFamily, 13);
          CellFormat blahFormat = new CellFormat(blahFont,Color.Orange, Color.Green);
@@ -111,7 +137,7 @@ namespace ExcelClone.DataIO
 
          book[0] = new SpreadsheetModel(cc);
          //Cell theCell = new Cell();
-
+       */
          //END TEST CODE
 
          double tempDouble = new double();
@@ -350,12 +376,13 @@ namespace ExcelClone.DataIO
                  }
 
                  // Add current CellCollection to book
-                 book.Add(new SpreadsheetModel(cells));
+                 book[0] = new SpreadsheetModel(cells);
              }
          }
          catch (Exception e)
          {
-             MessageBox.Show("Error: (" + e.GetType().ToString() + "): " + e.Message, "Error");
+             MessageBox.Show("Error: (" + e.GetType().ToString() + "): " + e.Message + Environment.NewLine + e.ToString(), "Error");
+             return false;
          }
          return true;
      }
