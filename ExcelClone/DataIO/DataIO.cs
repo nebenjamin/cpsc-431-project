@@ -172,7 +172,7 @@ namespace ExcelClone.DataIO
                      theCell = book[0].Cells[row, column];
                      /*IS CELL DEFAULT CHECK*/
                      blank = false;
-                     if (theCell.Value == null) { blank = true; }
+                     if (theCell == null || theCell.Value == null) { blank = true; }
                      else if (theCell.Value.Equals("")) { blank = true; }
                      /*CELL FORMAT needs to be instantiated*/
                      //if (theCell.CellFormat.IsDefault == false) { blank = true; }
