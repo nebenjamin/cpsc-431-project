@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ExcelClone.Core;
 using ExcelClone.Functions;
+using ExcelClone.Gui;
 
 namespace ExcelClone
 {
@@ -54,6 +55,7 @@ namespace ExcelClone
       DataIO.DataIO opener = new ExcelClone.DataIO.DataIO();
       opener.AddSpreadsheet(spreadsheetModel);
       spreadsheetModel = opener.LoadBook();
+      SpreadsheetView.Instance.RefreshView();
     }
     public void ExecuteClose()
     {
