@@ -38,7 +38,6 @@
   <ItemGroup>
     <Compile Include="Controller\CommandType.cs" />
     <Compile Include="Controller\Controller.cs" />
-    <Compile Include="Controller\InputController.cs" />
     <Compile Include="Controller\ISpreadsheetControl.cs" />
     <Compile Include="Controller\SpreadsheetControl.cs" />
     <Compile Include="Core\Cell.cs" />

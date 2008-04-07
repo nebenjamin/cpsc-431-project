@@ -33,47 +33,47 @@ namespace ExcelClone
             switch (command)
             {
                 case CommandType.Exit:
-                    System.Windows.Forms.Application.Exit();
+                    ExecuteExit();
                     break;
                 default:
                     break;
             }
         }
 
-        public void ExecuteNew(object sender, EventArgs e)
+        public void ExecuteNew()
         {
         }
-        public void ExecuteOpen(object sender, EventArgs e)
+        public void ExecuteOpen()
         {
         }
-        public void ExecuteClose(object sender, EventArgs e)
+        public void ExecuteClose()
         {
         }
-        public void ExecuteSave(object sender, EventArgs e)
+        public void ExecuteSave()
         {
         }
-        public void ExecuteSaveAs(object sender, EventArgs e)
+        public void ExecuteSaveAs()
         {
         }
-        public void ExecuteCut(object sender, EventArgs e)
+        public void ExecuteCut()
         {
         }
-        public void ExecuteCopy(object sender, EventArgs e)
+        public void ExecuteCopy()
         {
         }
-        public void ExecutePaste(object sender, EventArgs e)
+        public void ExecutePaste()
         {
         }
-        public void ExecuteChart(object sender, EventArgs e)
+        public void ExecuteChart()
         {
         }
-        public void ExecuteInsertWorksheet(object sender, EventArgs e)
+        public void ExecuteInsertWorksheet()
         {
         }
         public void ExecuteInsertFunction(object sender, EventArgs e)
         {
         }
-        public void ExecuteExit(object sender, EventArgs e)
+        public void ExecuteExit()
         {
             System.Windows.Forms.Application.Exit();
         }
