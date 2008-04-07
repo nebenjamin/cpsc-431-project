@@ -13,6 +13,7 @@ namespace ExcelClone.Gui
     {
         public Window()
         {
+            Controller.Instance.MainForm = this;
             InitializeComponent();
         }
         private void ExecuteNew(object sender, EventArgs e)
