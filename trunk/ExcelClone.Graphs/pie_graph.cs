@@ -8,6 +8,8 @@ using OpenTK.OpenGL;
 using OpenTK.OpenGL.Enums;
 using OpenTK.Fonts;
 
+
+
 namespace ExcelClone.Graphs
 {
     class pie_graph : Graph
@@ -69,7 +71,6 @@ namespace ExcelClone.Graphs
             double outerradius = 20;
             int slices = 32;
             int loops = 1;
-            
 
             clientRect = r;
             CheckGraphArea();
@@ -115,6 +116,10 @@ namespace ExcelClone.Graphs
 
                     currentsweep = (num / total) * 360; //(int)(Math.Ceiling((num / total) * 360));
                     GL.Color3(LegendColors[currentColor]);
+                    Glu.QuadricDrawStyle(nqo1, QuadricDrawStyle.Fill);
+                    Glu.PartialDisk(nqo1, innerradius, outerradius, slices, loops, heading, currentsweep);
+                    GL.Color3(Color.Black);
+                    Glu.QuadricDrawStyle(nqo1, QuadricDrawStyle.Silhouette);
                     Glu.PartialDisk(nqo1, innerradius, outerradius, slices, loops, heading, currentsweep);
                     currentColor++;
                     heading = heading + currentsweep;
