@@ -79,7 +79,7 @@ namespace ExcelClone.Functions
             }
             catch
             {
-                OutFile.WriteLine("ERROR: FORMATING ERROR");
+                OutFile.WriteLine("ERROR - FORMATING ERROR");
                 //Form1.Step("ERROR: FORMATING ERROR");
                 OutFile.Flush();
                 //ERROR: FORMATING ERROR
@@ -446,9 +446,9 @@ namespace ExcelClone.Functions
                     }
                     catch
                     {
-                        OutFile.WriteLine("ERROR: INCORRECT INPUT STRING (/,*)"); //ERROR: INCORRECT INPUT STRING
+                        OutFile.WriteLine("=ERROR - INCORRECT INPUT STRING (/,*)"); //ERROR: INCORRECT INPUT STRING
                         //Form1.Step("ERROR: INCORRECT INPUT STRING");
-                        return Tokenize(Base_String);
+                        return Tokenize("=ERROR - INCORRECT INPUT STRING (/,*)");//return Tokenize(Base_String);
                     }
                 }
             }
@@ -577,9 +577,9 @@ namespace ExcelClone.Functions
                     }
                     catch
                     {
-                        OutFile.WriteLine("ERROR: INCORRECT INPUT STRING  (+,-)"); //ERROR: INCORRECT INPUT STRING
+                        OutFile.WriteLine("=ERROR - INCORRECT INPUT STRING  (+,-)"); //ERROR: INCORRECT INPUT STRING
                         //Form1.Step("ERROR: INCORRECT INPUT STRING");
-                        return Tokenize(Base_String);
+                        return Tokenize("=ERROR - INCORRECT INPUT STRING  (+,-)");//return Tokenize(Base_String);
                     }
                 }
             }
@@ -618,13 +618,17 @@ namespace ExcelClone.Functions
             #region EXPAND OUT ALL CELL REFERENCES
             for (int i = 0; i < Parts.Count; i++)
             { //CELL REFERENCE
-                if (Base_Cell.CompareTo(Parts[i].ToString().ToUpper()) == 0)
-                {
-                    OutFile.WriteLine("ERROR: CIRCULAR REFERENCE");
-                    //Form1.Step("ERROR: CIRCULAR REFERENCE");
-                    //ERROR: CIRCULAR REFERENCE
-                    return Parts;
-                }
+                for(int j=0; j<Parts.Count; j++)
+                    if ((Base_Cell.CompareTo(Parts[j].ToString().ToUpper()) == 0) || (Parts[j].ToString().ToUpper().Contains("ERROR")))
+                        return Tokenize("=ERROR - CIRCULAR REFERENCE");
+
+                //if (Base_Cell.CompareTo(Parts[i].ToString().ToUpper()) == 0)
+                //{
+                //    OutFile.WriteLine("=ERROR - CIRCULAR REFERENCE");
+                //    //Form1.Step("ERROR: CIRCULAR REFERENCE");
+                //    //ERROR: CIRCULAR REFERENCE
+                //    return Tokenize("=ERROR - CIRCULAR REFERENCE");//return Parts;
+                //}
                 if (IsCellReference(Parts[i].ToString()))
                 {
                     OutFile.WriteLine("Cell Reference");
@@ -638,8 +642,8 @@ namespace ExcelClone.Functions
                     //string temp = "=1+2";//temp will equal the output of the UI's function
                     //FIXME
                     ArrayList atemp = BreakReference(cell_ref);
-                    int c = (int)atemp[0];
-                    int r = (int)atemp[1];
+                    int r = (int)atemp[0];
+                    int c = (int)atemp[1];
                     string temp;
                     if (Controller.Instance.SpreadsheetModel.Cells[r, c] != null)
                         temp = Controller.Instance.SpreadsheetModel.Cells[r, c].Formula.ToUpper();// Form1.getCellFormula(cell_ref);
@@ -755,8 +759,8 @@ namespace ExcelClone.Functions
                 {
                     if (Convert.ToInt32(Reference.Substring(2)) >= 0)
                     {
-                        temp.Add((((int)Reference[0]) - ((int)'A'))*10 + (((int)Reference[1]) - ((int)'A')));
                         temp.Add(Convert.ToInt32(Reference.Substring(2)));
+                        temp.Add((((int)Reference[0]) - ((int)'A')) * 10 + (((int)Reference[1]) - ((int)'A')));
                         return temp;
                     }
                 }
@@ -764,8 +768,8 @@ namespace ExcelClone.Functions
                 {
                     if (Convert.ToInt32(Reference.Substring(1)) >= 0)
                     {
-                        temp.Add(((int)Reference[0]) - ((int)'A'));
                         temp.Add(Convert.ToInt32(Reference.Substring(1)));
+                        temp.Add(((int)Reference[0]) - ((int)'A'));
                         return temp;
                     }
                 }
