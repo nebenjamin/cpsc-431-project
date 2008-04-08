@@ -14,6 +14,7 @@ namespace ExcelClone.Gui
         public Window()
         {
             Controller.Instance.MainForm = this;
+            SpreadsheetView.Instance.KeyDown += new KeyEventHandler(SpreadsheetView_KeyDown);
             InitializeComponent();
         }
         private void ExecuteNew(object sender, EventArgs e)
@@ -66,7 +67,24 @@ namespace ExcelClone.Gui
             Controller.Instance.ExecuteCommand(sender, e, CommandType.Exit);
             //Controller.Instance.ExecuteCommand(sender, e, CommandType.Exit);
         }
-
+        private void SpreadsheetView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.C)
+            {
+                ExecuteCopy(sender, e);
+                e.Handled = true;
+            }
+            else if (e.Control && e.KeyCode == Keys.X)
+            {
+                ExecuteCut(sender, e);
+                e.Handled = true;
+            }
+            else if (e.Control && e.KeyCode == Keys.V)
+            {
+                ExecutePaste(sender, e);
+                e.Handled = true;
+            }
+        }
         private void barToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Rectangle r = new Rectangle(0, 50, 400, 300);

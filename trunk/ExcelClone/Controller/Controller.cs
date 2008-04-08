@@ -116,6 +116,7 @@ namespace ExcelClone
             }
           
             SpreadsheetView.Instance.IsPaste = false;
+            SpreadsheetView.Instance.IsCopy = false;
             SpreadsheetView.Instance.IsCut = true;
         }
 
@@ -129,6 +130,7 @@ namespace ExcelClone
                 cellCollection[new CellKey(cell.RowIndex - smallestRowIndex, cell.ColumnIndex - smallestColumnIndex)] = (SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex] != null) ? (Cell)SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex].Clone() : new Cell();
             }
             SpreadsheetView.Instance.ClipboardCells = cellCollection;
+            SpreadsheetView.Instance.IsCopy = true;
         }
         private int GetSmallestRowIndex(DataGridViewSelectedCellCollection cells)
         {
@@ -152,8 +154,9 @@ namespace ExcelClone
         }
         public void ExecutePaste()
         {
-            if (SpreadsheetView.Instance.SelectedCells.Count > 0 && 
-                SpreadsheetView.Instance.IsCut)
+            if (SpreadsheetView.Instance.SelectedCells.Count > 0 &&
+                ((SpreadsheetView.Instance.IsCut && !SpreadsheetView.Instance.IsPaste) || 
+                SpreadsheetView.Instance.IsCopy))
             {
                 int smallestRowIndex = GetSmallestRowIndex(SpreadsheetView.Instance.SelectedCells);
                 int smallestColumnIndex = GetSmallestColumnIndex(SpreadsheetView.Instance.SelectedCells);
@@ -161,8 +164,8 @@ namespace ExcelClone
                 {
                     for (int c = 0; c < SpreadsheetView.Instance.ClipboardCells.Columns; c++)
                     {
-                        if (smallestRowIndex + r < SpreadsheetView.Instance.ColumnCount && smallestColumnIndex + c < SpreadsheetView.Instance.RowCount)
-                        SpreadsheetModel.Cells[smallestRowIndex + r, smallestColumnIndex + c] =
+                        if (smallestRowIndex + r < SpreadsheetView.Instance.RowCount && smallestColumnIndex + c < SpreadsheetView.Instance.ColumnCount)
+                            SpreadsheetModel.Cells[smallestRowIndex + r, smallestColumnIndex + c] =
                             SpreadsheetView.Instance.ClipboardCells[r, c];
                         
                     }

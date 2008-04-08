@@ -20,6 +20,7 @@ namespace ExcelClone.Gui
         private CellCollection clipboardCells;
         private bool isCut;
         private bool isPaste;
+        private bool isCopy;
         public bool IsCut
         {
             get { return isCut; }
@@ -29,6 +30,11 @@ namespace ExcelClone.Gui
         {
             get { return isPaste; }
             set { isPaste = value; }
+        }
+        public bool IsCopy
+        {
+            get { return isCopy; }
+            set { isCopy = value; }
         }
         public CellCollection ClipboardCells
         {
@@ -49,6 +55,7 @@ namespace ExcelClone.Gui
         {
             isCut = false;
             isPaste = false;
+            isCopy = false;
             Dock = DockStyle.Fill;
             CellMouseDoubleClick += new DataGridViewCellMouseEventHandler(SpreadsheetView_CellMouseDoubleClick);
             RowHeaderMouseClick += new DataGridViewCellMouseEventHandler(SpreadsheetView_RowHeaderMouseClick);
