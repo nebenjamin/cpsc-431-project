@@ -13,6 +13,15 @@ namespace ExcelClone.Core
             Formula = formula;
             CellFormat = cellFormat;
         }
+        public object Clone()
+        {
+            Cell cell = new Cell();
+            cell.CellFormat = this.CellFormat;
+            cell.Formula = this.Formula;
+            cell.valid = this.Valid;
+            cell.Value = this.Value;
+            return cell;
+        }
 
         public Cell(string formula)
             : this(formula, null) { }

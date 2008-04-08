@@ -19,6 +19,15 @@ namespace ExcelClone.Core
         {
         }
 
+        public object Clone()
+        {
+            CellFormat cf = new CellFormat();
+            cf.CellColor = this.CellColor;
+            cf.CellFont = (Font)this.CellFont.Clone();
+            cf.TextColor = this.TextColor;
+            cf.IsDefault = this.IsDefault;
+            return cf;
+        }
         private Font _cellFont;
         public Font CellFont
         {

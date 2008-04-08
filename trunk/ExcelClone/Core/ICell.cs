@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ExcelClone.Core
 {
-    public interface ICell
+    public interface ICell : ICloneable
     {
         string Formula { get; }
         string Value { get; }

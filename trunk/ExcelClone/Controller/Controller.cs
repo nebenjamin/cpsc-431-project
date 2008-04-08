@@ -5,6 +5,7 @@ using ExcelClone.Core;
 using ExcelClone.Functions;
 using ExcelClone.Gui;
 using System.Windows.Forms;
+using System.Collections;
 
 namespace ExcelClone
 {
@@ -60,6 +61,15 @@ namespace ExcelClone
                 case CommandType.Save:
                     ExecuteSave();
                     break;
+                case CommandType.Cut:
+                    ExecuteCut();
+                    break;
+                case CommandType.Copy:
+                    ExecuteCopy();
+                    break;
+                case CommandType.Paste:
+                    ExecutePaste();
+                    break;
                 default:
                     break;
             }
@@ -89,12 +99,80 @@ namespace ExcelClone
         }
         public void ExecuteCut()
         {
+            
+            ExecuteCopy();
+            foreach (DataGridViewCell cell in SpreadsheetView.Instance.SelectedCells)
+            {
+                cell.Value = "";
+                if (cell.RowIndex >= 0 && cell.ColumnIndex >= 0)
+                {
+                    Cell c = SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex];
+                    if (c != null)
+                    {
+                        c.Value = "";
+                        c.Formula = "";
+                    }
+                }
+            }
+          
+            SpreadsheetView.Instance.IsPaste = false;
+            SpreadsheetView.Instance.IsCut = true;
         }
+
         public void ExecuteCopy()
         {
+            CellCollection cellCollection = new CellCollection();
+            int smallestRowIndex = GetSmallestRowIndex(SpreadsheetView.Instance.SelectedCells);
+            int smallestColumnIndex = GetSmallestColumnIndex(SpreadsheetView.Instance.SelectedCells);
+            foreach (DataGridViewCell cell in SpreadsheetView.Instance.SelectedCells)
+            {
+                cellCollection[new CellKey(cell.RowIndex - smallestRowIndex, cell.ColumnIndex - smallestColumnIndex)] = (SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex] != null) ? (Cell)SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex].Clone() : new Cell();
+            }
+            SpreadsheetView.Instance.ClipboardCells = cellCollection;
+        }
+        private int GetSmallestRowIndex(DataGridViewSelectedCellCollection cells)
+        {
+            int minRowIndex = SpreadsheetView.Instance.RowCount-1;
+            foreach (DataGridViewCell cell in cells)
+            {
+                if (cell.RowIndex < minRowIndex)
+                    minRowIndex = cell.RowIndex;
+            }
+            return minRowIndex;
+        }
+        private int GetSmallestColumnIndex(DataGridViewSelectedCellCollection cells)
+        {
+            int minColumnIndex = SpreadsheetView.Instance.ColumnCount-1;
+            foreach (DataGridViewCell cell in cells)
+            {
+                if (cell.ColumnIndex < minColumnIndex)
+                    minColumnIndex = cell.ColumnIndex;
+            }
+            return minColumnIndex;
         }
         public void ExecutePaste()
         {
+            if (SpreadsheetView.Instance.SelectedCells.Count > 0 && 
+                SpreadsheetView.Instance.IsCut)
+            {
+                int smallestRowIndex = GetSmallestRowIndex(SpreadsheetView.Instance.SelectedCells);
+                int smallestColumnIndex = GetSmallestColumnIndex(SpreadsheetView.Instance.SelectedCells);
+                for (int r = 0; r < SpreadsheetView.Instance.ClipboardCells.Rows; r++)
+                {
+                    for (int c = 0; c < SpreadsheetView.Instance.ClipboardCells.Columns; c++)
+                    {
+                        if (smallestRowIndex + r < SpreadsheetView.Instance.ColumnCount && smallestColumnIndex + c < SpreadsheetView.Instance.RowCount)
+                        SpreadsheetModel.Cells[smallestRowIndex + r, smallestColumnIndex + c] =
+                            SpreadsheetView.Instance.ClipboardCells[r, c];
+                        
+                    }
+                }
+                SpreadsheetView.Instance.RefreshView();
+                //need check for out of bounds
+                SpreadsheetView.Instance.IsPaste = true;
+                SpreadsheetView.Instance.IsCut = false;
+
+            }
         }
         public void ExecuteInsertGraph()
         {
