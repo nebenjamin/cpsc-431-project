@@ -39,12 +39,12 @@ namespace ExcelClone.Graphs
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(157, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(152, 26);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(156, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(151, 22);
             this.toolStripMenuItem1.Text = "Graph Settings";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
@@ -56,6 +56,7 @@ namespace ExcelClone.Graphs
             this.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Name = "GraphControl";
             this.Size = new System.Drawing.Size(302, 148);
+            this.Load += new System.EventHandler(this.GraphControl_Load);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GraphControl_MouseMove);
             this.Leave += new System.EventHandler(this.GraphControl_Leave);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphControl_MouseDown);
