@@ -5,7 +5,7 @@ using System.Drawing;
 
 namespace ExcelClone.Core
 {
-    public interface ICellFormat
+    public interface ICellFormat : ICloneable
     {
         Font CellFont { get; set; }
         Color TextColor { get; set; }

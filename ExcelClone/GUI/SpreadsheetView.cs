@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using ExcelClone.Core;
+using System.Collections;
 
 namespace ExcelClone.Gui
 {    
@@ -13,10 +14,41 @@ namespace ExcelClone.Gui
     {
         public readonly int RowCount = 50;
         public readonly int ColumnCount = 26;
+        
+        #region Clipboard
+
+        private CellCollection clipboardCells;
+        private bool isCut;
+        private bool isPaste;
+        public bool IsCut
+        {
+            get { return isCut; }
+            set { isCut = value; }
+        }
+        public bool IsPaste
+        {
+            get { return isPaste; }
+            set { isPaste = value; }
+        }
+        public CellCollection ClipboardCells
+        {
+            get
+            {
+                return clipboardCells;
+            }
+            set
+            {
+                clipboardCells = value;
+            }
+        }
+
+        #endregion
 
         public SpreadsheetView()
             : base()
         {
+            isCut = false;
+            isPaste = false;
             Dock = DockStyle.Fill;
             CellMouseDoubleClick += new DataGridViewCellMouseEventHandler(SpreadsheetView_CellMouseDoubleClick);
             RowHeaderMouseClick += new DataGridViewCellMouseEventHandler(SpreadsheetView_RowHeaderMouseClick);
