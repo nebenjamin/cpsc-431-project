@@ -73,7 +73,6 @@ namespace ExcelClone.Gui
             this.toolStripButton10 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton11 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton13 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -233,35 +232,35 @@ namespace ExcelClone.Gui
             this.barToolStripMenuItem.Name = "barToolStripMenuItem";
             this.barToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.barToolStripMenuItem.Text = "Bar";
-            this.barToolStripMenuItem.Click += new System.EventHandler(this.barToolStripMenuItem_Click);
+            this.barToolStripMenuItem.Click += new System.EventHandler(this.ExecuteInsertBarGraph);
             // 
             // columnToolStripMenuItem
             // 
             this.columnToolStripMenuItem.Name = "columnToolStripMenuItem";
             this.columnToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.columnToolStripMenuItem.Text = "Column";
-            this.columnToolStripMenuItem.Click += new System.EventHandler(this.columnToolStripMenuItem_Click);
+            this.columnToolStripMenuItem.Click += new System.EventHandler(this.ExecuteInsertColumnGraph);
             // 
             // lineToolStripMenuItem
             // 
             this.lineToolStripMenuItem.Name = "lineToolStripMenuItem";
             this.lineToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.lineToolStripMenuItem.Text = "Line";
-            this.lineToolStripMenuItem.Click += new System.EventHandler(this.lineToolStripMenuItem_Click);
+            this.lineToolStripMenuItem.Click += new System.EventHandler(this.ExecuteInsertLineGraph);
             // 
             // scatterToolStripMenuItem
             // 
             this.scatterToolStripMenuItem.Name = "scatterToolStripMenuItem";
             this.scatterToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.scatterToolStripMenuItem.Text = "Scatter";
-            this.scatterToolStripMenuItem.Click += new System.EventHandler(this.scatterToolStripMenuItem_Click);
+            this.scatterToolStripMenuItem.Click += new System.EventHandler(this.ExecuteInsertScatterGraph);
             // 
             // pieToolStripMenuItem
             // 
             this.pieToolStripMenuItem.Name = "pieToolStripMenuItem";
             this.pieToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.pieToolStripMenuItem.Text = "Pie";
-            this.pieToolStripMenuItem.Click += new System.EventHandler(this.pieToolStripMenuItem_Click);
+            this.pieToolStripMenuItem.Click += new System.EventHandler(this.ExecuteInsertPieGraph);
             // 
             // functionToolStripMenuItem
             // 
@@ -304,7 +303,6 @@ namespace ExcelClone.Gui
             this.toolStripButton10,
             this.toolStripButton11,
             this.toolStripSeparator4,
-            this.toolStripButton13,
             this.toolStripSeparator});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
@@ -455,16 +453,6 @@ namespace ExcelClone.Gui
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButton13
-            // 
-            this.toolStripButton13.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton13.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton13.Image")));
-            this.toolStripButton13.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton13.Name = "toolStripButton13";
-            this.toolStripButton13.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton13.Text = "toolStripButton13";
-            this.toolStripButton13.Click += new System.EventHandler(this.ExecuteInsertGraph);
-            // 
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
@@ -594,7 +582,6 @@ namespace ExcelClone.Gui
         private System.Windows.Forms.ToolStripButton toolStripButton10;
         private System.Windows.Forms.ToolStripButton toolStripButton11;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripButton toolStripButton13;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox2;

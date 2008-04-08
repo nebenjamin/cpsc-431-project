@@ -6,6 +6,7 @@ using ExcelClone.Functions;
 using ExcelClone.Gui;
 using System.Windows.Forms;
 using System.Collections;
+using System.Drawing;
 
 namespace ExcelClone
 {
@@ -49,9 +50,6 @@ namespace ExcelClone
         {
             switch (command)
             {
-                case CommandType.InsertGraph:
-                    ExecuteInsertGraph();
-                    break;
                 case CommandType.Exit:
                     ExecuteExit();
                     break;
@@ -69,6 +67,21 @@ namespace ExcelClone
                     break;
                 case CommandType.Paste:
                     ExecutePaste();
+                    break;
+                case CommandType.InsertBarGraph:
+                    ExecuteInsertBarGraph();
+                    break;
+                case CommandType.InsertColumnGraph:
+                    ExecuteInsertColumnGraph();
+                    break;
+                case CommandType.InsertLineGraph:
+                    ExecuteInsertLineGraph();
+                    break;
+                case CommandType.InsertPieGraph:
+                    ExecuteInsertPieGraph();
+                    break;
+                case CommandType.InsertScatterGraph:
+                    ExecuteInsertScatterGraph();
                     break;
                 default:
                     break;
@@ -177,8 +190,205 @@ namespace ExcelClone
 
             }
         }
-        public void ExecuteInsertGraph()
+        public void ExecuteInsertBarGraph()
         {
+            Rectangle r = new Rectangle(0, 50, 400, 300);
+
+            //Done by David, Caleb, & Scott
+            int cellCount = Gui.SpreadsheetView.Instance.SelectedCells.Count;
+            int max_col, min_col, max_row, min_row;
+            max_col = max_row = 0;
+            min_col = min_row = 51;
+            for (int i = 0; i < cellCount; i++)
+            {
+                int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
+                int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
+                if (rI < min_row)
+                    min_row = rI;
+                if (rI > max_row)
+                    max_row = rI;
+                if (cI < min_col)
+                    min_col = cI;
+                if (cI > max_col)
+                    max_col = cI;
+            }
+            int colCount = max_col - min_col + 1;
+            int rowCount = max_row - min_row + 1;
+
+            if (colCount >= 2 && rowCount >= 1)
+            {
+                string[][] data = new string[rowCount][];
+                for (int i = 0; i < data.Length; i++)
+                    data[i] = new string[colCount];
+                for (int i = 0; i < cellCount; i++)
+                {
+                    int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
+                    int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
+                    data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
+                }
+
+                Graphs.Graph gr = Graphs.bar_graph.Create_Bar_Graph(mainForm, r, data);
+            }
+        }
+        public void ExecuteInsertColumnGraph()
+        {
+            Rectangle r = new Rectangle(0, 50, 400, 300);
+
+            //Done by David, Caleb, & Scott
+            int cellCount = Gui.SpreadsheetView.Instance.SelectedCells.Count;
+            int max_col, min_col, max_row, min_row;
+            max_col = max_row = 0;
+            min_col = min_row = 51;
+            for (int i = 0; i < cellCount; i++)
+            {
+                int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
+                int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
+                if (rI < min_row)
+                    min_row = rI;
+                if (rI > max_row)
+                    max_row = rI;
+                if (cI < min_col)
+                    min_col = cI;
+                if (cI > max_col)
+                    max_col = cI;
+            }
+            int colCount = max_col - min_col + 1;
+            int rowCount = max_row - min_row + 1;
+
+            if (colCount >= 2 && rowCount >= 1)
+            {
+                string[][] data = new string[rowCount][];
+                for (int i = 0; i < data.Length; i++)
+                    data[i] = new string[colCount];
+                for (int i = 0; i < cellCount; i++)
+                {
+                    int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
+                    int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
+                    data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
+                }
+
+                Graphs.Graph gr = Graphs.column_graph.Create_Column_Graph(mainForm, r, data);
+            }
+        }
+        public void ExecuteInsertLineGraph()
+        {
+            Rectangle r = new Rectangle(0, 50, 400, 300);
+
+            //Done by David, Caleb, & Scott
+            int cellCount = Gui.SpreadsheetView.Instance.SelectedCells.Count;
+            int max_col, min_col, max_row, min_row;
+            max_col = max_row = 0;
+            min_col = min_row = 51;
+            for (int i = 0; i < cellCount; i++)
+            {
+                int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
+                int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
+                if (rI < min_row)
+                    min_row = rI;
+                if (rI > max_row)
+                    max_row = rI;
+                if (cI < min_col)
+                    min_col = cI;
+                if (cI > max_col)
+                    max_col = cI;
+            }
+            int colCount = max_col - min_col + 1;
+            int rowCount = max_row - min_row + 1;
+
+            if (colCount >= 2 && rowCount >= 1)
+            {
+                string[][] data = new string[rowCount][];
+                for (int i = 0; i < data.Length; i++)
+                    data[i] = new string[colCount];
+                for (int i = 0; i < cellCount; i++)
+                {
+                    int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
+                    int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
+                    data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
+                }
+
+                Graphs.Graph gr = Graphs.line_graph.Create_Line_Graph(mainForm, r, data);
+            }
+        }
+        public void ExecuteInsertPieGraph()
+        {
+            Rectangle r = new Rectangle(0, 50, 400, 300);
+
+            //Done by David, Caleb, & Scott
+            int cellCount = Gui.SpreadsheetView.Instance.SelectedCells.Count;
+            int max_col, min_col, max_row, min_row;
+            max_col = max_row = 0;
+            min_col = min_row = 51;
+            for (int i = 0; i < cellCount; i++)
+            {
+                int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
+                int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
+                if (rI < min_row)
+                    min_row = rI;
+                if (rI > max_row)
+                    max_row = rI;
+                if (cI < min_col)
+                    min_col = cI;
+                if (cI > max_col)
+                    max_col = cI;
+            }
+            int colCount = max_col - min_col + 1;
+            int rowCount = max_row - min_row + 1;
+
+            if (colCount == 1 && rowCount >= 1)
+            {
+                string[][] data = new string[rowCount][];
+                for (int i = 0; i < data.Length; i++)
+                    data[i] = new string[colCount];
+                for (int i = 0; i < cellCount; i++)
+                {
+                    int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
+                    int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
+                    data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
+                }
+
+                Graphs.Graph gr = Graphs.pie_graph.Create_Pie_Graph(mainForm, r, data);
+            }
+        }
+        public void ExecuteInsertScatterGraph()
+        {
+            Rectangle r = new Rectangle(0, 50, 400, 300);
+
+            //Done by David, Caleb, & Scott
+            int cellCount = Gui.SpreadsheetView.Instance.SelectedCells.Count;
+            int max_col, min_col, max_row, min_row;
+            max_col = max_row = 0;
+            min_col = min_row = 51;
+            for (int i = 0; i < cellCount; i++)
+            {
+                int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
+                int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
+                if (rI < min_row)
+                    min_row = rI;
+                if (rI > max_row)
+                    max_row = rI;
+                if (cI < min_col)
+                    min_col = cI;
+                if (cI > max_col)
+                    max_col = cI;
+            }
+            int colCount = max_col - min_col + 1;
+            int rowCount = max_row - min_row + 1;
+
+            if (colCount >= 2 && rowCount >= 1)
+            {
+                string[][] data = new string[rowCount][];
+                for (int i = 0; i < data.Length; i++)
+                    data[i] = new string[colCount];
+                for (int i = 0; i < cellCount; i++)
+                {
+                    int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
+                    int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
+                    data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
+                }
+
+                Graphs.Graph gr = Graphs.scatter_graph.Create_Scatter_Graph(mainForm, r, data);
+            }
         }
         public void ExecuteInsertWorksheet()
         {
