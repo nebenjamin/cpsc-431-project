@@ -71,12 +71,6 @@ namespace ExcelClone.Graphs
 
         public override void drawGraph(Rectangle r)
         {
-            //Graph Title
-            txp.Prepare(TitleString, TitleFont, out Title);
-            //Axis labels
-            txp.Prepare(XLabelString, AxesFont, out XAxisLabel);
-            txp.Prepare(YLabelString, AxesFont, out YAxisLabel);
-            clientRect = r;
             //preprocessing section
             //calculate least squares params !!switch to Matricks.Solve(c) when available for ill-conditioning checks and workarounds
 
@@ -102,14 +96,24 @@ namespace ExcelClone.Graphs
             //solve for a
             double a = (c0 - (b0 * b))/a0;
 
+            //start
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
+            //Graph Title
+            txp.Prepare(TitleString, TitleFont, out Title);
+            //Axis labels
+            txp.Prepare(XLabelString, AxesFont, out XAxisLabel);
+            txp.Prepare(YLabelString, AxesFont, out YAxisLabel);
+
+            clientRect = r;
             CheckGraphArea();
+
+            GL.Color3(Color.Black);
             DrawAxis();
             if (draw_title)
                 DrawTitle();
             if (LegendOn)
                 DrawLegend(r);
-
 
             // Do this so that you don't mess around with base class matrix
             GL.PushMatrix();

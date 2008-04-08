@@ -9,6 +9,7 @@ using System.Xml;
 using System.IO;
 using System.Windows.Forms;
 using OpenTK.OpenGL;
+using OpenTK.OpenGL.Enums;
 
 namespace ExcelClone.Graphs
 {
@@ -170,6 +171,12 @@ namespace ExcelClone.Graphs
             resizing = false;
             moving = false;
             this.Invalidate();  //Make sure the resize triangle dissappears
+        }
+
+        private void GraphControl_Load(object sender, EventArgs e)
+        {
+            GL.ClearColor(Color.White);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         }
     }
 }

@@ -13,6 +13,8 @@ namespace ExcelClone.Graphs
     class pie_graph : Graph
     {
         private CheckBox outLining_cb;
+        private bool outline;
+
         //Create a bar graph, add it to a parent form, fill in data
         public static Graph Create_Pie_Graph(Form parent, Rectangle location, string[][] data)
         {
@@ -20,16 +22,14 @@ namespace ExcelClone.Graphs
             GraphControl gc = new GraphControl();
             List<List<double>> newData = new List<List<double>>();
 
-            for (int i = 0; i < data.Length; i++)
+
+            newData.Add(new List<double>());
+            for (int j = 0; j < data.Length; j++)
             {
-                newData.Add(new List<double>());
-                for (int j = 0; j < data[i].Length; j++)
-                {
-                    double parsedDouble;
-                    if (!Double.TryParse(data[i][j], out parsedDouble))
-                        throw new ArgumentException("Invalid data in Cells");
-                    newData[i].Add(parsedDouble);
-                }
+                double parsedDouble;
+                if (!Double.TryParse(data[j][0], out parsedDouble))
+                    throw new ArgumentException("Invalid data in Cells");
+                newData[0].Add(parsedDouble);
             }
 
             Graph gr = new pie_graph(newData);
@@ -60,88 +60,79 @@ namespace ExcelClone.Graphs
             return null;
         }
 
-        public pie_graph(List<List<double>> newData):base(newData){}
+        public pie_graph(List<List<double>> newData):base(newData)
+        {
+            outline = false;
+        }
 
         public override void drawGraph(Rectangle r)
         {
-            double total = 0;
-            double heading = 0; // Start pie pieces at 12 noon on the clock.
-            double currentsweep = 0;
-            int nqo1;
-            double innerradius = 0;
-            double outerradius = 20;
-            int slices = 32;
-            int loops = 1;
-            
+            GL.ClearColor(Color.White);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
+            //Graph Title
+            txp.Prepare(TitleString, TitleFont, out Title);
 
             clientRect = r;
             CheckGraphArea();
-            //Graph Title
-            txp.Prepare(TitleString, TitleFont, out Title);
-            //Axis labels
-            txp.Prepare(XLabelString, AxesFont, out XAxisLabel);
-            txp.Prepare(YLabelString, AxesFont, out YAxisLabel);
-
-            
-            GL.ClearColor(Color.White);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             GL.Color3(Color.Black);
             if (draw_title)
                 DrawTitle();
+            else
+            {
+                TitleString = "";
+                DrawTitle();
+            }
             if (LegendOn)
                 DrawLegend(r);
-
+            
+            // Do this so that you don't mess around with base class matrix
+            GL.PushMatrix();
             GL.LoadIdentity();
             GL.Translate(50.0, 50.0, 0.0);
 
+            double total = 0;
+            double heading = 0; // Start pie pieces at 12 noon on the clock.
+            double currentsweep = 0;
+            int nqo1 = Glu.NewQuadric();
+            double innerradius = 0;
+            double outerradius = 20;
+            int slices = 32;
+            int loops = 1;
+
             GL.Enable(EnableCap.PolygonSmooth);
-            GL.Begin(OpenTK.OpenGL.Enums.BeginMode.Quads);
 
-            nqo1 = Glu.NewQuadric();
+            foreach (double num in data[0])
+                total += num;
 
-                    
-            //foreach (List<double> list in data)
-            List<double> list = data[0];
+            int currentColor = 0;
+            foreach (double num in data[0])
             {
-                 total = 0;
-                 heading = 0; // Start pie pieces at 12 noon on the clock.
-                 currentsweep = 0;
-                int currentColor = 0;
-                foreach (double num in list)
-                {
-                    total += num;
-                }
-                foreach (double num in list)
-                {
-                    GL.Color3(LegendColors[currentColor]);
+                GL.Color3(LegendColors[currentColor]);
 
-                    currentsweep = (num / total) * 360; //(int)(Math.Ceiling((num / total) * 360));
+                currentsweep = (num / total) * 360;
 
-                    //Drawing Filled Partialdisk pie piece.
-                    GL.Color3(LegendColors[currentColor]);
-                    Glu.QuadricDrawStyle(nqo1, QuadricDrawStyle.Fill);
+                //Drawing Filled Partialdisk pie piece.
+                GL.Color3(LegendColors[currentColor]);
+                Glu.QuadricDrawStyle(nqo1, QuadricDrawStyle.Fill);
+                Glu.PartialDisk(nqo1, innerradius, outerradius, slices, loops, heading, currentsweep);
+
+                if (outLining_cb.Checked)
+                {
+                    //Drawing Black Outline to Pie Piece
+                    GL.Color3(Color.Black);
+                    Glu.QuadricDrawStyle(nqo1, QuadricDrawStyle.Silhouette);
                     Glu.PartialDisk(nqo1, innerradius, outerradius, slices, loops, heading, currentsweep);
-
-                    if (outLining_cb.Checked)
-                    {
-                        //Drawing Black Outline to Pie Piece
-                        GL.Color3(Color.Black);
-                        Glu.QuadricDrawStyle(nqo1, QuadricDrawStyle.Silhouette);
-                        Glu.PartialDisk(nqo1, innerradius, outerradius, slices, loops, heading, currentsweep);
-                    }
-                    currentColor++;
-                    heading = heading + currentsweep;
-
                 }
-
+                currentColor++;
+                heading = heading + currentsweep;
             }
 
             Glu.DeleteQuadric(nqo1);
-            GL.End();
 
-
-
+            //return matrix like it was
+            GL.PopMatrix();
         }
         public override Graph cloneGraph()
         {
@@ -165,10 +156,8 @@ namespace ExcelClone.Graphs
 
             TitleString = "Pie Graph";
 
-            vGrid = true;
-            hGrid = true;
-
-
+            vGrid = false;
+            hGrid = false ;
         }
 
         public override void configTab(TabPage tb) 
@@ -184,10 +173,10 @@ namespace ExcelClone.Graphs
             tb.Controls.Add(outLining_cb);
             outLining_cb.CheckedChanged += new EventHandler(outLining_cb_CheckedChanged);
         }
+
         void outLining_cb_CheckedChanged(object sender, EventArgs e)
         {
-
-            outLining_cb.Checked = outLining_cb.Checked;
+            outline = outLining_cb.Checked;
         }
     }
 }

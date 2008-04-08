@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Collections;
 using OpenTK.OpenGL;
 using OpenTK.Fonts;
+using OpenTK.OpenGL.Enums;
 using System.Windows.Forms;
 
 namespace ExcelClone.Graphs
@@ -70,6 +71,8 @@ namespace ExcelClone.Graphs
 
         public override void drawGraph(Rectangle r)
         {
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
             //Graph Title
             txp.Prepare(TitleString, TitleFont, out Title);
             //Axis labels
@@ -78,6 +81,8 @@ namespace ExcelClone.Graphs
 
             clientRect = r;
             CheckGraphArea();
+
+            GL.Color3(Color.Black);
             DrawAxis();
             if(draw_title)
                 DrawTitle();
@@ -109,7 +114,6 @@ namespace ExcelClone.Graphs
             }
 
             GL.End();
-
 
             //return matrix like it was
             GL.PopMatrix();

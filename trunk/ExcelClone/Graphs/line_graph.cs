@@ -71,6 +71,8 @@ namespace ExcelClone.Graphs
 
         public override void drawGraph(Rectangle r)
         {
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
             //Graph Title
             txp.Prepare(TitleString, TitleFont, out Title);
             //Axis labels
@@ -79,6 +81,8 @@ namespace ExcelClone.Graphs
 
             clientRect = r;
             CheckGraphArea();
+
+            GL.Color3(Color.Black);
             DrawAxis();
             if (draw_title)
                 DrawTitle();
