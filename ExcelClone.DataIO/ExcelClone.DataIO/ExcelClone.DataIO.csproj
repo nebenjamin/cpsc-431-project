@@ -48,6 +48,10 @@
       <Project>{34AAEEDA-43DE-4AE8-BE96-3C2307CF35DA}</Project>
       <Name>ExcelClone</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\OpenTK\OpenTK.csproj">
+      <Project>{A8DE4406-5E00-4B4E-9A98-71F9E5A42A29}</Project>
+      <Name>OpenTK</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

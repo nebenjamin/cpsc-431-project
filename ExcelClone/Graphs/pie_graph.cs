@@ -10,7 +10,7 @@ using OpenTK.Fonts;
 
 namespace ExcelClone.Graphs
 {
-    class pie_graph : Graph
+    public class pie_graph : Graph
     {
         private CheckBox outLining_cb;
         private bool outline;
@@ -64,6 +64,9 @@ namespace ExcelClone.Graphs
         {
             outline = false;
         }
+
+        //Parameterless constructor for XMLserialize
+        public pie_graph() : base() { }
 
         public override void drawGraph(Rectangle r)
         {

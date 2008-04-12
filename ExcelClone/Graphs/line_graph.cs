@@ -5,11 +5,12 @@ using System.Drawing;
 using System.Collections;
 using System.Windows.Forms;
 using OpenTK.OpenGL;
+using OpenTK.OpenGL.Enums;
 using OpenTK.Fonts;
 
 namespace ExcelClone.Graphs
 {
-    class line_graph : Graph
+    public class line_graph : Graph
     {
         private double[] dataX = { 10, 20, 30, 40, 50, 60, 70 };
         private double[] dataY = { 10, 35, 50, 40, 75, 95, 110 };
@@ -68,6 +69,9 @@ namespace ExcelClone.Graphs
         }
 
         public line_graph(List<List<double>> newData):base(newData){}
+
+        //Parameterless constructor for XMLserialize
+        public line_graph() : base() { }
 
         public override void drawGraph(Rectangle r)
         {
