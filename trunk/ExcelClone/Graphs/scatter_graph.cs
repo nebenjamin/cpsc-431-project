@@ -5,11 +5,12 @@ using System.Drawing;
 using System.Collections;
 using System.Windows.Forms;
 using OpenTK.OpenGL;
+using OpenTK.OpenGL.Enums;
 using OpenTK.Fonts;
 
 namespace ExcelClone.Graphs
 {
-    class scatter_graph : Graph
+    public class scatter_graph : Graph
     {
 
         private Color pointColor = Color.Blue;
@@ -68,6 +69,9 @@ namespace ExcelClone.Graphs
         }
 
         public scatter_graph(List<List<double>> newData):base(newData){}
+
+        //Parameterless constructor for XMLserialize
+        public scatter_graph() : base() { }
 
         public override void drawGraph(Rectangle r)
         {

@@ -69,6 +69,9 @@ namespace ExcelClone.Graphs
 
         public bar_graph(List<List<double>> newData):base(newData){}
 
+        //Parameterless constructor for XMLserialize
+        public bar_graph() : base() { }
+
         public override void drawGraph(Rectangle r)
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);

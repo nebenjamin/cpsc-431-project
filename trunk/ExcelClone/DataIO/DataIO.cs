@@ -7,6 +7,9 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Drawing;
 
+//NATHAN SULLIVAN- to serialize graphs
+//using OpenTK.OpenGL;
+
 
 using ExcelClone.Core;
 
@@ -266,6 +269,15 @@ namespace ExcelClone.DataIO
              textWriter.WriteEndElement();
              textWriter.WriteEndElement();
              textWriter.Flush();
+
+             //NATHAN SULLIVAN:  Test code for graphs
+             /*foreach(Control c in Controller.Instance.MainForm.Controls)
+             {
+                 if( c is Graphs.GraphControl )  //try to serialize all graph controls
+                 {
+                     ((Graphs.GraphControl)c).WriteXml(textWriter);
+                 }
+             }*/
          }
          catch (Exception e)
          {

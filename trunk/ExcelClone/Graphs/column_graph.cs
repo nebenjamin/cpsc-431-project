@@ -5,11 +5,12 @@ using System.Drawing;
 using System.Collections;
 using System.Windows.Forms;
 using OpenTK.OpenGL;
+using OpenTK.OpenGL.Enums;
 using OpenTK.Fonts;
 
 namespace ExcelClone.Graphs
 {
-    class column_graph : Graph
+    public class column_graph : Graph
     {
         private float barW;
         private TextBox yAxis_tb;
@@ -67,6 +68,9 @@ namespace ExcelClone.Graphs
         }
 
         public column_graph(List<List<double>> newData):base(newData){}
+
+        //Parameterless constructor for XMLserialize
+        public column_graph() : base() { }
 
         public override void drawGraph(Rectangle r)
         {

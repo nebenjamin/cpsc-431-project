@@ -13,9 +13,11 @@ using OpenTK.OpenGL.Enums;
 
 namespace ExcelClone.Graphs
 {
-    public partial class GraphControl : OpenTK.GLControl
+    public partial class GraphControl : OpenTK.GLControl, IXmlSerializable
     {
         private Graph gr;  //the displayed graph object
+
+        //private vars used with mouse control
         private bool moving;
         private bool resizing;
         private Size oldSize;
@@ -178,6 +180,45 @@ namespace ExcelClone.Graphs
             GL.ClearColor(Color.White);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         }
+
+        #region IXmlSerializable Members
+
+        public System.Xml.Schema.XmlSchema GetSchema()
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public void ReadXml(XmlReader reader)  //For loading a saved graph
+        {
+            //First, figure out what kind of graph needs to be loaded by getting the type (bar, pie...)
+            Type graphType = System.Type.GetType("ExcelClone.Graphs." + reader.Name, false, true);
+
+            //Now, create an XMLserializer for that type and deserialize it into this control
+            XmlSerializer xms = new XmlSerializer(graphType);
+            gr = (Graph)xms.Deserialize(reader);
+
+            gr.InitFonts();  //init font and label objects, they cannot be saved
+            gr.InitLabels();
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            //Make a serializer for the graph type, and serialize it
+            XmlSerializer xms = new XmlSerializer(gr.GetType());
+            xms.Serialize(writer, gr);
+
+            //Now, add info about this control
+            writer.WriteStartElement("GraphControl");
+            writer.WriteStartAttribute("Position");
+            writer.WriteValue(this.Location.ToString());
+            writer.WriteEndAttribute();
+            writer.WriteStartAttribute("Size");
+            writer.WriteValue(this.Size.ToString());
+            writer.WriteEndAttribute();
+            writer.WriteEndElement();
+        }
+
+        #endregion
     }
 }
 
