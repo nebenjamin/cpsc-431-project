@@ -13,6 +13,8 @@ namespace ExcelClone.Graphs
     public class bar_graph : Graph
     {
         private float barW;
+
+        // objects that appear in the specific configuration tab
         private TextBox yAxis_tb;
         private CheckBox yAxis_cb;
         private Label yAxis_lb;
@@ -21,12 +23,13 @@ namespace ExcelClone.Graphs
         private Label xAxis_lb;
 
         //Create a bar graph, add it to a parent form, fill in data
-        public static Graph Create_Bar_Graph(Form parent, Rectangle location, string[][] data)
+        public static Graph Create_Bar_Graph(Rectangle location, string[][] data)
         {
-            //First, make a bar graph and add the data
+            //First, create the control graph will be in
             GraphControl gc = new GraphControl();
             List<List<double>> newData = new List<List<double>>();
 
+            //parse the 2d string array
             for( int i = 0; i < data.Length; i++ )
             {
                 newData.Add(new List<double>());
@@ -39,26 +42,34 @@ namespace ExcelClone.Graphs
                 }
             }
 
+            // now create graph with data
             Graph gr = new bar_graph(newData);
 
-            gc.Location = new Point(0, 0);  //gc.loc is a point, not rect
+            // location, size of graph in preview tab
+            gc.Location = new Point(0, 0);
             gc.Size = new Size(450,400);
             gc.SetGraph(gr);
 
+            // open up a graph configuration window
             graphConfig gConf = new graphConfig(gr,gc);
             gConf.ShowDialog();
 
+            // if press ok then put graph control in main form
             if (gConf.DialogResult == DialogResult.OK)
             {
+                // put in the graph with the changes
                 gr = gConf.gr;
+                // create new control to reset any parameters
                 gc = new GraphControl();
-                gc.Location = new Point(location.X, location.Y);  //gc.loc is a point, not rect
+                // location and size of control inside main form
+                gc.Location = new Point(location.X, location.Y);
                 gc.Size = location.Size;
                 gc.SetGraph(gr);
                 gr.InitFonts();
                 gr.InitLabels();
 
-                parent.Controls.Add(gc);
+                //add to main form
+                Controller.Instance.MainForm.Controls.Add(gc);
                 gc.BringToFront();
 
                 return gr;
@@ -67,13 +78,17 @@ namespace ExcelClone.Graphs
             return null;
         }
 
+        // constructor that deals with adding the data
         public bar_graph(List<List<double>> newData):base(newData){}
 
         //Parameterless constructor for XMLserialize
         public bar_graph() : base() { }
 
+        // the draw function that will be called any time the control needs to
+        // be drawn
         public override void drawGraph(Rectangle r)
         {
+            // clear buffers to start out fresh
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             //Graph Title
@@ -82,9 +97,11 @@ namespace ExcelClone.Graphs
             txp.Prepare(XLabelString, AxesFont, out XAxisLabel);
             txp.Prepare(YLabelString, AxesFont, out YAxisLabel);
 
+            //check the parameters of the graph area (min and max values)
             clientRect = r;
             CheckGraphArea();
 
+            //draws title, axis and legend if neccesary
             GL.Color3(Color.Black);
             DrawAxis();
             if(draw_title)
@@ -96,6 +113,7 @@ namespace ExcelClone.Graphs
             GL.PushMatrix();
             GL.LoadIdentity();
 
+            //start drawing rectangles
             GL.Begin(OpenTK.OpenGL.Enums.BeginMode.Quads);
 
             bar_width();
@@ -121,6 +139,8 @@ namespace ExcelClone.Graphs
             //return matrix like it was
             GL.PopMatrix();
         }
+
+        // this is to make a new graph object equal to this one.
         public override Graph cloneGraph()
         {
             bar_graph gr = new bar_graph(data);
@@ -133,12 +153,19 @@ namespace ExcelClone.Graphs
             gr.YLabelString = YLabelString;
             return gr;
         }
+
+        // sets the max and min values x and y can be
+        // this is used by the xOfGraph and yOfGraph functions in 
+        // main Graph class
         public override void setMinMax()
         {
+            // Y is easy since its just 0 to the number of bars
             minYVal = 0;
             maxYVal = data.Count;
 
+            // sets the first value as biggest
             maxXVal = data[0][0];
+            //goes through all values updating biggest
             foreach(List<double> list in data)
             {
                 foreach(double num in list)
@@ -146,8 +173,11 @@ namespace ExcelClone.Graphs
                     maxXVal = (num > maxXVal) ? num : maxXVal;
                 }
             }
+            // the smallest will always be zero
             minXVal = 0;
         }
+
+        // sets the defaults on some attributes
         public override void setDefaults()
         {
             nHorzLines = (int)(maxYVal+1);
@@ -158,6 +188,9 @@ namespace ExcelClone.Graphs
             vGrid = true;
             hGrid = true;
         }
+
+        // calculates the bar_with, puts a empty bar between
+        // each set and the start and end of graph
         public void bar_width()
         {
             int totalBars = data.Count + 1;
@@ -165,6 +198,7 @@ namespace ExcelClone.Graphs
             barW = (float)(maxYVal - minYVal) / totalBars;
         }
 
+        // populates the specific tab in the graph config window
         public override void configTab(TabPage tp)
         {
             yAxis_cb = new CheckBox();
@@ -257,7 +291,6 @@ namespace ExcelClone.Graphs
 
         void yAxis_cb_CheckedChanged(object sender, EventArgs e)
         {
-
             draw_yLabel = yAxis_cb.Checked;
         }
 

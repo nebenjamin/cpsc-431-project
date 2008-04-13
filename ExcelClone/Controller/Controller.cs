@@ -227,7 +227,7 @@ namespace ExcelClone
                     data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
                 }
 
-                Graphs.Graph gr = Graphs.bar_graph.Create_Bar_Graph(mainForm, r, data);
+                Graphs.Graph gr = Graphs.bar_graph.Create_Bar_Graph(r, data);
             }
         }
         public void ExecuteInsertColumnGraph()
@@ -267,7 +267,7 @@ namespace ExcelClone
                     data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
                 }
 
-                Graphs.Graph gr = Graphs.column_graph.Create_Column_Graph(mainForm, r, data);
+                Graphs.Graph gr = Graphs.column_graph.Create_Column_Graph(r, data);
             }
         }
         public void ExecuteInsertLineGraph()
@@ -307,7 +307,7 @@ namespace ExcelClone
                     data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
                 }
 
-                Graphs.Graph gr = Graphs.line_graph.Create_Line_Graph(mainForm, r, data);
+                Graphs.Graph gr = Graphs.line_graph.Create_Line_Graph(r, data);
             }
         }
         public void ExecuteInsertPieGraph()
@@ -347,7 +347,7 @@ namespace ExcelClone
                     data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
                 }
 
-                Graphs.Graph gr = Graphs.pie_graph.Create_Pie_Graph(mainForm, r, data);
+                Graphs.Graph gr = Graphs.pie_graph.Create_Pie_Graph(r, data);
             }
         }
         public void ExecuteInsertScatterGraph()
@@ -387,7 +387,7 @@ namespace ExcelClone
                     data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
                 }
 
-                Graphs.Graph gr = Graphs.scatter_graph.Create_Scatter_Graph(mainForm, r, data);
+                Graphs.Graph gr = Graphs.scatter_graph.Create_Scatter_Graph(r, data);
             }
         }
         public void ExecuteInsertWorksheet()

@@ -12,17 +12,19 @@ namespace ExcelClone.Graphs
 {
     public class pie_graph : Graph
     {
-        private CheckBox outLining_cb;
         private bool outline;
 
+        // objects that appear in the specific configuration tab
+        private CheckBox outLining_cb;
+
         //Create a bar graph, add it to a parent form, fill in data
-        public static Graph Create_Pie_Graph(Form parent, Rectangle location, string[][] data)
+        public static Graph Create_Pie_Graph(Rectangle location, string[][] data)
         {
-            //First, make a bar graph and add the data
+            //First, create the control graph will be in
             GraphControl gc = new GraphControl();
+
+            //parse the 2d string array
             List<List<double>> newData = new List<List<double>>();
-
-
             newData.Add(new List<double>());
             for (int j = 0; j < data.Length; j++)
             {
@@ -32,26 +34,33 @@ namespace ExcelClone.Graphs
                 newData[0].Add(parsedDouble);
             }
 
+            // now create graph with data
             Graph gr = new pie_graph(newData);
 
-            gc.Location = new Point(0, 0);  //gc.loc is a point, not rect
+            // location, size of graph in preview tab
+            gc.Location = new Point(0, 0);
             gc.Size = new Size(450, 400);
             gc.SetGraph(gr);
 
+            // open up a graph configuration window
             graphConfig gConf = new graphConfig(gr, gc);
             gConf.ShowDialog();
 
+            // if press ok then put graph control in main form
             if (gConf.DialogResult == DialogResult.OK)
             {
+                // put in the graph with the changes
                 gr = gConf.gr;
+                // create new control to reset any parameters
                 gc = new GraphControl();
-                gc.Location = new Point(location.X, location.Y);  //gc.loc is a point, not rect
+                // location and size of control inside main form
+                gc.Location = new Point(location.X, location.Y);
                 gc.Size = location.Size;
                 gc.SetGraph(gr);
                 gr.InitFonts();
                 gr.InitLabels();
 
-                parent.Controls.Add(gc);
+                Controller.Instance.MainForm.Controls.Add(gc);
                 gc.BringToFront();
 
                 return gr;
@@ -68,17 +77,26 @@ namespace ExcelClone.Graphs
         //Parameterless constructor for XMLserialize
         public pie_graph() : base() { }
 
+        // the draw function that will be called any time the control needs to
+        // be drawn
         public override void drawGraph(Rectangle r)
         {
+            // for some odd reason must reput the clear color again in this 
+            // graph
             GL.ClearColor(Color.White);
+            // clear buffers to start out fresh
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             //Graph Title
             txp.Prepare(TitleString, TitleFont, out Title);
 
+            //check the parameters of the graph area (min and max values)
             clientRect = r;
             CheckGraphArea();
 
+            // no need for axis
+            // for some odd reason must draw a title: workaround when
+            // title disabled draw empty string
             GL.Color3(Color.Black);
             if (draw_title)
                 DrawTitle();
@@ -96,7 +114,8 @@ namespace ExcelClone.Graphs
             GL.Translate(50.0, 50.0, 0.0);
 
             double total = 0;
-            double heading = 0; // Start pie pieces at 12 noon on the clock.
+            // Start pie pieces at 12 noon on the clock.
+            double heading = 0;
             double currentsweep = 0;
             int nqo1 = Glu.NewQuadric();
             double innerradius = 0;
@@ -121,7 +140,7 @@ namespace ExcelClone.Graphs
                 Glu.QuadricDrawStyle(nqo1, QuadricDrawStyle.Fill);
                 Glu.PartialDisk(nqo1, innerradius, outerradius, slices, loops, heading, currentsweep);
 
-                if (outLining_cb.Checked)
+                if (outline)
                 {
                     //Drawing Black Outline to Pie Piece
                     GL.Color3(Color.Black);
@@ -137,6 +156,8 @@ namespace ExcelClone.Graphs
             //return matrix like it was
             GL.PopMatrix();
         }
+
+        // this is to make a new graph object equal to this one.
         public override Graph cloneGraph()
         {
             pie_graph gr = new pie_graph(data);
@@ -145,6 +166,10 @@ namespace ExcelClone.Graphs
             gr.LegendOn = LegendOn;
             return gr;
         }
+
+        // sets the max and min values x and y can be
+        // this is used by the xOfGraph and yOfGraph functions in 
+        // main Graph class
         public override void setMinMax()
         {
             minXVal = 0;
@@ -152,6 +177,8 @@ namespace ExcelClone.Graphs
             minYVal = 0;
             maxYVal = 100;
         }
+
+        // sets the defaults on some attributes
         public override void setDefaults()
         {
             nVertLines = 0;
@@ -163,6 +190,7 @@ namespace ExcelClone.Graphs
             hGrid = false ;
         }
 
+        // populates the specific tab in the graph config window
         public override void configTab(TabPage tb) 
         {
             outLining_cb = new CheckBox();
