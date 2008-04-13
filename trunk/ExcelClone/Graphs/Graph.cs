@@ -83,6 +83,7 @@ namespace ExcelClone.Graphs
 
         public Graph() { }
 
+        // This is called before the subclass constructor
         public Graph(List<List<double>> newData)
         {
             LegendY = (grUpRight.Y - grLowLeft.Y) / 2 + grLowLeft.Y;  //Init legend stuff
@@ -147,7 +148,7 @@ namespace ExcelClone.Graphs
             }
 
             LegendLabels = new List<string>();
-            if (this is scatter_graph)
+            if (this is scatter_graph || this is line_graph)
                 i = 1;
             else
                 i = 0;
@@ -371,7 +372,7 @@ namespace ExcelClone.Graphs
         public float xOfGraph(float x_value)
         {
             float number = grUpRight.X - grLowLeft.X;
-            number *= x_value;
+            number *= (x_value-(float)minXVal);
             number /= (float)(maxXVal - minXVal);
 
             return number + grLowLeft.X;
@@ -380,7 +381,7 @@ namespace ExcelClone.Graphs
         public float yOfGraph(float y_value)
         {
             float number = grUpRight.Y - grLowLeft.Y;
-            number *= y_value;
+            number *= (y_value - (float)minYVal);
             number /= (float)(maxYVal - minYVal);
 
             return number + grLowLeft.Y;
