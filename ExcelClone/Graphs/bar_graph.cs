@@ -181,7 +181,7 @@ namespace ExcelClone.Graphs
         public override void setDefaults()
         {
             nHorzLines = (int)(maxYVal+1);
-            nVertLines = (int)Math.Ceiling(maxXVal / 10);
+            nVertLines = 8;
 
             TitleString = "Bar Graph";
 

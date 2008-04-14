@@ -41,6 +41,7 @@ namespace ExcelClone.Graphs
 
         protected override void OnSizeChanged(EventArgs e)
         {
+            MakeCurrent();
             base.OnSizeChanged(e);
             int w = this.Width;    //set up the projection for drawing graphs
             int h = this.Height;
