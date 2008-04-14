@@ -104,5 +104,30 @@ namespace ExcelClone.Gui
                 e.Handled = true;
             }
         }
+
+        private void increaseFont_Click(object sender, EventArgs e)
+        {
+            Controller.Instance.ExecuteCommand(sender, e, CommandType.FormatCells);
+        }
+
+        private void decreaseFont_Click(object sender, EventArgs e)
+        {
+            Controller.Instance.ExecuteCommand(sender, e, CommandType.FormatCells);
+        }
+
+        private void bold_Click(object sender, EventArgs e)
+        {
+            Controller.Instance.ExecuteCommand(sender, e, CommandType.FormatCells);
+        }
+
+        private void italic_Click(object sender, EventArgs e)
+        {
+            Controller.Instance.ExecuteCommand(sender, e, CommandType.FormatCells);
+        }
+
+        private void underline_Click(object sender, EventArgs e)
+        {
+            Controller.Instance.ExecuteCommand(sender, e, CommandType.FormatCells);
+        }
     }
 }

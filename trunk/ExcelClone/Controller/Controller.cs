@@ -83,6 +83,9 @@ namespace ExcelClone
                 case CommandType.InsertScatterGraph:
                     ExecuteInsertScatterGraph();
                     break;
+                case CommandType.FormatCells:
+                    ExecuteFormatCells((sender as ToolStripButton).Name);
+                    break;
                 default:
                     break;
             }
@@ -399,6 +402,28 @@ namespace ExcelClone
         public void ExecuteExit()
         {
             System.Windows.Forms.Application.Exit();
+        }
+
+        public void ExecuteFormatCells(string action)
+        {
+
+            if (action.Equals("bold"))
+            {
+                foreach (DataGridViewCell cell in SpreadsheetView.Instance.SelectedCells)
+                {
+                    if (cell.RowIndex >= 0 && cell.ColumnIndex >= 0)
+                    {
+                        Cell c = SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex];
+                        if (c != null)
+                        {
+                            c.CellFormat.CellFont = new Font(c.CellFormat.CellFont.Name,
+                                                             c.CellFormat.CellFont.Size,
+                                                             c.CellFormat.CellFont.Style | FontStyle.Bold);
+                           // SpreadsheetView.Instance.Rows[
+                        }
+                    }
+                }
+            }
         }
 
         public static Controller Instance

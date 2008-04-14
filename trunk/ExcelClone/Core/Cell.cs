@@ -30,7 +30,7 @@ namespace ExcelClone.Core
             : this(null, cellFormat) { }
 
         public Cell() {
-            CellFormat = new CellFormat(new Font("Verdana", 14), Color.Red, Color.Blue);
+            CellFormat = new CellFormat(new Font("Verdana", 2), Color.Red, Color.Blue);
             Console.WriteLine("new Cell " + CellFormat.serialize());
             CellFormat c = cellFormat;
             Console.WriteLine(c.CellFont.FontFamily.Name + " " + c.CellFont.Size + " "

@@ -23,5 +23,6 @@ namespace ExcelClone
         Paste,
         Save,
         SaveAs,
+        FormatCells
     }
 }
