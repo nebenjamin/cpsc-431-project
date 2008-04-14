@@ -17,7 +17,7 @@ namespace ExcelClone.Graphs
 
     public abstract class Graph  //Graph base class- draw a grid, labels, legend, and Title
     {
-        public List<List<double>> Data  //For serialization, all fields must be public or have a public property
+        public List<List<double>> Data  //For serialization, all fields must be public or have a public property like this one
         {
             set 
             {
@@ -28,7 +28,6 @@ namespace ExcelClone.Graphs
                     data.Add(new List<double>(dlist.Count));
                 }*/
                 data = Data;
-            
             }
             get { return data; }
         }
@@ -329,6 +328,10 @@ namespace ExcelClone.Graphs
                     //Move to label location, convert object coords to pixels
                     double labelY = (1 - (grLowLeft.Y + i * (grUpRight.Y - grLowLeft.Y) / (float)(nHorzLines - 1)) / 100.0) * clientRect.Bottom - LabelFont.Height / 2.0;
                     double labelX = (grLowLeft.X / 100.0) * clientRect.Right - YLabelOffsets[i];
+                    if (this is bar_graph)  //offset bar graph labels to be under the bars, for prettiness
+                    {
+                        labelY -= (((1 - (grLowLeft.Y + (grUpRight.Y - grLowLeft.Y) / (float)(nHorzLines - 1)) / 100.0) * clientRect.Bottom - LabelFont.Height / 2.0) - ((1 - (grLowLeft.Y + 0 * (grUpRight.Y - grLowLeft.Y) / (float)(nHorzLines - 1)) / 100.0) * clientRect.Bottom - LabelFont.Height / 2.0)) / 2.0;
+                    }
                     GL.Translate(labelX, labelY, 0);
                     //Draw label using handle of text and end
                     txp.Draw(((TextHandle)YLabels[i]));

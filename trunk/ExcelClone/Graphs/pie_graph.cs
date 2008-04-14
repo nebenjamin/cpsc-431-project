@@ -95,20 +95,15 @@ namespace ExcelClone.Graphs
             CheckGraphArea();
 
             // no need for axis
-            // for some odd reason must draw a title: workaround when
-            // title disabled draw empty string
             GL.Color3(Color.Black);
             if (draw_title)
                 DrawTitle();
-            else
-            {
-                TitleString = "";
-                DrawTitle();
-            }
+
             if (LegendOn)
                 DrawLegend(r);
             
             // Do this so that you don't mess around with base class matrix
+            GL.MatrixMode(MatrixMode.Modelview);
             GL.PushMatrix();
             GL.LoadIdentity();
             GL.Translate(50.0, 50.0, 0.0);

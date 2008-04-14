@@ -179,7 +179,7 @@ namespace ExcelClone.Graphs
         public override void setDefaults()
         {
             nVertLines = (int)(maxXVal+1);
-            nHorzLines = (int)Math.Ceiling(maxYVal / 10);
+            nHorzLines = 8;
 
             TitleString = "Column Graph";
 
