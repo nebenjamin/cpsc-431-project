@@ -188,8 +188,7 @@ namespace ExcelClone.DataIO
           }//end of row loop
           textWriter.WriteEndElement();
         }//end of column loop
-        textWriter.WriteEndElement();
-        
+        textWriter.WriteEndElement();        
 
         //NATHAN SULLIVAN:  Test code for graphs
         foreach(Control c in Controller.Instance.MainForm.Controls)
