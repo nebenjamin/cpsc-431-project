@@ -182,7 +182,7 @@ namespace ExcelClone
                     {
                         if (smallestRowIndex + r < SpreadsheetView.Instance.RowCount && smallestColumnIndex + c < SpreadsheetView.Instance.ColumnCount)
                             SpreadsheetModel.Cells[smallestRowIndex + r, smallestColumnIndex + c] =
-                            SpreadsheetView.Instance.ClipboardCells[r, c];
+                            (Cell)(SpreadsheetView.Instance.ClipboardCells[r, c].Clone());
                         
                     }
                 }
