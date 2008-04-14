@@ -55,7 +55,7 @@ namespace ExcelClone.Gui
             this.functionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutExcelCloneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.TextColor = new System.Windows.Forms.ToolStrip();
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -83,7 +83,7 @@ namespace ExcelClone.Gui
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.spreadsheetUserControl1 = new ExcelClone.Gui.SpreadsheetUserControl();
             this.menuStrip1.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
+            this.TextColor.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -283,9 +283,9 @@ namespace ExcelClone.Gui
             this.aboutExcelCloneToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.aboutExcelCloneToolStripMenuItem.Text = "About ExcelClone";
             // 
-            // toolStrip1
+            // TextColor
             // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TextColor.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripButton,
             this.openToolStripButton,
             this.saveToolStripButton,
@@ -304,11 +304,12 @@ namespace ExcelClone.Gui
             this.toolStripButton11,
             this.toolStripSeparator4,
             this.toolStripSeparator});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(615, 25);
-            this.toolStrip1.TabIndex = 1;
-            this.toolStrip1.Text = "toolStrip1";
+            this.TextColor.Location = new System.Drawing.Point(0, 24);
+            this.TextColor.Name = "TextColor";
+            this.TextColor.Size = new System.Drawing.Size(615, 25);
+            this.TextColor.TabIndex = 1;
+            this.TextColor.Text = "toolStrip1";
+            this.TextColor.Click += new System.EventHandler(this.TextColor_Click);
             // 
             // newToolStripButton
             // 
@@ -534,15 +535,15 @@ namespace ExcelClone.Gui
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.TextColor);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Window";
             this.Text = "NewWindow";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.TextColor.ResumeLayout(false);
+            this.TextColor.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -552,7 +553,7 @@ namespace ExcelClone.Gui
         #endregion
 
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStrip TextColor;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;

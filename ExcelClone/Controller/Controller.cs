@@ -458,9 +458,16 @@ namespace ExcelClone
             System.Windows.Forms.Application.Exit();
         }
 
+
+        public void ExecuteSheetChange()
+        {
+
+        }
         public void ExecuteFormatCells(string action)
         {
             FontStyle s = 0;
+            float sizeChange = 0;
+            bool changedSettings = false;
             
             
             
@@ -471,32 +478,40 @@ namespace ExcelClone
                     Cell c = SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex];
                     if (c != null)
                     {
-                        if(s == 0) {
+                        if(!changedSettings) {
+                            changedSettings = true;
                             s = c.CellFormat.CellFont.Style;
                             switch(action) {
-                            case "bold":
-                                if ((s & FontStyle.Bold) == FontStyle.Bold)
-                                    s = s & ~FontStyle.Bold;
-                                else
-                                    s |= FontStyle.Bold;
-                                break;
-                            case "italic":
-                                if ((s & FontStyle.Italic) == FontStyle.Italic)
-                                    s = s & ~FontStyle.Italic;
-                                else
-                                    s |= FontStyle.Italic;
-                                break;
-                            case "underline":
-                                if ((s & FontStyle.Underline) == FontStyle.Underline)
-                                    s = s & ~FontStyle.Underline;
-                                else
-                                    s |= FontStyle.Underline;
-                                break;
+                                case "bold":
+                                    if ((s & FontStyle.Bold) == FontStyle.Bold)
+                                        s = s & ~FontStyle.Bold;
+                                    else
+                                        s |= FontStyle.Bold;
+                                    break;
+                                case "italic":
+                                    if ((s & FontStyle.Italic) == FontStyle.Italic)
+                                        s = s & ~FontStyle.Italic;
+                                    else
+                                        s |= FontStyle.Italic;
+                                    break;
+                                case "underline":
+                                    if ((s & FontStyle.Underline) == FontStyle.Underline)
+                                        s = s & ~FontStyle.Underline;
+                                    else
+                                        s |= FontStyle.Underline;
+                                    break;
+                                case "increaseFont":
+                                    sizeChange++;
+                                    break;
+                                case "decreaseFont":
+                                    sizeChange--;
+                                    break;
+
                             }
                         }
 
                         c.CellFormat.CellFont = new Font(c.CellFormat.CellFont.Name,
-                                                         c.CellFormat.CellFont.Size,
+                                                         c.CellFormat.CellFont.Size + sizeChange,
                                                          s);
                         
                     }

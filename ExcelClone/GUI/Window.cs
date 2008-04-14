@@ -129,5 +129,10 @@ namespace ExcelClone.Gui
         {
             Controller.Instance.ExecuteCommand(sender, e, CommandType.FormatCells);
         }
+
+        private void TextColor_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
