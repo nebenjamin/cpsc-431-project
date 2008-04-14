@@ -231,7 +231,7 @@ namespace ExcelClone.DataIO
       int currentRow, currentColumn;
 
       XmlDocument doc = new XmlDocument();
-
+      
       try
       {
         doc.Load(filename);
@@ -318,7 +318,7 @@ namespace ExcelClone.DataIO
           }
 
           // Add current CellCollection to book
-          book[0] = new SpreadsheetModel(cells);
+          book.Add(new SpreadsheetModel(cells));
         }
       }
       catch (Exception e)
