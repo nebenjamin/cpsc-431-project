@@ -1,6 +1,6 @@
 These are some things that still need working on.
 
-Paste only works once
+Paste is deleting some content when used after cut. Looks like some sort of dependency issue. 
 
 No font formatting options, new button doesn’t work. No function option when clicked in UI (Insert->Function), the button does nothing. Same for Help->About ExcelClone
 
