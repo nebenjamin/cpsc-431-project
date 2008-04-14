@@ -218,7 +218,7 @@ namespace ExcelClone
             int colCount = max_col - min_col + 1;
             int rowCount = max_row - min_row + 1;
 
-            if (colCount >= 2 && rowCount >= 1)
+            if (colCount >= 1 && rowCount >= 1)
             {
                 string[][] data = new string[rowCount][];
                 for (int i = 0; i < data.Length; i++)
@@ -227,10 +227,20 @@ namespace ExcelClone
                 {
                     int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
                     int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
-                    data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
+                    if(Controller.Instance.SpreadsheetModel.Cells[rI, cI] != null)
+                        data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
                 }
-
-                Graphs.Graph gr = Graphs.bar_graph.Create_Bar_Graph(r, data);
+                try
+                {
+                    Graphs.Graph gr = Graphs.bar_graph.Create_Bar_Graph(r, data);
+                }catch(ArgumentException)
+                {
+                    MessageBox.Show("Invalid Data");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Incorrect Number of Columns");
             }
         }
         public void ExecuteInsertColumnGraph()
@@ -258,7 +268,7 @@ namespace ExcelClone
             int colCount = max_col - min_col + 1;
             int rowCount = max_row - min_row + 1;
 
-            if (colCount >= 2 && rowCount >= 1)
+            if (colCount >= 1 && rowCount >= 1)
             {
                 string[][] data = new string[rowCount][];
                 for (int i = 0; i < data.Length; i++)
@@ -267,10 +277,21 @@ namespace ExcelClone
                 {
                     int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
                     int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
-                    data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
+                    if (Controller.Instance.SpreadsheetModel.Cells[rI, cI] != null)
+                        data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
                 }
-
-                Graphs.Graph gr = Graphs.column_graph.Create_Column_Graph(r, data);
+                try
+                {
+                    Graphs.Graph gr = Graphs.column_graph.Create_Column_Graph(r, data);
+                }
+                catch (ArgumentException)
+                {
+                    MessageBox.Show("Invalid Data");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Incorrect Number of Columns");
             }
         }
         public void ExecuteInsertLineGraph()
@@ -307,10 +328,21 @@ namespace ExcelClone
                 {
                     int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
                     int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
-                    data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
+                    if (Controller.Instance.SpreadsheetModel.Cells[rI, cI] != null)
+                        data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
                 }
-
-                Graphs.Graph gr = Graphs.line_graph.Create_Line_Graph(r, data);
+                try
+                {
+                    Graphs.Graph gr = Graphs.line_graph.Create_Line_Graph(r, data);
+                }
+                catch (ArgumentException)
+                {
+                    MessageBox.Show("Invalid Data");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Incorrect Number of Columns");
             }
         }
         public void ExecuteInsertPieGraph()
@@ -347,10 +379,21 @@ namespace ExcelClone
                 {
                     int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
                     int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
-                    data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
+                    if (Controller.Instance.SpreadsheetModel.Cells[rI, cI] != null)
+                        data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
                 }
-
-                Graphs.Graph gr = Graphs.pie_graph.Create_Pie_Graph(r, data);
+                try
+                {
+                    Graphs.Graph gr = Graphs.pie_graph.Create_Pie_Graph(r, data);
+                }
+                catch (ArgumentException)
+                {
+                    MessageBox.Show("Invalid Data");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Incorrect Number of Columns");
             }
         }
         public void ExecuteInsertScatterGraph()
@@ -387,10 +430,21 @@ namespace ExcelClone
                 {
                     int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
                     int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
-                    data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
+                    if (Controller.Instance.SpreadsheetModel.Cells[rI, cI] != null)
+                        data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
                 }
-
-                Graphs.Graph gr = Graphs.scatter_graph.Create_Scatter_Graph(r, data);
+                try
+                {
+                    Graphs.Graph gr = Graphs.scatter_graph.Create_Scatter_Graph(r, data);
+                }
+                catch (ArgumentException e)
+                {
+                    MessageBox.Show("Invalid Data");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Incorrect Number of Columns");
             }
         }
         public void ExecuteInsertWorksheet()

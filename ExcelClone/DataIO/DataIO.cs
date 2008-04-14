@@ -203,7 +203,7 @@ namespace ExcelClone.DataIO
                                      tempDouble = double.Parse(theCell.Value);
                                      textWriter.WriteAttributeString("type", "Number");
                                  }
-                                 catch (System.FormatException e)
+                                 catch (System.FormatException)
                                  {
                                      textWriter.WriteAttributeString("type", "Text");
                                  }
@@ -298,7 +298,6 @@ namespace ExcelClone.DataIO
 
      private bool ReadBook()
      {
-         int i = 0;
          int currentRow, currentColumn;
 
          XmlDocument doc = new XmlDocument();

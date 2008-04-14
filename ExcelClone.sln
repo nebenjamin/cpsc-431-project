@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTK", "OpenTK\OpenTK.csproj", "{A8DE4406-5E00-4B4E-9A98-71F9E5A42A29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelClone.DataIO", "ExcelClone.DataIO\ExcelClone.DataIO\ExcelClone.DataIO.csproj", "{35D58B28-23FE-4592-8F54-711B1624CE0D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelClone", "ExcelClone\ExcelClone.csproj", "{34AAEEDA-43DE-4AE8-BE96-3C2307CF35DA}"
 EndProject
 Global
@@ -17,10 +15,6 @@ Global
 		{A8DE4406-5E00-4B4E-9A98-71F9E5A42A29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8DE4406-5E00-4B4E-9A98-71F9E5A42A29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8DE4406-5E00-4B4E-9A98-71F9E5A42A29}.Release|Any CPU.Build.0 = Release|Any CPU
-		{35D58B28-23FE-4592-8F54-711B1624CE0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{35D58B28-23FE-4592-8F54-711B1624CE0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{35D58B28-23FE-4592-8F54-711B1624CE0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{35D58B28-23FE-4592-8F54-711B1624CE0D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{34AAEEDA-43DE-4AE8-BE96-3C2307CF35DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{34AAEEDA-43DE-4AE8-BE96-3C2307CF35DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34AAEEDA-43DE-4AE8-BE96-3C2307CF35DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
