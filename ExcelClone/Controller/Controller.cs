@@ -460,24 +460,55 @@ namespace ExcelClone
 
         public void ExecuteFormatCells(string action)
         {
-
-            if (action.Equals("bold"))
+            FontStyle s = 0;
+            
+            
+            
+            foreach (DataGridViewCell cell in SpreadsheetView.Instance.SelectedCells)
             {
-                foreach (DataGridViewCell cell in SpreadsheetView.Instance.SelectedCells)
-                {
-                    if (cell.RowIndex >= 0 && cell.ColumnIndex >= 0)
+                if (cell.RowIndex >= 0 && cell.ColumnIndex >= 0)
+                {                    
+                    Cell c = SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex];
+                    if (c != null)
                     {
-                        Cell c = SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex];
-                        if (c != null)
-                        {
-                            c.CellFormat.CellFont = new Font(c.CellFormat.CellFont.Name,
-                                                             c.CellFormat.CellFont.Size,
-                                                             c.CellFormat.CellFont.Style | FontStyle.Bold);
-                           // SpreadsheetView.Instance.Rows[
+                        if(s == 0) {
+                            s = c.CellFormat.CellFont.Style;
+                            switch(action) {
+                            case "bold":
+                                if ((s & FontStyle.Bold) == FontStyle.Bold)
+                                {
+                                    Console.WriteLine("remove ");
+                                    s &= ~FontStyle.Bold;
+                                    
+                                }
+                                else
+                                    s |= FontStyle.Bold;
+                                break;
+                            case "italic":
+                                if ((s & FontStyle.Italic) == FontStyle.Italic)
+                                    s = s & ~FontStyle.Italic;
+                                else
+                                    s |= FontStyle.Italic;
+                                break;
+                            case "underline":
+                                if ((s & FontStyle.Underline) == FontStyle.Underline)
+                                    s = s & ~FontStyle.Underline;
+                                else
+                                    s |= FontStyle.Underline;
+                                break;
+                            }
                         }
+
+                        c.CellFormat.CellFont = new Font(c.CellFormat.CellFont.Name,
+                                                         c.CellFormat.CellFont.Size,
+                                                         c.CellFormat.CellFont.Style | s);
+                        
                     }
+                    
                 }
+                SpreadsheetView.Instance.RefreshCell(new CellKey(cell.RowIndex, cell.ColumnIndex));
             }
+            
         }
 
         public static Controller Instance
