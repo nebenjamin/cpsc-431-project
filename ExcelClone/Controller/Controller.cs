@@ -476,11 +476,7 @@ namespace ExcelClone
                             switch(action) {
                             case "bold":
                                 if ((s & FontStyle.Bold) == FontStyle.Bold)
-                                {
-                                    Console.WriteLine("remove ");
-                                    s &= ~FontStyle.Bold;
-                                    
-                                }
+                                    s = s & ~FontStyle.Bold;
                                 else
                                     s |= FontStyle.Bold;
                                 break;
@@ -501,7 +497,7 @@ namespace ExcelClone
 
                         c.CellFormat.CellFont = new Font(c.CellFormat.CellFont.Name,
                                                          c.CellFormat.CellFont.Size,
-                                                         c.CellFormat.CellFont.Style | s);
+                                                         s);
                         
                     }
                     
