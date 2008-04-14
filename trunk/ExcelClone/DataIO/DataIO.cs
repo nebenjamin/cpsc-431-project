@@ -37,10 +37,34 @@ namespace ExcelClone.DataIO
       return true;
     }
 
+    public SpreadsheetModel GetSpreadsheet(int pagenumber)
+    {
+      if (book != null)
+      {
+        return book[pagenumber];
+      }
+      else
+      {
+        return new SpreadsheetModel(new CellCollection());
+      }
+    }
+
     public bool SetBook(List<SpreadsheetModel> volume)
     {
       book = volume;
       return true;
+    }
+
+    public List<SpreadsheetModel> GetBook()
+    {
+      if (book != null)
+      {
+        return book;
+      }
+      else
+      {
+        return book.Add(new SpreadsheetModel(new CellCollection()));
+      }
     }
 
     public bool SaveBook()
