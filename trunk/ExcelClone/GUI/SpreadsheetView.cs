@@ -82,7 +82,7 @@ namespace ExcelClone.Gui
             RowsRemoved += new DataGridViewRowsRemovedEventHandler(SpreadsheetView_RowsRemoved);
 
 
-            this.DefaultCellStyle.Font = new Font("Verdana", 15);
+            this.DefaultCellStyle.Font = new Font("Verdana", 10);
 
         }
 
@@ -176,10 +176,17 @@ namespace ExcelClone.Gui
             //if null, we dont care!
             try
             {
-                if(Controller.Instance.SpreadsheetModel.Cells[key] != null)
-                  this[key.C, key.R].Value = Controller.Instance.SpreadsheetModel.Cells[key].Value;
+                if (Controller.Instance.SpreadsheetModel.Cells[key] != null)
+                {
+                    this[key.C, key.R].Value = Controller.Instance.SpreadsheetModel.Cells[key].Value;
+                    this[key.C, key.R].Style.Font = Controller.Instance.SpreadsheetModel.Cells[key].CellFormat.CellFont;
+                    this[key.C, key.R].Style.ForeColor = Controller.Instance.SpreadsheetModel.Cells[key].CellFormat.TextColor;
+                    this[key.C, key.R].Style.BackColor = Controller.Instance.SpreadsheetModel.Cells[key].CellFormat.CellColor;
+
+                }
                 else
-                  this[key.C, key.R].Value = null;
+                    this[key.C, key.R].Value = null;
+                
             }
             catch (NullReferenceException e)
             {

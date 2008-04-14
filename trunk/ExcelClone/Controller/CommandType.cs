@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ExcelClone
 {
-    enum CommandType
+    public enum CommandType
     {
         About,
         Close,
