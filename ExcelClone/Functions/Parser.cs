@@ -17,7 +17,7 @@ namespace ExcelClone.Functions
 
         public Parser() 
         {
-            OutFile = new StreamWriter("Output "+System.DateTime.Now.ToString().Replace(':','.').Replace('/','.')+".txt");
+            //OutFile = new StreamWriter("Output "+System.DateTime.Now.ToString().Replace(':','.').Replace('/','.')+".txt");
             Dependencies = new DependencyHandler(OutFile);
         }
 
@@ -30,24 +30,24 @@ namespace ExcelClone.Functions
             Base_Cell = Cell_String.Substring(0, Cell_String.IndexOf(':'));
             Base_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1);
             Cell_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1);
-            OutFile.WriteLine("---------- " + Base_Cell + ":" + Cell_String);
+            //OutFile.WriteLine("---------- " + Base_Cell + ":" + Cell_String);
             //Form1.Step("---------- " + Cell_String);
 
-            OutFile.WriteLine(Cell_String);
+            //OutFile.WriteLine(Cell_String);
 
             ArrayList Send = new ArrayList();
             Send.Add(Base_Cell);
 
             if (Cell_String.Length == 0)
             {
-                OutFile.WriteLine("Cell is empty");
+                //OutFile.WriteLine("Cell is empty");
                 //Form1.Step("Cell is empty");
                 return Original_Cell_String;
             }
             if (Cell_String[0].ToString() != "=")
             {
                 Dependencies.NewStatement(Send);
-                OutFile.WriteLine("Cell is a string");
+                //OutFile.WriteLine("Cell is a string");
                 //Form1.Step("Cell is a string");
                 return Original_Cell_String;
             }
@@ -69,9 +69,9 @@ namespace ExcelClone.Functions
 
             string strtmp = Breaker(temp);
 
-            OutFile.WriteLine("----- " + strtmp);
+            //OutFile.WriteLine("----- " + strtmp);
             //Form1.Step("----- " + strtmp);
-            OutFile.Flush();
+            //OutFile.Flush();
             try
             {
                 return Convert.ToDouble(strtmp).ToString();
@@ -79,9 +79,9 @@ namespace ExcelClone.Functions
             }
             catch
             {
-                OutFile.WriteLine("ERROR - FORMATING ERROR");
+                //OutFile.WriteLine("ERROR - FORMATING ERROR");
                 //Form1.Step("ERROR: FORMATING ERROR");
-                OutFile.Flush();
+                //OutFile.Flush();
                 //ERROR: FORMATING ERROR
                 return Original_Cell_String;
             }
@@ -446,7 +446,7 @@ namespace ExcelClone.Functions
                     }
                     catch
                     {
-                        OutFile.WriteLine("=ERROR - INCORRECT INPUT STRING (/,*)"); //ERROR: INCORRECT INPUT STRING
+                        //OutFile.WriteLine("=ERROR - INCORRECT INPUT STRING (/,*)"); //ERROR: INCORRECT INPUT STRING
                         //Form1.Step("ERROR: INCORRECT INPUT STRING");
                         return Tokenize("=ERROR - INCORRECT INPUT STRING (/,*)");//return Tokenize(Base_String);
                     }
@@ -577,7 +577,7 @@ namespace ExcelClone.Functions
                     }
                     catch
                     {
-                        OutFile.WriteLine("=ERROR - INCORRECT INPUT STRING  (+,-)"); //ERROR: INCORRECT INPUT STRING
+                        //OutFile.WriteLine("=ERROR - INCORRECT INPUT STRING  (+,-)"); //ERROR: INCORRECT INPUT STRING
                         //Form1.Step("ERROR: INCORRECT INPUT STRING");
                         return Tokenize("=ERROR - INCORRECT INPUT STRING  (+,-)");//return Tokenize(Base_String);
                     }
@@ -624,14 +624,14 @@ namespace ExcelClone.Functions
 
                 //if (Base_Cell.CompareTo(Parts[i].ToString().ToUpper()) == 0)
                 //{
-                //    OutFile.WriteLine("=ERROR - CIRCULAR REFERENCE");
+                //    //OutFile.WriteLine("=ERROR - CIRCULAR REFERENCE");
                 //    //Form1.Step("ERROR: CIRCULAR REFERENCE");
                 //    //ERROR: CIRCULAR REFERENCE
                 //    return Tokenize("=ERROR - CIRCULAR REFERENCE");//return Parts;
                 //}
                 if (IsCellReference(Parts[i].ToString()))
                 {
-                    OutFile.WriteLine("Cell Reference");
+                    //OutFile.WriteLine("Cell Reference");
                     //Form1.Step("Cell Reference");
                     //Console.WriteLine("BaseCell= " + Base_Cell);
                     //Console.WriteLine("CellReference= " + Parts[i].ToString());
@@ -651,7 +651,7 @@ namespace ExcelClone.Functions
                         temp = "NULL";
                     if (temp.Length <= 0) temp = "NULL";
 
-                    OutFile.WriteLine(cell_ref + " -> " + temp);
+                    //OutFile.WriteLine(cell_ref + " -> " + temp);
                     //Form1.Step(cell_ref + " -> " + temp);
 
                     if (temp[0] == '=')
@@ -659,7 +659,7 @@ namespace ExcelClone.Functions
                         //Cell has a formula
                         Parts.InsertRange(i, Reformat(Tokenize(temp)));
 
-                        OutFile.WriteLine("Cell has a formula");
+                        //OutFile.WriteLine("Cell has a formula");
                         //Form1.Step("Cell has a formula");
                     }
                     else
@@ -669,14 +669,14 @@ namespace ExcelClone.Functions
                             //Cell has a value
                             Parts.Insert(i, Convert.ToDouble(temp));
 
-                            OutFile.WriteLine("Cell has a number");
+                            //OutFile.WriteLine("Cell has a number");
                             //Form1.Step("Cell has a number");
                         }
                         catch
                         {
                             Parts.Insert(i, "NULL");
 
-                            OutFile.WriteLine("Cell has a string");
+                            //OutFile.WriteLine("Cell has a string");
                             //Form1.Step("Cell has a string");
                             //ERROR: Cell has a string
                             //return Parts;
@@ -786,11 +786,11 @@ namespace ExcelClone.Functions
             string stemp = "";
             for (int i = 0; i < temp.Count; i++)
             {
-                OutFile.Write(temp[i].ToString() + ".");
+                //OutFile.Write(temp[i].ToString() + ".");
                 stemp += temp[i].ToString() + ".";
             }
 
-            OutFile.WriteLine("");
+            //OutFile.WriteLine("");
             //Form1.Step(stemp);
         }
     }
