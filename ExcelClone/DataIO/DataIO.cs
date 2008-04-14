@@ -44,12 +44,6 @@ namespace ExcelClone.DataIO
 
     public bool SaveBook()
     {
-      /***** TEST CODE *****/
-
-      book.Add(new SpreadsheetModel(new CellCollection()));
-
-      /***** END TEST CODE *****/
-
       SaveFileDialog saver = new SaveFileDialog();
       saver.AddExtension = true;
       saver.CheckPathExists = true;
