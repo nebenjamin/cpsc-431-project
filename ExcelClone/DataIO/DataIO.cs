@@ -6,6 +6,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
 using System.Drawing;
+using ExcelClone.Gui;
 
 //NATHAN SULLIVAN- to serialize graphs
 using OpenTK.OpenGL;
@@ -117,15 +118,20 @@ namespace ExcelClone.DataIO
         int bookRows = book[0].Cells.Rows;
         int bookColumns = book[0].Cells.Columns;
 
+        SpreadsheetView sv = SpreadsheetView.Instance;
+
         for (int column = 0; column < bookColumns; column++)
         {
           textWriter.WriteStartElement("column");
           textWriter.WriteAttributeString("index", column.ToString());
-
-
+          textWriter.WriteAttributeString("width", sv[column, 0].Size.Width.ToString());
+              //sv[0,0].Size.Height;
           for (int row = 0; row < bookRows; row++)
           {
             theCell = book[0].Cells[row, column];
+
+            
+
             /*IS CELL DEFAULT CHECK*/
             blank = false;
             if (theCell == null || theCell.Value == null) { blank = true; }
@@ -140,6 +146,7 @@ namespace ExcelClone.DataIO
             {
               textWriter.WriteStartElement("row");
               textWriter.WriteAttributeString("index", row.ToString());
+              textWriter.WriteAttributeString("height", sv[0, row].Size.Height.ToString());
 
               if (theCell != null)
               {
