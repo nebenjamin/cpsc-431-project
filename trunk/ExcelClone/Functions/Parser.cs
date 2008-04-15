@@ -4,6 +4,7 @@ using System.Text;
 using System.Collections;
 using System.Reflection;
 using System.IO;
+using ExcelClone.Gui;
 
 namespace ExcelClone.Functions
 {
@@ -14,15 +15,16 @@ namespace ExcelClone.Functions
         private Functions Fun_Class = new Functions();
         private TextWriter OutFile;
         private DependencyHandler Dependencies;
-
+        private SpreadsheetUserControl activeWS = null;
         public Parser() 
         {
             //OutFile = new StreamWriter("Output "+System.DateTime.Now.ToString().Replace(':','.').Replace('/','.')+".txt");
             Dependencies = new DependencyHandler(OutFile);
         }
 
-        public string Parse(string Cell_String)
+        public string Parse(SpreadsheetUserControl activeWS,string Cell_String)
         {
+            this.activeWS = activeWS;
             string Original_Cell_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1); ;
 
             Cell_String = Cell_String.ToUpper().Replace(" ", "");
@@ -645,8 +647,8 @@ namespace ExcelClone.Functions
                     int r = (int)atemp[0];
                     int c = (int)atemp[1];
                     string temp;
-                    if (Controller.Instance.SpreadsheetModel.Cells[r, c] != null)
-                        temp = Controller.Instance.SpreadsheetModel.Cells[r, c].Formula.ToUpper();// Form1.getCellFormula(cell_ref);
+                    if (activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c] != null)
+                        temp = activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].Formula.ToUpper();// Form1.getCellFormula(cell_ref);
                     else
                         temp = "NULL";
                     if (temp.Length <= 0) temp = "NULL";

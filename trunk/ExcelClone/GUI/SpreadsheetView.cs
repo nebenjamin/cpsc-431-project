@@ -15,51 +15,19 @@ namespace ExcelClone.Gui
         public readonly int RowCount = 50;
         public readonly int ColumnCount = 26;
         
-        #region Clipboard
-
-        private CellCollection clipboardCells;
-        private bool isCut;
-        private bool isPaste;
-        private bool isCopy;
-        public bool IsCut
+        private SpreadsheetModel spreadsheetModel;
+        public SpreadsheetModel SpreadsheetModel
         {
-            get { return isCut; }
-            set { isCut = value; }
+            get { return spreadsheetModel; }
+            set { spreadsheetModel = value; }
         }
-        public bool IsPaste
-        {
-            get { return isPaste; }
-            set { isPaste = value; }
-        }
-        public bool IsCopy
-        {
-            get { return isCopy; }
-            set { isCopy = value; }
-        }
-        public CellCollection ClipboardCells
-        {
-            get
-            {
-                return clipboardCells;
-            }
-            set
-            {
-                clipboardCells = value;
-            }
-        }
-
-        #endregion
-
         public SpreadsheetView()
             : base()
         {
-            isCut = false;
-            isPaste = false;
-            isCopy = false;
+            SpreadsheetModel = new SpreadsheetModel(new CellCollection());            
             Dock = DockStyle.Fill;
             CellMouseDoubleClick += new DataGridViewCellMouseEventHandler(SpreadsheetView_CellMouseDoubleClick);
             RowHeaderMouseClick += new DataGridViewCellMouseEventHandler(SpreadsheetView_RowHeaderMouseClick);
-            
             KeyDown += new KeyEventHandler(SpreadsheetView_KeyDown);
             ParentChanged += delegate
             {
@@ -97,7 +65,7 @@ namespace ExcelClone.Gui
         {
             int row = e.RowIndex;
             int col = e.ColumnIndex;
-            SpreadsheetModel model = Controller.Instance.SpreadsheetModel;
+            SpreadsheetModel model = spreadsheetModel;
 
             Cell cell = model.Cells[row, col];
 
@@ -116,7 +84,7 @@ namespace ExcelClone.Gui
             int row = e.RowIndex;
             int col = e.ColumnIndex;
             
-            SpreadsheetModel model = Controller.Instance.SpreadsheetModel;
+            SpreadsheetModel model = spreadsheetModel;
 
             Cell cell = model.Cells[row, col];
 
@@ -150,7 +118,7 @@ namespace ExcelClone.Gui
                     cell.Value = "";
                     if (cell.RowIndex >= 0 && cell.ColumnIndex >= 0)
                     {
-                        c = Controller.Instance.SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex];
+                        c = spreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex];
                         if (c != null)
                         {
                             c.Value = "";
@@ -176,12 +144,12 @@ namespace ExcelClone.Gui
             //if null, we dont care!
             try
             {
-                if (Controller.Instance.SpreadsheetModel.Cells[key] != null)
+                if (spreadsheetModel.Cells[key] != null)
                 {
-                    this[key.C, key.R].Value = Controller.Instance.SpreadsheetModel.Cells[key].Value;
-                    this[key.C, key.R].Style.Font = Controller.Instance.SpreadsheetModel.Cells[key].CellFormat.CellFont;
-                    this[key.C, key.R].Style.ForeColor = Controller.Instance.SpreadsheetModel.Cells[key].CellFormat.TextColor;
-                    this[key.C, key.R].Style.BackColor = Controller.Instance.SpreadsheetModel.Cells[key].CellFormat.CellColor;
+                    this[key.C, key.R].Value = spreadsheetModel.Cells[key].Value;
+                    this[key.C, key.R].Style.Font = spreadsheetModel.Cells[key].CellFormat.CellFont;
+                    this[key.C, key.R].Style.ForeColor = spreadsheetModel.Cells[key].CellFormat.TextColor;
+                    this[key.C, key.R].Style.BackColor = spreadsheetModel.Cells[key].CellFormat.CellColor;
 
                 }
                 else
@@ -240,23 +208,6 @@ namespace ExcelClone.Gui
             
             return send;
         }
-
-        public static SpreadsheetView Instance
-        {
-            get { return SpreadsheetViewCreator.CreatorInstance; }
-        }
-
-        private sealed class SpreadsheetViewCreator
-        {
-            private static readonly SpreadsheetView _instance = new SpreadsheetView();
-
-            public static SpreadsheetView CreatorInstance
-            {
-                get { return _instance; }
-            }
-        }
-
-
 
         private IGridModel gridModel;
         public IGridModel GridModel { get { return gridModel; } set { gridModel = value; } }

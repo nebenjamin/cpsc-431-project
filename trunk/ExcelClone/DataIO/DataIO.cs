@@ -63,11 +63,14 @@ namespace ExcelClone.DataIO
       }
       else
       {
-        return book.Add(new SpreadsheetModel(new CellCollection()));
+        //return book.Add(new SpreadsheetModel(new CellCollection()));
+          //THIS CAUSED A COMPILE ERROR THE PERSON WHO CODED BEFORE ME - LONG MAI
+          //WHO CODED THIS SHOULD FIX THIS AND NEED TO MAKE SURE IT COMPILES BEFORE COMMITTING
+          return null;
       }
     }
 
-    public bool SaveBook()
+    public bool SaveBook(SpreadsheetUserControl activeWS)
     {
       SaveFileDialog saver = new SaveFileDialog();
       saver.AddExtension = true;
@@ -82,7 +85,7 @@ namespace ExcelClone.DataIO
         try
         {
           if (book.Count == 0) throw new MissingMemberException("Passed an empty book!  Feed me data");
-          return WriteBook();
+          return WriteBook(activeWS);
         }
         catch (Exception e)
         {
@@ -123,7 +126,7 @@ namespace ExcelClone.DataIO
       return new SpreadsheetModel(new CellCollection());
     }
 
-    private bool WriteBook()
+    private bool WriteBook(SpreadsheetUserControl activeWS)
     {
       Cell theCell = new Cell();
       Cell defaultCell = new Cell();
@@ -142,7 +145,7 @@ namespace ExcelClone.DataIO
         int bookRows = book[0].Cells.Rows;
         int bookColumns = book[0].Cells.Columns;
 
-        SpreadsheetView sv = SpreadsheetView.Instance;
+        SpreadsheetView sv = activeWS.Spreadsheet;
 
         for (int column = 0; column < bookColumns; column++)
         {

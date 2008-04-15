@@ -31,6 +31,20 @@ namespace ExcelClone
             InvalidCells = new Queue<CellKey>();
         }
 
+        private Window mainForm;
+
+        public Window MainForm
+        {
+            get
+            {
+                return mainForm;
+            }
+            set
+            {
+                mainForm = value;
+            }
+        }
+
         #region ISpreadsheetControl Members
 
         //enqueue invalid cell
@@ -42,6 +56,7 @@ namespace ExcelClone
         //call on cell changes
         public void CellChanged(CellKey key)
         {
+            SpreadsheetUserControl ActiveWS = (SpreadsheetUserControl)mainForm.WorksheetsTabControl.SelectedTab.Controls[0];
             CellKey lastUpdated = null;
             string val = null;
             InvalidateCell(key);
@@ -60,7 +75,7 @@ namespace ExcelClone
                     UpdateCellValue(key, val);
                     lastUpdated = key;
                 }
-                val = Controller.Instance.Parser.Parse(SpreadsheetView.MakeColumnLabel(key.C) + key.R + ":" + Controller.Instance.SpreadsheetModel.Cells[key].Formula);
+                val = Controller.Instance.Parser.Parse(ActiveWS,SpreadsheetView.MakeColumnLabel(key.C) + key.R + ":" + ActiveWS.Spreadsheet.SpreadsheetModel.Cells[key].Formula);
                 UpdateCellValue(key, val);
                 //updateCellValue(key, parse(key, m.Cells[key].value)); call the parse function for this cell key
             }
@@ -73,26 +88,30 @@ namespace ExcelClone
 
         public void UpdateCellValue(CellKey key, string value)
         {
-            Controller.Instance.SpreadsheetModel.Cells[key].Value = value;
-            SpreadsheetView.Instance.RefreshCell(key);
+            SpreadsheetUserControl ActiveWS = (SpreadsheetUserControl)mainForm.WorksheetsTabControl.SelectedTab.Controls[0];
+            ActiveWS.Spreadsheet.SpreadsheetModel.Cells[key].Value = value;
+            ActiveWS.Spreadsheet.RefreshCell(key);
         }
 
         public void UpdateCellFormula(CellKey key, string formula)
         {
-            Controller.Instance.SpreadsheetModel.Cells[key].Formula = formula;
-            SpreadsheetView.Instance.RefreshCell(key);
+            SpreadsheetUserControl ActiveWS = (SpreadsheetUserControl)mainForm.WorksheetsTabControl.SelectedTab.Controls[0];
+            ActiveWS.Spreadsheet.SpreadsheetModel.Cells[key].Formula = formula;
+            ActiveWS.Spreadsheet.RefreshCell(key);
         }
 
         public void ClearCell(CellKey key)
         {
-            Controller.Instance.SpreadsheetModel.Cells[key].Formula = null;
-            Controller.Instance.SpreadsheetModel.Cells[key].Value = "";
+            SpreadsheetUserControl ActiveWS = (SpreadsheetUserControl)mainForm.WorksheetsTabControl.SelectedTab.Controls[0];
+            ActiveWS.Spreadsheet.SpreadsheetModel.Cells[key].Formula = null;
+            ActiveWS.Spreadsheet.SpreadsheetModel.Cells[key].Value = "";
             //repaint
         }
 
         public void LoadSheet(ICellCollection c)
         {
-            Controller.Instance.SpreadsheetModel.Cells = (CellCollection)c;
+            SpreadsheetUserControl ActiveWS = (SpreadsheetUserControl)mainForm.WorksheetsTabControl.SelectedTab.Controls[0];
+            ActiveWS.Spreadsheet.SpreadsheetModel.Cells = (CellCollection)c;
             //change  view!           
         }
 
