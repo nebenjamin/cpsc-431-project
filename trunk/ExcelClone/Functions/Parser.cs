@@ -624,6 +624,17 @@ namespace ExcelClone.Functions
                     if ((Base_Cell.CompareTo(Parts[j].ToString().ToUpper()) == 0) || (Parts[j].ToString().ToUpper().Contains("ERROR")))
                         return Tokenize("=ERROR - CIRCULAR REFERENCE");
 
+                for(int j=0; j<Parts.Count; j++) {
+                    if(IsCellReference(Parts[j].ToString())) {
+                        ArrayList atemp = BreakReference(Parts[j].ToString());
+                        int r = (int)atemp[0];
+                        int c = (int)atemp[1];
+                        if (activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c] != null)
+                            if (!IsNumber(activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].Value))
+                                return Tokenize("=ERROR - POSSIBLE CIRCULAR REFERENCE"); ;
+                    }
+                }
+
                 //if (Base_Cell.CompareTo(Parts[i].ToString().ToUpper()) == 0)
                 //{
                 //    //OutFile.WriteLine("=ERROR - CIRCULAR REFERENCE");
