@@ -14,13 +14,15 @@ namespace ExcelClone
     {
         private Controller()
         {
-            SpreadsheetModel = new SpreadsheetModel(new CellCollection());
             Parser = new Parser();
+            isCut = false;
+            isPaste = false;
+            isCopy = false;
         }
 
-        private Form mainForm;
+        private Window mainForm;
 
-        public Form MainForm
+        public Window MainForm
         {
             get
             {
@@ -32,12 +34,14 @@ namespace ExcelClone
             }
         }
 
-        private SpreadsheetModel spreadsheetModel;
-        public SpreadsheetModel SpreadsheetModel
-        {
-            get { return spreadsheetModel; }
-            set { spreadsheetModel = value; }
-        }
+        #region Clipboard
+
+        private CellCollection clipboardCells;
+        private bool isCut;
+        private bool isPaste;
+        private bool isCopy;
+
+        #endregion
 
         private Parser parser;
         public Parser Parser
@@ -45,9 +49,11 @@ namespace ExcelClone
             get { return parser; }
             set { parser = value; }
         }
-
+        private SpreadsheetUserControl ActiveWS = null;
         public void ExecuteCommand(object sender, EventArgs e, CommandType command)
         {
+            if(command!=CommandType.InsertWorksheet)
+                ActiveWS = (SpreadsheetUserControl)mainForm.WorksheetsTabControl.SelectedTab.Controls[0];
             switch (command)
             {
                 case CommandType.Exit:
@@ -86,6 +92,9 @@ namespace ExcelClone
                 case CommandType.FormatCells:
                     ExecuteFormatCells((sender as ToolStripButton).Name);
                     break;
+                case CommandType.InsertWorksheet:
+                    ExecuteInsertWorksheet();
+                    break;
                 default:
                     break;
             }
@@ -97,9 +106,9 @@ namespace ExcelClone
         public void ExecuteOpen()
         {
             DataIO.DataIO opener = new ExcelClone.DataIO.DataIO();
-            opener.AddSpreadsheet(spreadsheetModel);
-            spreadsheetModel = opener.LoadBook();
-            SpreadsheetView.Instance.RefreshView();
+            opener.AddSpreadsheet(ActiveWS.Spreadsheet.SpreadsheetModel);
+            ActiveWS.Spreadsheet.SpreadsheetModel = opener.LoadBook();
+            ActiveWS.Spreadsheet.RefreshView();
         }
         public void ExecuteClose()
         {
@@ -107,8 +116,8 @@ namespace ExcelClone
         public void ExecuteSave()
         {
             DataIO.DataIO saver = new ExcelClone.DataIO.DataIO();
-            saver.AddSpreadsheet(spreadsheetModel);
-            saver.SaveBook();
+            saver.AddSpreadsheet(ActiveWS.Spreadsheet.SpreadsheetModel);
+            saver.SaveBook(ActiveWS);
         }
         public void ExecuteSaveAs()
         {
@@ -117,12 +126,12 @@ namespace ExcelClone
         {
             
             ExecuteCopy();
-            foreach (DataGridViewCell cell in SpreadsheetView.Instance.SelectedCells)
+            foreach (DataGridViewCell cell in ActiveWS.Spreadsheet.SelectedCells)
             {
                 cell.Value = "";
                 if (cell.RowIndex >= 0 && cell.ColumnIndex >= 0)
                 {
-                    Cell c = SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex];
+                    Cell c = ActiveWS.Spreadsheet.SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex];
                     if (c != null)
                     {
                         c.Value = "";
@@ -131,26 +140,26 @@ namespace ExcelClone
                 }
             }
           
-            SpreadsheetView.Instance.IsPaste = false;
-            SpreadsheetView.Instance.IsCopy = false;
-            SpreadsheetView.Instance.IsCut = true;
+            isPaste = false;
+            isCopy = false;
+            isCut = true;
         }
 
         public void ExecuteCopy()
         {
             CellCollection cellCollection = new CellCollection();
-            int smallestRowIndex = GetSmallestRowIndex(SpreadsheetView.Instance.SelectedCells);
-            int smallestColumnIndex = GetSmallestColumnIndex(SpreadsheetView.Instance.SelectedCells);
-            foreach (DataGridViewCell cell in SpreadsheetView.Instance.SelectedCells)
+            int smallestRowIndex = GetSmallestRowIndex(ActiveWS.Spreadsheet.SelectedCells);
+            int smallestColumnIndex = GetSmallestColumnIndex(ActiveWS.Spreadsheet.SelectedCells);
+            foreach (DataGridViewCell cell in ActiveWS.Spreadsheet.SelectedCells)
             {
-                cellCollection[new CellKey(cell.RowIndex - smallestRowIndex, cell.ColumnIndex - smallestColumnIndex)] = (SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex] != null) ? (Cell)SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex].Clone() : new Cell();
+                cellCollection[new CellKey(cell.RowIndex - smallestRowIndex, cell.ColumnIndex - smallestColumnIndex)] = (ActiveWS.Spreadsheet.SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex] != null) ? (Cell)ActiveWS.Spreadsheet.SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex].Clone() : new Cell();
             }
-            SpreadsheetView.Instance.ClipboardCells = cellCollection;
-            SpreadsheetView.Instance.IsCopy = true;
+            clipboardCells = cellCollection;
+            isCopy = true;
         }
         private int GetSmallestRowIndex(DataGridViewSelectedCellCollection cells)
         {
-            int minRowIndex = SpreadsheetView.Instance.RowCount-1;
+            int minRowIndex = ActiveWS.Spreadsheet.RowCount-1;
             foreach (DataGridViewCell cell in cells)
             {
                 if (cell.RowIndex < minRowIndex)
@@ -160,7 +169,7 @@ namespace ExcelClone
         }
         private int GetSmallestColumnIndex(DataGridViewSelectedCellCollection cells)
         {
-            int minColumnIndex = SpreadsheetView.Instance.ColumnCount-1;
+            int minColumnIndex = ActiveWS.Spreadsheet.ColumnCount-1;
             foreach (DataGridViewCell cell in cells)
             {
                 if (cell.ColumnIndex < minColumnIndex)
@@ -170,26 +179,26 @@ namespace ExcelClone
         }
         public void ExecutePaste()
         {
-            if (SpreadsheetView.Instance.SelectedCells.Count > 0 &&
-                ((SpreadsheetView.Instance.IsCut && !SpreadsheetView.Instance.IsPaste) || 
-                SpreadsheetView.Instance.IsCopy))
+            if (ActiveWS.Spreadsheet.SelectedCells.Count > 0 &&
+                ((isCut && !isPaste) || 
+                isCopy))
             {
-                int smallestRowIndex = GetSmallestRowIndex(SpreadsheetView.Instance.SelectedCells);
-                int smallestColumnIndex = GetSmallestColumnIndex(SpreadsheetView.Instance.SelectedCells);
-                for (int r = 0; r < SpreadsheetView.Instance.ClipboardCells.Rows; r++)
+                int smallestRowIndex = GetSmallestRowIndex(ActiveWS.Spreadsheet.SelectedCells);
+                int smallestColumnIndex = GetSmallestColumnIndex(ActiveWS.Spreadsheet.SelectedCells);
+                for (int r = 0; r < clipboardCells.Rows; r++)
                 {
-                    for (int c = 0; c < SpreadsheetView.Instance.ClipboardCells.Columns; c++)
+                    for (int c = 0; c < clipboardCells.Columns; c++)
                     {
-                        if (smallestRowIndex + r < SpreadsheetView.Instance.RowCount && smallestColumnIndex + c < SpreadsheetView.Instance.ColumnCount)
-                            SpreadsheetModel.Cells[smallestRowIndex + r, smallestColumnIndex + c] =
-                            (Cell)(SpreadsheetView.Instance.ClipboardCells[r, c].Clone());
+                        if (smallestRowIndex + r < ActiveWS.Spreadsheet.RowCount && smallestColumnIndex + c < ActiveWS.Spreadsheet.ColumnCount)
+                            ActiveWS.Spreadsheet.SpreadsheetModel.Cells[smallestRowIndex + r, smallestColumnIndex + c] =
+                            (Cell)(clipboardCells[r, c].Clone());
                         
                     }
                 }
-                SpreadsheetView.Instance.RefreshView();
+                ActiveWS.Spreadsheet.RefreshView();
                 //need check for out of bounds
-                SpreadsheetView.Instance.IsPaste = true;
-                SpreadsheetView.Instance.IsCut = false;
+                isPaste = true;
+                isCut = false;
 
             }
         }
@@ -198,14 +207,14 @@ namespace ExcelClone
             Rectangle r = new Rectangle(0, 50, 400, 300);
 
             //Done by David, Caleb, & Scott
-            int cellCount = Gui.SpreadsheetView.Instance.SelectedCells.Count;
+            int cellCount = ActiveWS.Spreadsheet.SelectedCells.Count;
             int max_col, min_col, max_row, min_row;
             max_col = max_row = 0;
             min_col = min_row = 51;
             for (int i = 0; i < cellCount; i++)
             {
-                int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
-                int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
+                int rI = ActiveWS.Spreadsheet.SelectedCells[i].RowIndex;
+                int cI = ActiveWS.Spreadsheet.SelectedCells[i].ColumnIndex;
                 if (rI < min_row)
                     min_row = rI;
                 if (rI > max_row)
@@ -225,10 +234,10 @@ namespace ExcelClone
                     data[i] = new string[colCount];
                 for (int i = 0; i < cellCount; i++)
                 {
-                    int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
-                    int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
-                    if(Controller.Instance.SpreadsheetModel.Cells[rI, cI] != null)
-                        data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
+                    int rI = ActiveWS.Spreadsheet.SelectedCells[i].RowIndex;
+                    int cI = ActiveWS.Spreadsheet.SelectedCells[i].ColumnIndex;
+                    if(Controller.Instance.ActiveWS.Spreadsheet.SpreadsheetModel.Cells[rI, cI] != null)
+                        data[rI - min_row][cI - min_col] = Controller.Instance.ActiveWS.Spreadsheet.SpreadsheetModel.Cells[rI, cI].Value;
                 }
                 try
                 {
@@ -248,14 +257,14 @@ namespace ExcelClone
             Rectangle r = new Rectangle(0, 50, 400, 300);
 
             //Done by David, Caleb, & Scott
-            int cellCount = Gui.SpreadsheetView.Instance.SelectedCells.Count;
+            int cellCount = ActiveWS.Spreadsheet.SelectedCells.Count;
             int max_col, min_col, max_row, min_row;
             max_col = max_row = 0;
             min_col = min_row = 51;
             for (int i = 0; i < cellCount; i++)
             {
-                int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
-                int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
+                int rI = ActiveWS.Spreadsheet.SelectedCells[i].RowIndex;
+                int cI = ActiveWS.Spreadsheet.SelectedCells[i].ColumnIndex;
                 if (rI < min_row)
                     min_row = rI;
                 if (rI > max_row)
@@ -275,10 +284,10 @@ namespace ExcelClone
                     data[i] = new string[colCount];
                 for (int i = 0; i < cellCount; i++)
                 {
-                    int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
-                    int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
-                    if (Controller.Instance.SpreadsheetModel.Cells[rI, cI] != null)
-                        data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
+                    int rI = ActiveWS.Spreadsheet.SelectedCells[i].RowIndex;
+                    int cI = ActiveWS.Spreadsheet.SelectedCells[i].ColumnIndex;
+                    if (Controller.Instance.ActiveWS.Spreadsheet.SpreadsheetModel.Cells[rI, cI] != null)
+                        data[rI - min_row][cI - min_col] = Controller.Instance.ActiveWS.Spreadsheet.SpreadsheetModel.Cells[rI, cI].Value;
                 }
                 try
                 {
@@ -299,14 +308,14 @@ namespace ExcelClone
             Rectangle r = new Rectangle(0, 50, 400, 300);
 
             //Done by David, Caleb, & Scott
-            int cellCount = Gui.SpreadsheetView.Instance.SelectedCells.Count;
+            int cellCount = ActiveWS.Spreadsheet.SelectedCells.Count;
             int max_col, min_col, max_row, min_row;
             max_col = max_row = 0;
             min_col = min_row = 51;
             for (int i = 0; i < cellCount; i++)
             {
-                int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
-                int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
+                int rI = ActiveWS.Spreadsheet.SelectedCells[i].RowIndex;
+                int cI = ActiveWS.Spreadsheet.SelectedCells[i].ColumnIndex;
                 if (rI < min_row)
                     min_row = rI;
                 if (rI > max_row)
@@ -326,10 +335,10 @@ namespace ExcelClone
                     data[i] = new string[colCount];
                 for (int i = 0; i < cellCount; i++)
                 {
-                    int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
-                    int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
-                    if (Controller.Instance.SpreadsheetModel.Cells[rI, cI] != null)
-                        data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
+                    int rI = ActiveWS.Spreadsheet.SelectedCells[i].RowIndex;
+                    int cI = ActiveWS.Spreadsheet.SelectedCells[i].ColumnIndex;
+                    if (Controller.Instance.ActiveWS.Spreadsheet.SpreadsheetModel.Cells[rI, cI] != null)
+                        data[rI - min_row][cI - min_col] = Controller.Instance.ActiveWS.Spreadsheet.SpreadsheetModel.Cells[rI, cI].Value;
                 }
                 try
                 {
@@ -350,14 +359,14 @@ namespace ExcelClone
             Rectangle r = new Rectangle(0, 50, 400, 300);
 
             //Done by David, Caleb, & Scott
-            int cellCount = Gui.SpreadsheetView.Instance.SelectedCells.Count;
+            int cellCount = ActiveWS.Spreadsheet.SelectedCells.Count;
             int max_col, min_col, max_row, min_row;
             max_col = max_row = 0;
             min_col = min_row = 51;
             for (int i = 0; i < cellCount; i++)
             {
-                int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
-                int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
+                int rI = ActiveWS.Spreadsheet.SelectedCells[i].RowIndex;
+                int cI = ActiveWS.Spreadsheet.SelectedCells[i].ColumnIndex;
                 if (rI < min_row)
                     min_row = rI;
                 if (rI > max_row)
@@ -377,10 +386,10 @@ namespace ExcelClone
                     data[i] = new string[colCount];
                 for (int i = 0; i < cellCount; i++)
                 {
-                    int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
-                    int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
-                    if (Controller.Instance.SpreadsheetModel.Cells[rI, cI] != null)
-                        data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
+                    int rI = ActiveWS.Spreadsheet.SelectedCells[i].RowIndex;
+                    int cI = ActiveWS.Spreadsheet.SelectedCells[i].ColumnIndex;
+                    if (Controller.Instance.ActiveWS.Spreadsheet.SpreadsheetModel.Cells[rI, cI] != null)
+                        data[rI - min_row][cI - min_col] = Controller.Instance.ActiveWS.Spreadsheet.SpreadsheetModel.Cells[rI, cI].Value;
                 }
                 try
                 {
@@ -401,14 +410,14 @@ namespace ExcelClone
             Rectangle r = new Rectangle(0, 50, 400, 300);
 
             //Done by David, Caleb, & Scott
-            int cellCount = Gui.SpreadsheetView.Instance.SelectedCells.Count;
+            int cellCount = ActiveWS.Spreadsheet.SelectedCells.Count;
             int max_col, min_col, max_row, min_row;
             max_col = max_row = 0;
             min_col = min_row = 51;
             for (int i = 0; i < cellCount; i++)
             {
-                int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
-                int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
+                int rI = ActiveWS.Spreadsheet.SelectedCells[i].RowIndex;
+                int cI = ActiveWS.Spreadsheet.SelectedCells[i].ColumnIndex;
                 if (rI < min_row)
                     min_row = rI;
                 if (rI > max_row)
@@ -428,10 +437,10 @@ namespace ExcelClone
                     data[i] = new string[colCount];
                 for (int i = 0; i < cellCount; i++)
                 {
-                    int rI = Gui.SpreadsheetView.Instance.SelectedCells[i].RowIndex;
-                    int cI = Gui.SpreadsheetView.Instance.SelectedCells[i].ColumnIndex;
-                    if (Controller.Instance.SpreadsheetModel.Cells[rI, cI] != null)
-                        data[rI - min_row][cI - min_col] = Controller.Instance.SpreadsheetModel.Cells[rI, cI].Value;
+                    int rI = ActiveWS.Spreadsheet.SelectedCells[i].RowIndex;
+                    int cI = ActiveWS.Spreadsheet.SelectedCells[i].ColumnIndex;
+                    if (Controller.Instance.ActiveWS.Spreadsheet.SpreadsheetModel.Cells[rI, cI] != null)
+                        data[rI - min_row][cI - min_col] = Controller.Instance.ActiveWS.Spreadsheet.SpreadsheetModel.Cells[rI, cI].Value;
                 }
                 try
                 {
@@ -449,6 +458,25 @@ namespace ExcelClone
         }
         public void ExecuteInsertWorksheet()
         {
+            System.Windows.Forms.TabPage newWSPage = new TabPage("Worksheet " + 
+                (MainForm.WorksheetsTabControl.Controls.Count+1));
+            
+            MainForm.WorksheetsTabControl.Controls.Add(newWSPage);
+            newWSPage.Location = new System.Drawing.Point(4, 22);
+            newWSPage.Padding = new System.Windows.Forms.Padding(3);
+            newWSPage.Size = mainForm.Size;
+            newWSPage.TabIndex = 0;
+            newWSPage.UseVisualStyleBackColor = true;
+            SpreadsheetUserControl ws = new SpreadsheetUserControl();
+            ws.Spreadsheet.KeyDown += new KeyEventHandler(SpreadsheetView_KeyDown);
+            ws.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            ws.Location = new System.Drawing.Point(0, 0);
+            ws.Name = "spreadsheetUserControl" +
+                (MainForm.WorksheetsTabControl.Controls.Count + 1);
+            ws.Size = newWSPage.Size;
+            newWSPage.Controls.Add(ws);
         }
         public void ExecuteInsertFunction(object sender, EventArgs e)
         {
@@ -471,11 +499,11 @@ namespace ExcelClone
             
             
             
-            foreach (DataGridViewCell cell in SpreadsheetView.Instance.SelectedCells)
+            foreach (DataGridViewCell cell in ActiveWS.Spreadsheet.SelectedCells)
             {
                 if (cell.RowIndex >= 0 && cell.ColumnIndex >= 0)
                 {                    
-                    Cell c = SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex];
+                    Cell c = ActiveWS.Spreadsheet.SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex];
                     if (c != null)
                     {
                         if(!changedSettings) {
@@ -517,11 +545,29 @@ namespace ExcelClone
                     }
                     
                 }
-                SpreadsheetView.Instance.RefreshCell(new CellKey(cell.RowIndex, cell.ColumnIndex));
+                ActiveWS.Spreadsheet.RefreshCell(new CellKey(cell.RowIndex, cell.ColumnIndex));
             }
             
         }
 
+        private void SpreadsheetView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.C)
+            {
+                ExecuteCommand(sender, e, CommandType.Copy);
+                e.Handled = true;
+            }
+            else if (e.Control && e.KeyCode == Keys.X)
+            {
+                ExecuteCommand(sender, e, CommandType.Cut);
+                e.Handled = true;
+            }
+            else if (e.Control && e.KeyCode == Keys.V)
+            {
+                ExecuteCommand(sender, e, CommandType.Paste);
+                e.Handled = true;
+            }
+        }
         public static Controller Instance
         {
             get

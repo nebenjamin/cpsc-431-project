@@ -72,8 +72,6 @@ namespace ExcelClone.Gui
             this.underline = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton10 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton11 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,10 +79,11 @@ namespace ExcelClone.Gui
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.spreadsheetUserControl1 = new ExcelClone.Gui.SpreadsheetUserControl();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
             this.menuStrip1.SuspendLayout();
             this.TextColor.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -118,52 +117,52 @@ namespace ExcelClone.Gui
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.ExecuteNew);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.ExecuteOpen);
             // 
             // closeMenuItem1
             // 
             this.closeMenuItem1.Name = "closeMenuItem1";
-            this.closeMenuItem1.Size = new System.Drawing.Size(124, 22);
+            this.closeMenuItem1.Size = new System.Drawing.Size(135, 22);
             this.closeMenuItem1.Text = "Close";
             this.closeMenuItem1.Click += new System.EventHandler(this.ExecuteClose);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(121, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(132, 6);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.ExecuteSave);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.saveAsToolStripMenuItem.Text = "Save as...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.ExecuteSaveAs);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(121, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(132, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExecuteExit);
             // 
@@ -180,21 +179,21 @@ namespace ExcelClone.Gui
             // cutToolStripMenuItem
             // 
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.cutToolStripMenuItem.Text = "Cut";
             this.cutToolStripMenuItem.Click += new System.EventHandler(this.ExecuteCut);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.copyToolStripMenuItem.Text = "Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.ExecuteCopy);
             // 
             // pasteToolStripMenuItem
             // 
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.pasteToolStripMenuItem.Text = "Paste";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.ExecutePaste);
             // 
@@ -211,7 +210,7 @@ namespace ExcelClone.Gui
             // worksheetToolStripMenuItem
             // 
             this.worksheetToolStripMenuItem.Name = "worksheetToolStripMenuItem";
-            this.worksheetToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.worksheetToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.worksheetToolStripMenuItem.Text = "Worksheet";
             this.worksheetToolStripMenuItem.Click += new System.EventHandler(this.ExecuteInsertWorksheet);
             // 
@@ -224,48 +223,48 @@ namespace ExcelClone.Gui
             this.scatterToolStripMenuItem,
             this.pieToolStripMenuItem});
             this.chartToolStripMenuItem.Name = "chartToolStripMenuItem";
-            this.chartToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.chartToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.chartToolStripMenuItem.Text = "Graph";
             // 
             // barToolStripMenuItem
             // 
             this.barToolStripMenuItem.Name = "barToolStripMenuItem";
-            this.barToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.barToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.barToolStripMenuItem.Text = "Bar";
             this.barToolStripMenuItem.Click += new System.EventHandler(this.ExecuteInsertBarGraph);
             // 
             // columnToolStripMenuItem
             // 
             this.columnToolStripMenuItem.Name = "columnToolStripMenuItem";
-            this.columnToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.columnToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.columnToolStripMenuItem.Text = "Column";
             this.columnToolStripMenuItem.Click += new System.EventHandler(this.ExecuteInsertColumnGraph);
             // 
             // lineToolStripMenuItem
             // 
             this.lineToolStripMenuItem.Name = "lineToolStripMenuItem";
-            this.lineToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.lineToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.lineToolStripMenuItem.Text = "Line";
             this.lineToolStripMenuItem.Click += new System.EventHandler(this.ExecuteInsertLineGraph);
             // 
             // scatterToolStripMenuItem
             // 
             this.scatterToolStripMenuItem.Name = "scatterToolStripMenuItem";
-            this.scatterToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.scatterToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.scatterToolStripMenuItem.Text = "Scatter";
             this.scatterToolStripMenuItem.Click += new System.EventHandler(this.ExecuteInsertScatterGraph);
             // 
             // pieToolStripMenuItem
             // 
             this.pieToolStripMenuItem.Name = "pieToolStripMenuItem";
-            this.pieToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.pieToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.pieToolStripMenuItem.Text = "Pie";
             this.pieToolStripMenuItem.Click += new System.EventHandler(this.ExecuteInsertPieGraph);
             // 
             // functionToolStripMenuItem
             // 
             this.functionToolStripMenuItem.Name = "functionToolStripMenuItem";
-            this.functionToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.functionToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.functionToolStripMenuItem.Text = "Function";
             this.functionToolStripMenuItem.Click += new System.EventHandler(this.ExecuteInsertFunction);
             // 
@@ -280,7 +279,7 @@ namespace ExcelClone.Gui
             // aboutExcelCloneToolStripMenuItem
             // 
             this.aboutExcelCloneToolStripMenuItem.Name = "aboutExcelCloneToolStripMenuItem";
-            this.aboutExcelCloneToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.aboutExcelCloneToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.aboutExcelCloneToolStripMenuItem.Text = "About ExcelClone";
             // 
             // TextColor
@@ -301,9 +300,7 @@ namespace ExcelClone.Gui
             this.italic,
             this.underline,
             this.toolStripButton10,
-            this.toolStripButton11,
-            this.toolStripSeparator4,
-            this.toolStripSeparator});
+            this.toolStripButton11});
             this.TextColor.Location = new System.Drawing.Point(0, 24);
             this.TextColor.Name = "TextColor";
             this.TextColor.Size = new System.Drawing.Size(615, 25);
@@ -454,16 +451,6 @@ namespace ExcelClone.Gui
             this.toolStripButton11.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton11.Text = "toolStripButton11";
             // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripSeparator
-            // 
-            this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(6, 25);
-            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -471,26 +458,26 @@ namespace ExcelClone.Gui
             this.copyToolStripMenuItem1,
             this.pasteToolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(102, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(113, 70);
             // 
             // cutToolStripMenuItem1
             // 
             this.cutToolStripMenuItem1.Name = "cutToolStripMenuItem1";
-            this.cutToolStripMenuItem1.Size = new System.Drawing.Size(101, 22);
+            this.cutToolStripMenuItem1.Size = new System.Drawing.Size(112, 22);
             this.cutToolStripMenuItem1.Text = "Cut";
             this.cutToolStripMenuItem1.Click += new System.EventHandler(this.ExecuteCut);
             // 
             // copyToolStripMenuItem1
             // 
             this.copyToolStripMenuItem1.Name = "copyToolStripMenuItem1";
-            this.copyToolStripMenuItem1.Size = new System.Drawing.Size(101, 22);
+            this.copyToolStripMenuItem1.Size = new System.Drawing.Size(112, 22);
             this.copyToolStripMenuItem1.Text = "Copy";
             this.copyToolStripMenuItem1.Click += new System.EventHandler(this.ExecuteCopy);
             // 
             // pasteToolStripMenuItem1
             // 
             this.pasteToolStripMenuItem1.Name = "pasteToolStripMenuItem1";
-            this.pasteToolStripMenuItem1.Size = new System.Drawing.Size(101, 22);
+            this.pasteToolStripMenuItem1.Size = new System.Drawing.Size(112, 22);
             this.pasteToolStripMenuItem1.Text = "Paste";
             this.pasteToolStripMenuItem1.Click += new System.EventHandler(this.ExecutePaste);
             // 
@@ -513,25 +500,30 @@ namespace ExcelClone.Gui
             // 
             // textBox2
             // 
+            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox2.Location = new System.Drawing.Point(130, 53);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(662, 20);
+            this.textBox2.Size = new System.Drawing.Size(485, 20);
             this.textBox2.TabIndex = 4;
             // 
-            // spreadsheetUserControl1
+            // tabControl1
             // 
-            this.spreadsheetUserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.spreadsheetUserControl1.Location = new System.Drawing.Point(0, 49);
-            this.spreadsheetUserControl1.Name = "spreadsheetUserControl1";
-            this.spreadsheetUserControl1.Size = new System.Drawing.Size(615, 340);
-            this.spreadsheetUserControl1.TabIndex = 1;
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Location = new System.Drawing.Point(0, 79);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(615, 311);
+            this.tabControl1.TabIndex = 5;
             // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(615, 389);
-            this.Controls.Add(this.spreadsheetUserControl1);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
@@ -545,6 +537,7 @@ namespace ExcelClone.Gui
             this.TextColor.ResumeLayout(false);
             this.TextColor.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -587,22 +580,28 @@ namespace ExcelClone.Gui
         private System.Windows.Forms.ToolStripButton underline;
         private System.Windows.Forms.ToolStripButton toolStripButton10;
         private System.Windows.Forms.ToolStripButton toolStripButton11;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox2;
-        private SpreadsheetUserControl spreadsheetUserControl1;
         private System.Windows.Forms.ToolStripButton newToolStripButton;
         private System.Windows.Forms.ToolStripButton openToolStripButton;
         private System.Windows.Forms.ToolStripButton saveToolStripButton;
         private System.Windows.Forms.ToolStripButton copyToolStripButton;
         private System.Windows.Forms.ToolStripButton cutToolStripButton;
         private System.Windows.Forms.ToolStripButton pasteToolStripButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
         private System.Windows.Forms.ToolStripMenuItem barToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem columnToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem lineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scatterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pieToolStripMenuItem;
+        private System.Windows.Forms.TabControl tabControl1;
+        
+        public System.Windows.Forms.TabControl WorksheetsTabControl
+        {
+            get
+            {
+                return tabControl1;
+            }
+        }
     }
 }

@@ -28,7 +28,7 @@ namespace ExcelClone.Gui
         /// </summary>
         private void InitializeComponent()
         {
-            this.spreadsheetView1 = SpreadsheetView.Instance;
+            this.spreadsheetView1 = new SpreadsheetView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -292,5 +292,12 @@ namespace ExcelClone.Gui
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn24;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn25;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn26;
+        public SpreadsheetView Spreadsheet
+        {
+            get
+            {
+                return spreadsheetView1;
+            }
+        }
     }
 }

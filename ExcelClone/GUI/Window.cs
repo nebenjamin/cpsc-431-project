@@ -14,9 +14,11 @@ namespace ExcelClone.Gui
         public Window()
         {
             Controller.Instance.MainForm = this;
-            SpreadsheetView.Instance.KeyDown += new KeyEventHandler(SpreadsheetView_KeyDown);
+            SpreadsheetControl.Instance.MainForm = this;
             InitializeComponent();
+            ExecuteInsertWorksheet(null, null);        
         }
+        
         private void ExecuteNew(object sender, EventArgs e)
         {
             Controller.Instance.ExecuteCommand(sender, e, CommandType.New);
@@ -84,27 +86,8 @@ namespace ExcelClone.Gui
 
         private void ExecuteInsertPieGraph(object sender, EventArgs e)
         {
-            Controller.Instance.ExecuteCommand(sender, e, CommandType.InsertPieGraph);
+            Controller.Instance.ExecuteCommand(sender, e, CommandType.InsertPieGraph);            
         }
-        private void SpreadsheetView_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Control && e.KeyCode == Keys.C)
-            {
-                ExecuteCopy(sender, e);
-                e.Handled = true;
-            }
-            else if (e.Control && e.KeyCode == Keys.X)
-            {
-                ExecuteCut(sender, e);
-                e.Handled = true;
-            }
-            else if (e.Control && e.KeyCode == Keys.V)
-            {
-                ExecutePaste(sender, e);
-                e.Handled = true;
-            }
-        }
-
         private void increaseFont_Click(object sender, EventArgs e)
         {
             Controller.Instance.ExecuteCommand(sender, e, CommandType.FormatCells);
