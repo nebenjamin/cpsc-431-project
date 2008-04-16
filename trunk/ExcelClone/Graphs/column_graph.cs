@@ -4,6 +4,7 @@ using System.Text;
 using System.Drawing;
 using System.Collections;
 using System.Windows.Forms;
+using System.ComponentModel;
 using OpenTK.OpenGL;
 using OpenTK.OpenGL.Enums;
 using OpenTK.Fonts;
@@ -21,6 +22,10 @@ namespace ExcelClone.Graphs
         private CheckBox xAxis_cb;
         private TextBox xAxis_tb;
         private Label xAxis_lb;
+        private NumericUpDown nud_nHor;
+        private Label nHorLabel;
+        private Label maxYVlabel;
+        private NumericUpDown nud_maxYV;
 
         //Create a bar graph, add it to a parent form, fill in data
         public static Graph Create_Column_Graph(Rectangle location, string[][] data)
@@ -259,10 +264,63 @@ namespace ExcelClone.Graphs
             xAxis_lb.Text = "X-axis Label";
             tp.Controls.Add(xAxis_lb);
 
+            nud_nHor = new NumericUpDown();
+            ((ISupportInitialize)(nud_nHor)).BeginInit();
+            tp.Controls.Add(nud_nHor);
+            nud_nHor.Location = new System.Drawing.Point(6, 369);
+            nud_nHor.Name = "nud_nHor";
+            nud_nHor.Size = new System.Drawing.Size(120, 20);
+            nud_nHor.TabIndex = 6;
+            nud_nHor.ValueChanged += new EventHandler(nud_nHor_ValueChanged);
+            ((ISupportInitialize)(nud_nHor)).EndInit();
+
+            nHorLabel = new Label();
+            tp.Controls.Add(nHorLabel);
+            nHorLabel.AutoSize = true;
+            nHorLabel.Location = new System.Drawing.Point(133, 376);
+            nHorLabel.Name = "nHorLabel";
+            nHorLabel.Size = new System.Drawing.Size(134, 13);
+            nHorLabel.TabIndex = 8;
+            nHorLabel.Text = "Number of Horizontal Lines";
+
+            maxYVlabel = new Label();
+            tp.Controls.Add(maxYVlabel);
+            maxYVlabel.AutoSize = true;
+            maxYVlabel.Location = new System.Drawing.Point(133, 324);
+            maxYVlabel.Name = "maxYVlabel";
+            maxYVlabel.Size = new System.Drawing.Size(67, 13);
+            maxYVlabel.TabIndex = 11;
+            maxYVlabel.Text = "Max Y Value";
+
+            nud_maxYV = new NumericUpDown();
+            ((ISupportInitialize)(nud_maxYV)).BeginInit();
+            tp.Controls.Add(nud_maxYV);
+            nud_maxYV.Location = new System.Drawing.Point(6, 317);
+            nud_maxYV.Name = "nud_maxYV";
+            nud_maxYV.Size = new System.Drawing.Size(120, 20);
+            nud_maxYV.TabIndex = 13;
+            nud_maxYV.ValueChanged += new EventHandler(nud_maxYV_ValueChanged);
+            ((ISupportInitialize)(nud_maxYV)).EndInit();
+
+            nud_nHor.Value = nHorzLines;
+            nud_maxYV.Value = new Decimal(maxYVal);
+            nud_maxYV.Minimum = new Decimal(maxYVal);
             xAxis_cb.Checked = draw_xLabel;
             xAxis_tb.Text = XLabelString;
             yAxis_cb.Checked = draw_yLabel;
             yAxis_tb.Text = YLabelString;
+        }
+
+        void nud_maxYV_ValueChanged(object sender, EventArgs e)
+        {
+            maxYVal = decimal.ToDouble(nud_maxYV.Value);
+            InitLabels();
+        }
+
+        void nud_nHor_ValueChanged(object sender, EventArgs e)
+        {
+            nHorzLines = (int)nud_nHor.Value;
+            InitLabels();
         }
 
         void yAxis_tb_Click(object sender, EventArgs e)

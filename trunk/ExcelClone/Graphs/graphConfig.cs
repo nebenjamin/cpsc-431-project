@@ -10,18 +10,25 @@ namespace ExcelClone.Graphs
 {
     public partial class graphConfig : Form
     {
+        // the graph that will be modified
         public Graph gr;
 
         public graphConfig( Graph g, GraphControl gcont )
         {
             InitializeComponent();
+            // will not allow to open another config window in this config window
             gcont.inMenu = true;
+            // copies graph so that can modify else where
             gr = g;
+            // put in the graph specific settings in tab 2
             gr.configTab(tabPage2);
+            // put a preview graph in tab 3
             tabPage3.Controls.Add(gcont);
+            // will put on settings that were chosen before on the graph
             InitConfig();
         }
 
+        // will put on settings that were chosen before on the graph
         private void InitConfig()
         {
             if (gr.draw_title)

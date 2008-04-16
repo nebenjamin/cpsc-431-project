@@ -4,6 +4,7 @@ using System.Text;
 using System.Drawing;
 using System.Collections;
 using System.Windows.Forms;
+using System.ComponentModel;
 using OpenTK.OpenGL;
 using OpenTK.OpenGL.Enums;
 using OpenTK.Fonts;
@@ -19,6 +20,18 @@ namespace ExcelClone.Graphs
         private CheckBox xAxis_cb;
         private TextBox xAxis_tb;
         private Label xAxis_lb;
+        private NumericUpDown nud_nHor;
+        private NumericUpDown nud_nVer;
+        private Label nHorLabel;
+        private Label nVerLable;
+        private Label minYVlabel;
+        private Label maxYVlabel;
+        private NumericUpDown nud_minYV;
+        private NumericUpDown nud_maxYV;
+        private Label minXVlabel;
+        private Label maxXVlabel;
+        private NumericUpDown nud_minXV;
+        private NumericUpDown nud_maxXV;
 
         //Create a bar graph, add it to a parent form, fill in data
         public static Graph Create_Line_Graph(Rectangle location, string[][] data)
@@ -146,6 +159,12 @@ namespace ExcelClone.Graphs
             gr.XLabelString = XLabelString;
             gr.draw_yLabel = draw_yLabel;
             gr.YLabelString = YLabelString;
+            gr.nHorzLines = nHorzLines;
+            gr.nVertLines = nVertLines;
+            gr.maxXVal = maxXVal;
+            gr.minXVal = minXVal;
+            gr.maxYVal = maxYVal;
+            gr.minYVal = minYVal;
             return gr;
         }
 
@@ -201,69 +220,226 @@ namespace ExcelClone.Graphs
         public override void configTab(TabPage tp)
         {
             yAxis_cb = new CheckBox();
+            tp.Controls.Add(yAxis_cb);
             yAxis_cb.AutoSize = true;
             yAxis_cb.Location = new System.Drawing.Point(266, 102);
             yAxis_cb.Name = "checkBox3";
             yAxis_cb.Size = new System.Drawing.Size(100, 17);
-            yAxis_cb.TabIndex = 8;
+            yAxis_cb.TabIndex = 0;
             yAxis_cb.Text = "Draw Y-axis Label";
             yAxis_cb.UseVisualStyleBackColor = true;
-            tp.Controls.Add(yAxis_cb);
             yAxis_cb.CheckedChanged += new EventHandler(yAxis_cb_CheckedChanged);
 
             yAxis_tb = new TextBox();
+            tp.Controls.Add(yAxis_tb);
             yAxis_tb.Location = new System.Drawing.Point(9, 100);
             yAxis_tb.Name = "textBox3";
             yAxis_tb.Size = new System.Drawing.Size(250, 20);
-            yAxis_tb.TabIndex = 7;
+            yAxis_tb.TabIndex = 1;
             yAxis_tb.Text = "Create Y-axis Label";
-            tp.Controls.Add(yAxis_tb);
             yAxis_tb.Click += new EventHandler(yAxis_tb_Click);
             yAxis_tb.TextChanged += new EventHandler(yAxis_tb_TextChanged);
 
             yAxis_lb = new Label();
+            tp.Controls.Add(yAxis_lb);
             yAxis_lb.AutoSize = true;
             yAxis_lb.Location = new System.Drawing.Point(6, 83);
             yAxis_lb.Name = "label3";
             yAxis_lb.Size = new System.Drawing.Size(64, 13);
-            yAxis_lb.TabIndex = 6;
+            yAxis_lb.TabIndex = 2;
             yAxis_lb.Text = "Y-axis Label";
-            tp.Controls.Add(yAxis_lb);
 
             xAxis_cb = new CheckBox();
+            tp.Controls.Add(xAxis_cb);
             xAxis_cb.AutoSize = true;
             xAxis_cb.Location = new System.Drawing.Point(266, 62);
             xAxis_cb.Name = "checkBox2";
             xAxis_cb.Size = new System.Drawing.Size(100, 17);
-            xAxis_cb.TabIndex = 5;
+            xAxis_cb.TabIndex = 3;
             xAxis_cb.Text = "Draw X-axis Label";
             xAxis_cb.UseVisualStyleBackColor = true;
-            tp.Controls.Add(xAxis_cb);
             xAxis_cb.CheckedChanged += new EventHandler(xAxis_cb_CheckedChanged);
 
             xAxis_tb = new TextBox();
+            tp.Controls.Add(xAxis_tb);
             xAxis_tb.Location = new System.Drawing.Point(9, 60);
             xAxis_tb.Name = "textBox2";
             xAxis_tb.Size = new System.Drawing.Size(250, 20);
             xAxis_tb.TabIndex = 4;
             xAxis_tb.Text = "Create X-axis Label";
-            tp.Controls.Add(xAxis_tb);
             xAxis_tb.Click += new EventHandler(xAxis_tb_Click);
             xAxis_tb.TextChanged += new EventHandler(xAxis_tb_TextChanged);
 
             xAxis_lb = new Label();
+            tp.Controls.Add(xAxis_lb);
             xAxis_lb.AutoSize = true;
             xAxis_lb.Location = new System.Drawing.Point(6, 43);
             xAxis_lb.Name = "label2";
             xAxis_lb.Size = new System.Drawing.Size(64, 13);
-            xAxis_lb.TabIndex = 3;
+            xAxis_lb.TabIndex = 5;
             xAxis_lb.Text = "X-axis Label";
-            tp.Controls.Add(xAxis_lb);
 
+            nud_nHor = new NumericUpDown();
+            ((ISupportInitialize)(nud_nHor)).BeginInit();
+            tp.Controls.Add(nud_nHor);
+            nud_nHor.Location = new System.Drawing.Point(6, 369);
+            nud_nHor.Name = "nud_nHor";
+            nud_nHor.Size = new System.Drawing.Size(120, 20);
+            nud_nHor.TabIndex = 6;
+            nud_nHor.ValueChanged += new EventHandler(nud_nHor_ValueChanged);
+            ((ISupportInitialize)(nud_nHor)).EndInit();
+
+
+            nud_nVer = new NumericUpDown();
+            ((ISupportInitialize)(nud_nVer)).BeginInit();
+            tp.Controls.Add(nud_nVer);
+            nud_nVer.Location = new System.Drawing.Point(6, 343);
+            nud_nVer.Name = "nud_nVer";
+            nud_nVer.Size = new System.Drawing.Size(120, 20);
+            nud_nVer.TabIndex = 7;
+            nud_nVer.ValueChanged += new EventHandler(nud_nVer_ValueChanged);
+            ((ISupportInitialize)(nud_nVer)).EndInit();
+
+            nHorLabel = new Label();
+            tp.Controls.Add(nHorLabel);
+            nHorLabel.AutoSize = true;
+            nHorLabel.Location = new System.Drawing.Point(133, 376);
+            nHorLabel.Name = "nHorLabel";
+            nHorLabel.Size = new System.Drawing.Size(134, 13);
+            nHorLabel.TabIndex = 8;
+            nHorLabel.Text = "Number of Horizontal Lines";
+
+            nVerLable = new Label();
+            tp.Controls.Add(nVerLable);
+            nVerLable.AutoSize = true;
+            nVerLable.Location = new System.Drawing.Point(132, 350);
+            nVerLable.Name = "nVerLable";
+            nVerLable.Size = new System.Drawing.Size(122, 13);
+            nVerLable.TabIndex = 9;
+            nVerLable.Text = "Number of Vertical Lines";
+
+            minYVlabel = new Label();
+            tp.Controls.Add(minYVlabel);
+            minYVlabel.AutoSize = true;
+            minYVlabel.Location = new System.Drawing.Point(132, 298);
+            minYVlabel.Name = "minYVlabel";
+            minYVlabel.Size = new System.Drawing.Size(64, 13);
+            minYVlabel.TabIndex = 10;
+            minYVlabel.Text = "Min Y Value";
+
+            maxYVlabel = new Label();
+            tp.Controls.Add(maxYVlabel);
+            maxYVlabel.AutoSize = true;
+            maxYVlabel.Location = new System.Drawing.Point(133, 324);
+            maxYVlabel.Name = "maxYVlabel";
+            maxYVlabel.Size = new System.Drawing.Size(67, 13);
+            maxYVlabel.TabIndex = 11;
+            maxYVlabel.Text = "Max Y Value";
+
+            nud_minYV = new NumericUpDown();
+            ((ISupportInitialize)(nud_minYV)).BeginInit();
+            tp.Controls.Add(nud_minYV);
+            nud_minYV.Location = new System.Drawing.Point(6, 291);
+            nud_minYV.Name = "nud_minYV";
+            nud_minYV.Size = new System.Drawing.Size(120, 20);
+            nud_minYV.TabIndex = 12;
+            nud_minYV.ValueChanged += new EventHandler(nud_minYV_ValueChanged);
+            ((ISupportInitialize)(nud_minYV)).EndInit();
+
+            nud_maxYV = new NumericUpDown();
+            ((ISupportInitialize)(nud_maxYV)).BeginInit();
+            tp.Controls.Add(nud_maxYV);
+            nud_maxYV.Location = new System.Drawing.Point(6, 317);
+            nud_maxYV.Name = "nud_maxYV";
+            nud_maxYV.Size = new System.Drawing.Size(120, 20);
+            nud_maxYV.TabIndex = 13;
+            nud_maxYV.ValueChanged += new EventHandler(nud_maxYV_ValueChanged);
+            ((ISupportInitialize)(nud_maxYV)).EndInit();
+
+            minXVlabel = new Label();
+            tp.Controls.Add(minXVlabel);
+            minXVlabel.AutoSize = true;
+            minXVlabel.Location = new System.Drawing.Point(132, 246);
+            minXVlabel.Name = "minXVlabel";
+            minXVlabel.Size = new System.Drawing.Size(64, 13);
+            minXVlabel.TabIndex = 14;
+            minXVlabel.Text = "Min X Value";
+
+            maxXVlabel = new Label();
+            tp.Controls.Add(maxXVlabel);
+            maxXVlabel.AutoSize = true;
+            maxXVlabel.Location = new System.Drawing.Point(133, 272);
+            maxXVlabel.Name = "maxXVlabel";
+            maxXVlabel.Size = new System.Drawing.Size(67, 13);
+            maxXVlabel.TabIndex = 15;
+            maxXVlabel.Text = "Max X Value";
+
+            nud_minXV = new NumericUpDown();
+            ((ISupportInitialize)(nud_minXV)).BeginInit();
+            tp.Controls.Add(nud_minXV);
+            nud_minXV.Location = new System.Drawing.Point(6, 239);
+            nud_minXV.Name = "nud_minXV";
+            nud_minXV.Size = new System.Drawing.Size(120, 20);
+            nud_minXV.TabIndex = 16;
+            nud_minXV.ValueChanged += new EventHandler(nud_minXV_ValueChanged);
+            ((ISupportInitialize)(nud_minXV)).EndInit();
+
+            nud_maxXV = new NumericUpDown();
+            ((ISupportInitialize)(nud_maxXV)).BeginInit();
+            tp.Controls.Add(nud_maxXV);
+            nud_maxXV.Location = new System.Drawing.Point(6, 265);
+            nud_maxXV.Name = "nud_maxXV";
+            nud_maxXV.Size = new System.Drawing.Size(120, 20);
+            nud_maxXV.TabIndex = 17;
+            nud_maxXV.ValueChanged += new EventHandler(nud_maxXV_ValueChanged);
+            ((ISupportInitialize)(nud_maxXV)).EndInit();
+
+            nud_nHor.Value = nHorzLines;
+            nud_nVer.Value = nVertLines;
+            nud_maxYV.Value = new Decimal(maxYVal);
+            nud_minYV.Value = new Decimal(minYVal);
+            nud_minXV.Value = new Decimal(minXVal);
+            nud_maxXV.Value = new Decimal(maxXVal);
             xAxis_cb.Checked = draw_xLabel;
             xAxis_tb.Text = XLabelString;
             yAxis_cb.Checked = draw_yLabel;
             yAxis_tb.Text = YLabelString;
+        }
+
+        void nud_maxXV_ValueChanged(object sender, EventArgs e)
+        {
+            maxXVal = decimal.ToDouble(nud_maxXV.Value);
+            InitLabels();
+        }
+
+        void nud_minXV_ValueChanged(object sender, EventArgs e)
+        {
+            minXVal = decimal.ToDouble(nud_minXV.Value);
+            InitLabels();
+        }
+
+        void nud_maxYV_ValueChanged(object sender, EventArgs e)
+        {
+            maxYVal = decimal.ToDouble(nud_maxYV.Value);
+            InitLabels();
+        }
+
+        void nud_minYV_ValueChanged(object sender, EventArgs e)
+        {
+            minYVal = decimal.ToDouble(nud_minYV.Value);
+            InitLabels();
+        }
+
+        void nud_nVer_ValueChanged(object sender, EventArgs e)
+        {
+            nVertLines = (int)nud_nVer.Value;
+            InitLabels();
+        }
+
+        void nud_nHor_ValueChanged(object sender, EventArgs e)
+        {
+            nHorzLines = (int)nud_nHor.Value;
+            InitLabels();
         }
 
         void yAxis_tb_Click(object sender, EventArgs e)
