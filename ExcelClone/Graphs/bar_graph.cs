@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Collections;
+using System.ComponentModel;
 using OpenTK.OpenGL;
 using OpenTK.Fonts;
 using OpenTK.OpenGL.Enums;
@@ -21,6 +22,10 @@ namespace ExcelClone.Graphs
         private CheckBox xAxis_cb;
         private TextBox xAxis_tb;
         private Label xAxis_lb;
+        private NumericUpDown nud_nVer;
+        private Label nVerLable;
+        private Label maxXVlabel;
+        private NumericUpDown nud_maxXV;
 
         //Create a bar graph, add it to a parent form, fill in data
         public static Graph Create_Bar_Graph(Rectangle location, string[][] data)
@@ -206,7 +211,7 @@ namespace ExcelClone.Graphs
             yAxis_cb.Location = new System.Drawing.Point(266, 102);
             yAxis_cb.Name = "checkBox3";
             yAxis_cb.Size = new System.Drawing.Size(100, 17);
-            yAxis_cb.TabIndex = 8;
+            yAxis_cb.TabIndex = 0;
             yAxis_cb.Text = "Draw Y-axis Label";
             yAxis_cb.UseVisualStyleBackColor = true;
             tp.Controls.Add(yAxis_cb);
@@ -216,7 +221,7 @@ namespace ExcelClone.Graphs
             yAxis_tb.Location = new System.Drawing.Point(9, 100);
             yAxis_tb.Name = "textBox3";
             yAxis_tb.Size = new System.Drawing.Size(250, 20);
-            yAxis_tb.TabIndex = 7;
+            yAxis_tb.TabIndex = 1;
             yAxis_tb.Text = "Create Y-axis Label";
             tp.Controls.Add(yAxis_tb);
             yAxis_tb.Click += new EventHandler(yAxis_tb_Click);
@@ -227,7 +232,7 @@ namespace ExcelClone.Graphs
             yAxis_lb.Location = new System.Drawing.Point(6, 83);
             yAxis_lb.Name = "label3";
             yAxis_lb.Size = new System.Drawing.Size(64, 13);
-            yAxis_lb.TabIndex = 6;
+            yAxis_lb.TabIndex = 2;
             yAxis_lb.Text = "Y-axis Label";
             tp.Controls.Add(yAxis_lb);
 
@@ -236,7 +241,7 @@ namespace ExcelClone.Graphs
             xAxis_cb.Location = new System.Drawing.Point(266, 62);
             xAxis_cb.Name = "checkBox2";
             xAxis_cb.Size = new System.Drawing.Size(100, 17);
-            xAxis_cb.TabIndex = 5;
+            xAxis_cb.TabIndex = 3;
             xAxis_cb.Text = "Draw X-axis Label";
             xAxis_cb.UseVisualStyleBackColor = true;
             tp.Controls.Add(xAxis_cb);
@@ -257,14 +262,67 @@ namespace ExcelClone.Graphs
             xAxis_lb.Location = new System.Drawing.Point(6, 43);
             xAxis_lb.Name = "label2";
             xAxis_lb.Size = new System.Drawing.Size(64, 13);
-            xAxis_lb.TabIndex = 3;
+            xAxis_lb.TabIndex = 5;
             xAxis_lb.Text = "X-axis Label";
             tp.Controls.Add(xAxis_lb);
 
+            nud_nVer = new NumericUpDown();
+            ((ISupportInitialize)(nud_nVer)).BeginInit();
+            tp.Controls.Add(nud_nVer);
+            nud_nVer.Location = new System.Drawing.Point(6, 343);
+            nud_nVer.Name = "nud_nVer";
+            nud_nVer.Size = new System.Drawing.Size(120, 20);
+            nud_nVer.TabIndex = 6;
+            nud_nVer.ValueChanged += new EventHandler(nud_nVer_ValueChanged);
+            ((ISupportInitialize)(nud_nVer)).EndInit();
+
+            nVerLable = new Label();
+            tp.Controls.Add(nVerLable);
+            nVerLable.AutoSize = true;
+            nVerLable.Location = new System.Drawing.Point(132, 350);
+            nVerLable.Name = "nVerLable";
+            nVerLable.Size = new System.Drawing.Size(122, 13);
+            nVerLable.TabIndex = 7;
+            nVerLable.Text = "Number of Vertical Lines";
+
+            maxXVlabel = new Label();
+            tp.Controls.Add(maxXVlabel);
+            maxXVlabel.AutoSize = true;
+            maxXVlabel.Location = new System.Drawing.Point(133, 272);
+            maxXVlabel.Name = "maxXVlabel";
+            maxXVlabel.Size = new System.Drawing.Size(67, 13);
+            maxXVlabel.TabIndex = 9;
+            maxXVlabel.Text = "Max X Value";
+
+            nud_maxXV = new NumericUpDown();
+            ((ISupportInitialize)(nud_maxXV)).BeginInit();
+            tp.Controls.Add(nud_maxXV);
+            nud_maxXV.Location = new System.Drawing.Point(6, 265);
+            nud_maxXV.Name = "nud_maxXV";
+            nud_maxXV.Size = new System.Drawing.Size(120, 20);
+            nud_maxXV.TabIndex = 11;
+            nud_maxXV.ValueChanged += new EventHandler(nud_maxXV_ValueChanged);
+            ((ISupportInitialize)(nud_maxXV)).EndInit();
+
+            nud_nVer.Value = nVertLines;
+            nud_maxXV.Value = new Decimal(maxXVal);
+            nud_maxXV.Minimum = new Decimal(maxXVal); 
             xAxis_cb.Checked = draw_xLabel;
             xAxis_tb.Text = XLabelString;
             yAxis_cb.Checked = draw_yLabel;
             yAxis_tb.Text = YLabelString;
+        }
+
+        void nud_maxXV_ValueChanged(object sender, EventArgs e)
+        {
+            maxXVal = decimal.ToDouble(nud_maxXV.Value);
+            InitLabels();
+        }
+
+        void nud_nVer_ValueChanged(object sender, EventArgs e)
+        {
+            nVertLines = (int)nud_nVer.Value;
+            InitLabels();
         }
 
         void yAxis_tb_Click(object sender, EventArgs e)
