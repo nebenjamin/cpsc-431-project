@@ -151,13 +151,13 @@ namespace ExcelClone.DataIO
 				int bookRows = book[0].Cells.Rows;
 				int bookColumns = book[0].Cells.Columns;
 
-				SpreadsheetView sv = activeWS.Spreadsheet;
+				//SpreadsheetView sv = SpreadsheetView.Instance;
 
 				for (int column = 0; column < bookColumns; column++)
 				{
 					textWriter.WriteStartElement("column");
 					textWriter.WriteAttributeString("index", column.ToString());
-					textWriter.WriteAttributeString("width", sv[column, 0].Size.Width.ToString());
+					//textWriter.WriteAttributeString("width", sv[column, 0].Size.Width.ToString());
 					//sv[0,0].Size.Height;
 					for (int row = 0; row < bookRows; row++)
 					{
@@ -179,7 +179,7 @@ namespace ExcelClone.DataIO
 						{
 							textWriter.WriteStartElement("row");
 							textWriter.WriteAttributeString("index", row.ToString());
-							textWriter.WriteAttributeString("height", sv[0, row].Size.Height.ToString());
+							//textWriter.WriteAttributeString("height", sv[0, row].Size.Height.ToString());
 
 							if (theCell != null)
 							{
