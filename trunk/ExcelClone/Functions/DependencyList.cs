@@ -99,6 +99,7 @@ namespace ExcelClone.Functions
             X.Remove(Erase);
         }
 
+        //Remove all the cells with empty lists.
         public void Clean(){
             int Count = Data.Count;
             int i = 0;
@@ -120,6 +121,7 @@ namespace ExcelClone.Functions
                 return false;
         }
 
+        //return the index of the cell Reference
         private int IndexOf(string Reference) {
 //            for (int i = 0; i < Data.Count; i++)
 //                if (Data.ElementAt(i).GetHead() == Reference)
@@ -136,6 +138,7 @@ namespace ExcelClone.Functions
             return -1;
         }
 
+        //return the list of dependents of the cell Reference
         public List<string> DependentsOf(string Reference) {
             int i = IndexOf(Reference);
             if (i != -1)
