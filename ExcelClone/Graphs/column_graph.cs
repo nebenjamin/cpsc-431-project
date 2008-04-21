@@ -303,8 +303,9 @@ namespace ExcelClone.Graphs
             ((ISupportInitialize)(nud_maxYV)).EndInit();
 
             nud_nHor.Value = nHorzLines;
-            nud_maxYV.Value = new Decimal(maxYVal);
             nud_maxYV.Minimum = new Decimal(maxYVal);
+            nud_maxYV.Maximum = new Decimal(maxYVal + 100);
+            nud_maxYV.Value = new Decimal(maxYVal);
             xAxis_cb.Checked = draw_xLabel;
             xAxis_tb.Text = XLabelString;
             yAxis_cb.Checked = draw_yLabel;

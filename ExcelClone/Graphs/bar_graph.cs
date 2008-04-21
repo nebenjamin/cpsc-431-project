@@ -305,8 +305,9 @@ namespace ExcelClone.Graphs
             ((ISupportInitialize)(nud_maxXV)).EndInit();
 
             nud_nVer.Value = nVertLines;
-            nud_maxXV.Value = new Decimal(maxXVal);
-            nud_maxXV.Minimum = new Decimal(maxXVal); 
+            nud_maxXV.Minimum = new Decimal(maxXVal);
+            nud_maxXV.Maximum = new Decimal(maxXVal + 100);
+            nud_maxXV.Value = new Decimal(maxXVal); 
             xAxis_cb.Checked = draw_xLabel;
             xAxis_tb.Text = XLabelString;
             yAxis_cb.Checked = draw_yLabel;

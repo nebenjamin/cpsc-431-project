@@ -396,10 +396,21 @@ namespace ExcelClone.Graphs
 
             nud_nHor.Value = nHorzLines;
             nud_nVer.Value = nVertLines;
+            nud_maxYV.Minimum = new Decimal(minYVal - 100);
+            nud_maxYV.Maximum = new Decimal(maxYVal + 100);
             nud_maxYV.Value = new Decimal(maxYVal);
+
+            nud_minYV.Minimum = new Decimal(minYVal - 100);
+            nud_minYV.Maximum = new Decimal(maxYVal + 100);
             nud_minYV.Value = new Decimal(minYVal);
-            nud_minXV.Value = new Decimal(minXVal);
-            nud_maxXV.Value = new Decimal(maxXVal);
+
+            nud_maxXV.Minimum = new Decimal(minXVal - 100);
+            nud_maxXV.Maximum = new Decimal(maxXVal + 100);
+            nud_maxXV.Value = new Decimal(minXVal);
+
+            nud_minXV.Minimum = new Decimal(minXVal - 100);
+            nud_minXV.Maximum = new Decimal(maxXVal + 100);
+            nud_minXV.Value = new Decimal(maxXVal);
             xAxis_cb.Checked = draw_xLabel;
             xAxis_tb.Text = XLabelString;
             yAxis_cb.Checked = draw_yLabel;
