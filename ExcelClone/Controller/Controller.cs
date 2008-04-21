@@ -119,8 +119,9 @@ namespace ExcelClone
     public void ExecuteOpen()
     {
       saveload = new ExcelClone.DataIO.DataIO(ActiveWS);
-      saveload.AddSpreadsheet(ActiveWS.Spreadsheet.SpreadsheetModel);
-      ActiveWS.Spreadsheet.SpreadsheetModel = saveload.LoadBook();
+      //saveload.AddSpreadsheet(ActiveWS.Spreadsheet.SpreadsheetModel);    
+      List<SpreadsheetModel> lister = saveload.LoadBook();
+      ActiveWS.Spreadsheet.SpreadsheetModel = lister[0];
       ActiveWS.Spreadsheet.RefreshView();
     }
     public void ExecuteClose()
