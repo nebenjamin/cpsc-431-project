@@ -406,11 +406,11 @@ namespace ExcelClone.Graphs
 
             nud_maxXV.Minimum = new Decimal(minXVal - 100);
             nud_maxXV.Maximum = new Decimal(maxXVal + 100);
-            nud_maxXV.Value = new Decimal(minXVal);
+            nud_maxXV.Value = new Decimal(maxXVal);
 
             nud_minXV.Minimum = new Decimal(minXVal - 100);
             nud_minXV.Maximum = new Decimal(maxXVal + 100);
-            nud_minXV.Value = new Decimal(maxXVal);
+            nud_minXV.Value = new Decimal(minXVal);
             xAxis_cb.Checked = draw_xLabel;
             xAxis_tb.Text = XLabelString;
             yAxis_cb.Checked = draw_yLabel;
