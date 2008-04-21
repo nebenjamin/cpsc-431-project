@@ -105,10 +105,10 @@ namespace ExcelClone.Graphs
 
                 this.Size = oldSize + new Size(deltaX, deltaY);
 
-                if (this.Size.Width < 50)  //check min size
-                    this.Size = new Size(50, this.Size.Height);
-                if (this.Size.Height < 50)
-                    this.Size = new Size(this.Size.Width, 50);
+                if (this.Size.Width < 150)  //check min size
+                    this.Size = new Size(150, this.Size.Height);
+                if (this.Size.Height < 150)
+                    this.Size = new Size(this.Size.Width, 150);
                 this.Invalidate();
             }
             else
