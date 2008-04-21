@@ -128,6 +128,7 @@ namespace ExcelClone
     }
     public void ExecuteOpen()
     {
+      ActiveWS.Spreadsheet.EndEdit();
       saveload = new ExcelClone.DataIO.DataIO(ActiveWS);
       //saveload.AddSpreadsheet(ActiveWS.Spreadsheet.SpreadsheetModel);
       List<SpreadsheetModel> lister = saveload.LoadBook();
@@ -139,12 +140,14 @@ namespace ExcelClone
     }
     public void ExecuteSave()
     {
+      ActiveWS.Spreadsheet.EndEdit();
       saveload = new ExcelClone.DataIO.DataIO(ActiveWS);
       saveload.AddSpreadsheet(ActiveWS.Spreadsheet.SpreadsheetModel);
       saveload.SaveBook(false);
     }
     public void ExecuteSaveAs()
     {
+      ActiveWS.Spreadsheet.EndEdit();
       saveload = new ExcelClone.DataIO.DataIO(ActiveWS);
       saveload.AddSpreadsheet(ActiveWS.Spreadsheet.SpreadsheetModel);
       saveload.SaveBook(true);
