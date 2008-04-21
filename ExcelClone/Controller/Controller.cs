@@ -173,16 +173,20 @@ namespace ExcelClone
     {
       saveload = new ExcelClone.DataIO.DataIO();
       ActiveWS.Spreadsheet.EndEdit();
-      //saveload = new ExcelClone.DataIO.DataIO(ActiveWS);
-      saveload.AddSpreadsheet(ActiveWS.Spreadsheet.SpreadsheetModel);
+      foreach (SpreadsheetModel s in GetAllSpreadsheetModels())
+      {
+          saveload.AddSpreadsheet(s);
+      }
       saveload.SaveBook(false);
     }
     public void ExecuteSaveAs()
     {
       saveload = new ExcelClone.DataIO.DataIO();
       ActiveWS.Spreadsheet.EndEdit();
-      //saveload = new ExcelClone.DataIO.DataIO(ActiveWS);
-      saveload.AddSpreadsheet(ActiveWS.Spreadsheet.SpreadsheetModel);
+      foreach (SpreadsheetModel s in GetAllSpreadsheetModels())
+      {
+          saveload.AddSpreadsheet(s);
+      }
       saveload.SaveBook(true);
     }
     public void ExecuteCut()
