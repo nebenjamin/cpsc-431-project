@@ -364,6 +364,7 @@ namespace ExcelClone.DataIO
               textReader.Read();
               Graphs.GraphControl g = new ExcelClone.Graphs.GraphControl();
               g.ReadXml(textReader);
+              Controller.Instance.MainForm.Controls.Add(g);
             }
             catch (Exception e)
             {
