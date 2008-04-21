@@ -19,7 +19,6 @@ namespace ExcelClone.DataIO
 		public const string extension = ".xml";
 
 		private string filename;
-		private string path;
 
 		private Cell defaultCell;
 		private List<SpreadsheetModel> book;
