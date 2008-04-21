@@ -36,8 +36,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\ColorEventArgs.cs" />
     <Compile Include="Controller\CommandType.cs" />
     <Compile Include="Controller\Controller.cs" />
+    <Compile Include="Controller\FontEventArgs.cs" />
     <Compile Include="Controller\ISpreadsheetControl.cs" />
     <Compile Include="Controller\SpreadsheetControl.cs" />
     <Compile Include="Core\Cell.cs" />

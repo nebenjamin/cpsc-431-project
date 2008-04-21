@@ -14,347 +14,355 @@ using ExcelClone.Core;
 
 namespace ExcelClone.DataIO
 {
-  public class DataIO
-  {
-    public const string extension = ".xml";
+	public class DataIO
+	{
+		public const string extension = ".xml";
 
-    private string filename;
+		private string filename;
+		private string path;
 
-    private Cell defaultCell;
-    private List<SpreadsheetModel> book;
-    private Stream fileStream;
-    private XmlSerializer serializer;
-    private XmlTextWriter textWriter;
+		private Cell defaultCell;
+		private List<SpreadsheetModel> book;
+		private Stream fileStream;
+		private XmlSerializer serializer;
+		private XmlTextWriter textWriter;
+		private SpreadsheetUserControl activeWS;
 
-    public DataIO()
-    {
-      book = new List<SpreadsheetModel>();
-    }
+		public DataIO(SpreadsheetUserControl activeWorksheet)
+		{
+			book = new List<SpreadsheetModel>();
+			this.activeWS = activeWorksheet;
+		}
 
-    public bool AddSpreadsheet(SpreadsheetModel sheet)
-    {
-      book.Add(sheet);
-      return true;
-    }
+		public bool AddSpreadsheet(SpreadsheetModel sheet)
+		{
+			book.Add(sheet);
+			return true;
+		}
 
-    public SpreadsheetModel GetSpreadsheet(int pagenumber)
-    {
-      if (book != null)
-      {
-        return book[pagenumber];
-      }
-      else
-      {
-        return new SpreadsheetModel(new CellCollection());
-      }
-    }
+		public SpreadsheetModel GetSpreadsheet(int pagenumber)
+		{
+			if (book != null)
+			{
+				return book[pagenumber];
+			}
+			else
+			{
+				return new SpreadsheetModel(new CellCollection());
+			}
+		}
 
-    public bool SetBook(List<SpreadsheetModel> volume)
-    {
-      book = volume;
-      return true;
-    }
+		public bool SetBook(List<SpreadsheetModel> volume)
+		{
+			book = volume;
+			return true;
+		}
 
-    public List<SpreadsheetModel> GetBook()
-    {
-      if (book != null)
-      {
-        return book;
-      }
-      else
-      {
-        //return book.Add(new SpreadsheetModel(new CellCollection()));
-          //THIS CAUSED A COMPILE ERROR THE PERSON WHO CODED BEFORE ME - LONG MAI
-          //WHO CODED THIS SHOULD FIX THIS AND NEED TO MAKE SURE IT COMPILES BEFORE COMMITTING
-          return null;
-      }
-    }
+		public List<SpreadsheetModel> GetBook()
+		{
+			if (book != null)
+			{
+				return book;
+			}
+			else
+			{
+				book.Add(new SpreadsheetModel(new CellCollection()));
+				return book;
+			}
+		}
 
-    public bool SaveBook(SpreadsheetUserControl activeWS)
-    {
-      SaveFileDialog saver = new SaveFileDialog();
-      saver.AddExtension = true;
-      saver.CheckPathExists = true;
-      saver.DefaultExt = ".xml";
-      saver.Filter = ".xml Files|*.xml";
-      saver.InitialDirectory = "c:\\documents and settings\\" + Environment.UserName + "\\desktop\\";
-      if (saver.ShowDialog() == DialogResult.OK)
-      {
-        filename = saver.FileName;
+		public bool SaveBook(bool saveAs)
+		{
+			try
+			{
+				if (filename == null || saveAs)
+				{
+					SaveFileDialog saver = new SaveFileDialog();
+					saver.AddExtension = true;
+					saver.CheckPathExists = true;
+					saver.DefaultExt = ".xml";
+					saver.Filter = ".xml Files|*.xml";
+					saver.InitialDirectory = "c:\\documents and settings\\" + Environment.UserName + "\\desktop\\";
+					if (saver.ShowDialog() == DialogResult.OK)
+					{
+						filename = saver.FileName;
 
-        try
-        {
-          if (book.Count == 0) throw new MissingMemberException("Passed an empty book!  Feed me data");
-          return WriteBook(activeWS);
-        }
-        catch (Exception e)
-        {
-          if (e is System.Security.SecurityException)
-          {
-            MessageBox.Show("I cannot write a file. Please run me with FileIO permissions.", "Error");
-          }
-          else
-          {
-            MessageBox.Show("Error: (" + e.GetType().ToString() + "): " +
-                            e.Message + Environment.NewLine +
-                            "Debug Data: " + e.ToString(), "Error");
-          }
-        }
-      }
-      return false;
-    }
+						if (book.Count == 0) throw new MissingMemberException("Passed an empty book!  Feed me data");
+						return WriteBook();
+					}
+				}
+				else
+				{
+					return WriteBook();
+				}
+			}
+			catch (Exception e)
+			{
+				if (e is System.Security.SecurityException)
+				{
+					MessageBox.Show("I cannot write a file. Please run me with FileIO permissions.", "Error");
+				}
+				else
+				{
+					MessageBox.Show("Error: (" + e.GetType().ToString() + "): " +
+													e.Message + Environment.NewLine +
+													"Debug Data: " + e.ToString(), "Error");
+				}
+			}
+			return false;
+		}
 
-    public SpreadsheetModel LoadBook()
-    {
-      OpenFileDialog opener = new OpenFileDialog();
-      opener.AddExtension = true;
-      opener.CheckFileExists = true;
-      opener.CheckPathExists = true;
-      opener.DefaultExt = ".xml";
-      opener.Filter = ".xml Files|*.xml";
-      opener.InitialDirectory = "c:\\documents and settings\\" + Environment.UserName + "\\desktop\\";
+		public SpreadsheetModel LoadBook()
+		{
+			OpenFileDialog opener = new OpenFileDialog();
+			opener.AddExtension = true;
+			opener.CheckFileExists = true;
+			opener.CheckPathExists = true;
+			opener.DefaultExt = ".xml";
+			opener.Filter = ".xml Files|*.xml";
+			opener.InitialDirectory = "c:\\documents and settings\\" + Environment.UserName + "\\desktop\\";
 
-      if (opener.ShowDialog() == DialogResult.OK)
-      {
-        filename = opener.FileName;
+			if (opener.ShowDialog() == DialogResult.OK)
+			{
+				filename = opener.FileName;
 
-        if (ReadBook())
-        {
-          return book[0];
-        }
-      }
-      return new SpreadsheetModel(new CellCollection());
-    }
+				if (ReadBook())
+				{
+					return book[0];
+				}
+			}
+			return new SpreadsheetModel(new CellCollection());
+		}
 
-    private bool WriteBook(SpreadsheetUserControl activeWS)
-    {
-      Cell theCell = new Cell();
-      Cell defaultCell = new Cell();
+		private bool WriteBook()
+		{
+			Cell theCell = new Cell();
+			Cell defaultCell = new Cell();
 
-      double tempDouble = new double();
-      bool blank = false;
-      fileStream = new FileStream(filename, FileMode.Create);
-      textWriter = new XmlTextWriter(fileStream, Encoding.Unicode);
+			double tempDouble = new double();
+			bool blank = false;
+			fileStream = new FileStream(filename, FileMode.Create);
+			textWriter = new XmlTextWriter(fileStream, Encoding.Unicode);
 
-      try
-      {
-        textWriter.WriteStartElement(filename.Substring(filename.LastIndexOf("\\") + 1,
-                                     filename.LastIndexOf(".") - filename.LastIndexOf("\\") - 1));
-        textWriter.WriteStartElement("sheet");
+			try
+			{
+				textWriter.WriteStartElement(filename.Substring(filename.LastIndexOf("\\") + 1,
+																		 filename.LastIndexOf(".") - filename.LastIndexOf("\\") - 1));
+				textWriter.WriteStartElement("sheet");
 
-        int bookRows = book[0].Cells.Rows;
-        int bookColumns = book[0].Cells.Columns;
+				int bookRows = book[0].Cells.Rows;
+				int bookColumns = book[0].Cells.Columns;
 
-        SpreadsheetView sv = activeWS.Spreadsheet;
+				SpreadsheetView sv = activeWS.Spreadsheet;
 
-        for (int column = 0; column < bookColumns; column++)
-        {
-          textWriter.WriteStartElement("column");
-          textWriter.WriteAttributeString("index", column.ToString());
-          textWriter.WriteAttributeString("width", sv[column, 0].Size.Width.ToString());
-              //sv[0,0].Size.Height;
-          for (int row = 0; row < bookRows; row++)
-          {
-            theCell = book[0].Cells[row, column];
+				for (int column = 0; column < bookColumns; column++)
+				{
+					textWriter.WriteStartElement("column");
+					textWriter.WriteAttributeString("index", column.ToString());
+					textWriter.WriteAttributeString("width", sv[column, 0].Size.Width.ToString());
+					//sv[0,0].Size.Height;
+					for (int row = 0; row < bookRows; row++)
+					{
+						theCell = book[0].Cells[row, column];
 
-            
 
-            /*IS CELL DEFAULT CHECK*/
-            blank = false;
-            if (theCell == null || theCell.Value == null) { blank = true; }
-            else if (theCell.Value.Equals("")) { blank = true; }
-            /*CELL FORMAT needs to be instantiated*/
-            //if (theCell.CellFormat.IsDefault == false) { blank = true; }
 
-            if (blank == true)
-            {//skip writing the row, go on to the next cell.
-            }
-            else
-            {
-              textWriter.WriteStartElement("row");
-              textWriter.WriteAttributeString("index", row.ToString());
-              textWriter.WriteAttributeString("height", sv[0, row].Size.Height.ToString());
+						/*IS CELL DEFAULT CHECK*/
+						blank = false;
+						if (theCell == null || theCell.Value == null) { blank = true; }
+						else if (theCell.Value.Equals("")) { blank = true; }
+						/*CELL FORMAT needs to be instantiated*/
+						//if (theCell.CellFormat.IsDefault == false) { blank = true; }
 
-              if (theCell != null)
-              {
-                /*CONTENT TYPE CHECK*/
-                textWriter.WriteStartElement("content");
-                if (theCell.Formula.Contains("="))
-                {
-                  textWriter.WriteAttributeString("type", "Formula");
-                }
-                else
-                {
-                  try
-                  {
-                    tempDouble = double.Parse(theCell.Value);
-                    textWriter.WriteAttributeString("type", "Number");
-                  }
-                  catch (System.FormatException e)
-                  {
-                    textWriter.WriteAttributeString("type", "Text");
-                  }
-                }
+						if (blank == true)
+						{//skip writing the row, go on to the next cell.
+						}
+						else
+						{
+							textWriter.WriteStartElement("row");
+							textWriter.WriteAttributeString("index", row.ToString());
+							textWriter.WriteAttributeString("height", sv[0, row].Size.Height.ToString());
 
-                textWriter.WriteAttributeString("CellFormat", theCell.CellFormat.serialize());
+							if (theCell != null)
+							{
+								/*CONTENT TYPE CHECK*/
+								textWriter.WriteStartElement("content");
+								if (theCell.Formula.Contains("="))
+								{
+									textWriter.WriteAttributeString("type", "Formula");
+								}
+								else
+								{
+									try
+									{
+										tempDouble = double.Parse(theCell.Value);
+										textWriter.WriteAttributeString("type", "Number");
+									}
+									catch (System.FormatException e)
+									{
+										textWriter.WriteAttributeString("type", "Text");
+									}
+								}
 
-                //FORMULA CHECK
-                if (theCell.Formula.Equals("") || theCell.Formula.Equals(null))
-                { } //ignore
-                else
-                {
-                  textWriter.WriteElementString("Formula", theCell.Formula.ToString());
-                }
-                //VALUE CHECK
-                if (theCell.Value.Equals("") || theCell.Value.Equals(null))
-                { } //ignore
-                else
-                {
-                  textWriter.WriteElementString("Value", theCell.Value.ToString());
-                }
-                textWriter.WriteEndElement();//end of content type element?
-              }//end of theCell != null if
-              /*****Where do all these other write elements correspond to?*/
+								textWriter.WriteAttributeString("CellFormat", theCell.CellFormat.serialize());
 
-              textWriter.WriteEndElement();
-            }//end of blank cell check if/else
+								//FORMULA CHECK
+								if (theCell.Formula.Equals("") || theCell.Formula.Equals(null))
+								{ } //ignore
+								else
+								{
+									textWriter.WriteElementString("Formula", theCell.Formula.ToString());
+								}
+								//VALUE CHECK
+								if (theCell.Value.Equals("") || theCell.Value.Equals(null))
+								{ } //ignore
+								else
+								{
+									textWriter.WriteElementString("Value", theCell.Value.ToString());
+								}
+								textWriter.WriteEndElement();//end of content type element?
+							}//end of theCell != null if
+							/*****Where do all these other write elements correspond to?*/
 
-          }//end of row loop
-          textWriter.WriteEndElement();
-        }//end of column loop
-        textWriter.WriteEndElement();        
+							textWriter.WriteEndElement();
+						}//end of blank cell check if/else
 
-        //NATHAN SULLIVAN:  Test code for graphs
-        foreach(Control c in Controller.Instance.MainForm.Controls)
-        {
-            if( c is Graphs.GraphControl )  //try to serialize all graph controls
-            {
-                ((Graphs.GraphControl)c).WriteXml(textWriter);
-            }
-        }
-        textWriter.WriteEndElement();
-        textWriter.Flush();
-      }
-      catch (Exception e)
-      {
-        MessageBox.Show("Error: (" + e.GetType().ToString() + "): " +
-                        e.Message + Environment.NewLine +
-                        "Debug Data: " + e.ToString(), "Error");
-      }
-      finally
-      {
-        if (textWriter != null)
-        {
-          textWriter.Close();
-          textWriter = null;
-        }
-      }
-      return true;
-    }
+					}//end of row loop
+					textWriter.WriteEndElement();
+				}//end of column loop
+				textWriter.WriteEndElement();
 
-    private bool ReadBook()
-    {
-      int i = 0;
-      int currentRow, currentColumn;
+				//NATHAN SULLIVAN:  Test code for graphs
+				foreach (Control c in Controller.Instance.MainForm.Controls)
+				{
+					if (c is Graphs.GraphControl)  //try to serialize all graph controls
+					{
+						((Graphs.GraphControl)c).WriteXml(textWriter);
+					}
+				}
+				textWriter.WriteEndElement();
+				textWriter.Flush();
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show("Error: (" + e.GetType().ToString() + "): " +
+												e.Message + Environment.NewLine +
+												"Debug Data: " + e.ToString(), "Error");
+			}
+			finally
+			{
+				if (textWriter != null)
+				{
+					textWriter.Close();
+					textWriter = null;
+				}
+			}
+			return true;
+		}
 
-      XmlDocument doc = new XmlDocument();
-      
-      try
-      {
-        doc.Load(filename);
+		private bool ReadBook()
+		{
+			int i = 0;
+			int currentRow, currentColumn;
 
-        XmlNodeList sheetList = doc.GetElementsByTagName("sheet");
+			XmlDocument doc = new XmlDocument();
 
-        // Traverse the List of Sheets
-        foreach (XmlNode sheet in sheetList)
-        {
-          CellCollection cells = new CellCollection();
-          XmlElement sheetElement = (XmlElement)sheet;
-          String sheetName = "";
+			try
+			{
+				doc.Load(filename);
 
-          if (sheetElement.HasAttributes)
-          {
-            if (sheetElement.Attributes[0].Name == "name")
-              sheetName = sheetElement.Attributes["name"].InnerText;
-          }
+				XmlNodeList sheetList = doc.GetElementsByTagName("sheet");
 
-          XmlNodeList columnList = sheetElement.GetElementsByTagName("column");
+				// Traverse the List of Sheets
+				foreach (XmlNode sheet in sheetList)
+				{
+					CellCollection cells = new CellCollection();
+					XmlElement sheetElement = (XmlElement)sheet;
+					String sheetName = "";
 
-          // Traverse the List of Columns
-          foreach (XmlNode column in columnList)
-          {
-            XmlElement columnElement = (XmlElement)column;
-            String columnNumber = "";
+					if (sheetElement.HasAttributes)
+					{
+						if (sheetElement.Attributes[0].Name == "name")
+							sheetName = sheetElement.Attributes["name"].InnerText;
+					}
 
-            if (columnElement.HasAttributes)
-            {
-              if (columnElement.Attributes[0].Name == "index")
-                columnNumber = columnElement.Attributes["index"].InnerText;
-            }
+					XmlNodeList columnList = sheetElement.GetElementsByTagName("column");
 
-            currentColumn = Int32.Parse(columnNumber);
+					// Traverse the List of Columns
+					foreach (XmlNode column in columnList)
+					{
+						XmlElement columnElement = (XmlElement)column;
+						String columnNumber = "";
 
-            XmlNodeList rowList = columnElement.GetElementsByTagName("row");
+						if (columnElement.HasAttributes)
+						{
+							if (columnElement.Attributes[0].Name == "index")
+								columnNumber = columnElement.Attributes["index"].InnerText;
+						}
 
-            // Traverse the List of Rows
-            foreach (XmlNode row in rowList)
-            {
-              XmlElement rowElement = (XmlElement)row;
-              String rowNumber = "";
+						currentColumn = Int32.Parse(columnNumber);
 
-              if (rowElement.HasAttributes)
-              {
-                if (rowElement.Attributes[0].Name == "index")
-                  rowNumber = rowElement.Attributes["index"].InnerText;
-              }
+						XmlNodeList rowList = columnElement.GetElementsByTagName("row");
 
-              currentRow = Int32.Parse(rowNumber);
+						// Traverse the List of Rows
+						foreach (XmlNode row in rowList)
+						{
+							XmlElement rowElement = (XmlElement)row;
+							String rowNumber = "";
 
-              for (int j = 0; j < rowElement.Attributes.Count; j++)
-              {
-                //MessageBox.Show("Row: " + rowNumber + " Column: " + columnNumber + "\n");
+							if (rowElement.HasAttributes)
+							{
+								if (rowElement.Attributes[0].Name == "index")
+									rowNumber = rowElement.Attributes["index"].InnerText;
+							}
 
-                if (rowElement.GetElementsByTagName("content").Count != 0)
-                {
-                  XmlElement contentElement = (XmlElement)rowElement.GetElementsByTagName("content")[0];
-                  Cell cell = new Cell();
+							currentRow = Int32.Parse(rowNumber);
 
-                  if (contentElement.HasAttribute("CellFormat"))
-                  {
-                    String settings = contentElement.GetAttribute("CellFormat");
-                    cell.CellFormat = CellFormatFactory.createCellFormat(settings);
-                  }
+							for (int j = 0; j < rowElement.Attributes.Count; j++)
+							{
+								//MessageBox.Show("Row: " + rowNumber + " Column: " + columnNumber + "\n");
 
-                  if (contentElement.GetElementsByTagName("Formula").Count != 0)
-                  {
-                    String formula = contentElement.GetElementsByTagName("Formula")[0].InnerText;
-                    cell.Formula = formula;
-                  }
+								if (rowElement.GetElementsByTagName("content").Count != 0)
+								{
+									XmlElement contentElement = (XmlElement)rowElement.GetElementsByTagName("content")[0];
+									Cell cell = new Cell();
 
-                  if (contentElement.GetElementsByTagName("Value").Count != 0)
-                  {
-                    String value = contentElement.GetElementsByTagName("Value")[0].InnerText;
-                    cell.Value = value;
-                  }
+									if (contentElement.HasAttribute("CellFormat"))
+									{
+										String settings = contentElement.GetAttribute("CellFormat");
+										cell.CellFormat = CellFormatFactory.createCellFormat(settings);
+									}
 
-                  cells[currentRow, currentColumn] = cell;
-                }
-              }
+									if (contentElement.GetElementsByTagName("Formula").Count != 0)
+									{
+										String formula = contentElement.GetElementsByTagName("Formula")[0].InnerText;
+										cell.Formula = formula;
+									}
 
-            }
-          }
+									if (contentElement.GetElementsByTagName("Value").Count != 0)
+									{
+										String value = contentElement.GetElementsByTagName("Value")[0].InnerText;
+										cell.Value = value;
+									}
 
-          // Add current CellCollection to book
-          book.Add(new SpreadsheetModel(cells));
-        }
-      }
-      catch (Exception e)
-      {
-        MessageBox.Show("Error: (" + e.GetType().ToString() + "): " + e.Message + Environment.NewLine + e.ToString(), "Error");
-        return false;
-      }
-      return true;
-    }
+									cells[currentRow, currentColumn] = cell;
+								}
+							}
 
-  }
+						}
+					}
+
+					// Add current CellCollection to book
+					book.Add(new SpreadsheetModel(cells));
+				}
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show("Error: (" + e.GetType().ToString() + "): " + e.Message + Environment.NewLine + e.ToString(), "Error");
+				return false;
+			}
+			return true;
+		}
+
+	}
 }
