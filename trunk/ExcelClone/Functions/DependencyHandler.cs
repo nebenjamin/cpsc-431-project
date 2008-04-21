@@ -26,13 +26,13 @@ namespace ExcelClone.Functions
         /*Parser calls this function: Statement[0] should be the cell
                                       Statement[1]..[n] are references */
         public void NewStatement(ArrayList Statement) {
-            string Head = (string)Statement[0];
+            string Head = (string)Statement[0];     
             Statement.RemoveAt(0);
 
             List<string> Dependents = new List<string>();
             foreach (object Element in Statement) {
-                if (IsCellReference((string)Element))
-                    Dependents.Add((string)Element);
+                if (IsCellReference((string)Element))   //if the object is a cell reference,
+                    Dependents.Add((string)Element);    //add it to the dependents list.
             }
 
             MaintainLists(Head, Dependents);
@@ -111,6 +111,8 @@ namespace ExcelClone.Functions
             return RV;
         }
 
+        /*Check if the string is a reference to the cell (A4) rather than just a number of
+          a symbol */
         private bool IsCellReference(string Reference)
         {
             try
