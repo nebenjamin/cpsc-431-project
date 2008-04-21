@@ -10,7 +10,6 @@ namespace ExcelClone.Core
 
         public CellFormat(Font f, Color textColor, Color cellColor) {
             CellFont = f;
-            Console.WriteLine("FONT!!!! " + f.Bold);
             TextColor = textColor;
             CellColor = cellColor;
         }

@@ -95,6 +95,15 @@ namespace ExcelClone
                 case CommandType.InsertWorksheet:
                     ExecuteInsertWorksheet();
                     break;
+                case CommandType.SelectTextColor:
+                    ExecuteSelectTextColor((e as ColorEventArgs).Color);
+                    break;
+                case CommandType.SelectCellColor:
+                    ExecuteSelectCellColor((e as ColorEventArgs).Color);
+                    break;
+                case CommandType.ChangeFont:
+                    ExecuteChangeFont((e as FontEventArgs));
+                    break;
                 default:
                     break;
             }
@@ -491,63 +500,125 @@ namespace ExcelClone
         {
 
         }
+
+        public void ExecuteSelectTextColor(Color textColor)
+        {
+            foreach (DataGridViewCell cell in ActiveWS.Spreadsheet.SelectedCells)
+            {
+                if (cell.RowIndex >= 0 && cell.ColumnIndex >= 0)
+                {
+                    Cell c = ActiveWS.Spreadsheet.SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex];
+                    if (c == null)
+                    {
+                        c = new Cell();
+                        ActiveWS.Spreadsheet.SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex] = c;
+                    }
+                    c.CellFormat.TextColor = textColor;
+
+                }
+                ActiveWS.Spreadsheet.RefreshCell(new CellKey(cell.RowIndex, cell.ColumnIndex));
+            }
+        }
+
+        public void ExecuteSelectCellColor(Color cellColor)
+        {
+            foreach (DataGridViewCell cell in ActiveWS.Spreadsheet.SelectedCells)
+            {
+                if (cell.RowIndex >= 0 && cell.ColumnIndex >= 0)
+                {
+                    Cell c = ActiveWS.Spreadsheet.SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex];
+                    if (c == null)
+                    {
+                        c = new Cell();
+                        ActiveWS.Spreadsheet.SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex] = c;
+                    }
+                    c.CellFormat.CellColor = cellColor;
+
+                }
+                ActiveWS.Spreadsheet.RefreshCell(new CellKey(cell.RowIndex, cell.ColumnIndex));
+            }
+        }
+        
         public void ExecuteFormatCells(string action)
         {
             FontStyle s = 0;
-            float sizeChange = 0;
-            bool changedSettings = false;
-            
+            float sizeChange = 0;     
             
             
             foreach (DataGridViewCell cell in ActiveWS.Spreadsheet.SelectedCells)
             {
+                Console.WriteLine("here");
                 if (cell.RowIndex >= 0 && cell.ColumnIndex >= 0)
                 {                    
                     Cell c = ActiveWS.Spreadsheet.SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex];
-                    if (c != null)
+                    if (c == null)
                     {
-                        if(!changedSettings) {
-                            changedSettings = true;
-                            s = c.CellFormat.CellFont.Style;
-                            switch(action) {
-                                case "bold":
-                                    if ((s & FontStyle.Bold) == FontStyle.Bold)
-                                        s = s & ~FontStyle.Bold;
-                                    else
-                                        s |= FontStyle.Bold;
-                                    break;
-                                case "italic":
-                                    if ((s & FontStyle.Italic) == FontStyle.Italic)
-                                        s = s & ~FontStyle.Italic;
-                                    else
-                                        s |= FontStyle.Italic;
-                                    break;
-                                case "underline":
-                                    if ((s & FontStyle.Underline) == FontStyle.Underline)
-                                        s = s & ~FontStyle.Underline;
-                                    else
-                                        s |= FontStyle.Underline;
-                                    break;
-                                case "increaseFont":
-                                    sizeChange++;
-                                    break;
-                                case "decreaseFont":
-                                    sizeChange--;
-                                    break;
-
-                            }
-                        }
-
-                        c.CellFormat.CellFont = new Font(c.CellFormat.CellFont.Name,
-                                                         c.CellFormat.CellFont.Size + sizeChange,
-                                                         s);
-                        
+                        c = new Cell();
+                        ActiveWS.Spreadsheet.SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex] = c;
                     }
+                   
+                    s = c.CellFormat.CellFont.Style;
+                    
+                    switch(action) {
+                        case "bold":
+                            if ((s & FontStyle.Bold) == FontStyle.Bold)
+                                s = s & ~FontStyle.Bold;
+                            else
+                                s |= FontStyle.Bold;
+                            break;
+                        case "italic":
+                            if ((s & FontStyle.Italic) == FontStyle.Italic)
+                                s = s & ~FontStyle.Italic;
+                            else
+                                s |= FontStyle.Italic;
+                            break;
+                        case "underline":
+                            if ((s & FontStyle.Underline) == FontStyle.Underline)
+                                s = s & ~FontStyle.Underline;
+                            else
+                                s |= FontStyle.Underline;
+                            break;
+                        case "increaseFont":
+                            sizeChange++;
+                            break;
+                        case "decreaseFont":
+                            sizeChange--;
+                            break;                            
+                    }
+
+
+                    c.CellFormat.CellFont = new Font(c.CellFormat.CellFont.Name,
+                                                     c.CellFormat.CellFont.Size + sizeChange,
+                                                     s);
+                        
+                    
                     
                 }
                 ActiveWS.Spreadsheet.RefreshCell(new CellKey(cell.RowIndex, cell.ColumnIndex));
             }
             
+        }
+
+        private void ExecuteChangeFont(FontEventArgs e)
+        {
+            Console.WriteLine("here");
+            foreach (DataGridViewCell cell in ActiveWS.Spreadsheet.SelectedCells)
+            {
+                if (cell.RowIndex >= 0 && cell.ColumnIndex >= 0)
+                {
+                    Cell c = ActiveWS.Spreadsheet.SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex];
+                    if (c == null)
+                    {
+                        c = new Cell();
+                        ActiveWS.Spreadsheet.SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex] = c;
+                    }
+                    c.CellFormat.CellFont = new Font((e.FamilyName == null)? c.CellFormat.CellFont.Name : e.FamilyName,
+                                                     (e.Size == -1)? c.CellFormat.CellFont.Size : e.Size,
+                                                     c.CellFormat.CellFont.Style);
+
+                }
+                ActiveWS.Spreadsheet.RefreshCell(new CellKey(cell.RowIndex, cell.ColumnIndex));
+            }
         }
 
         private void SpreadsheetView_KeyDown(object sender, KeyEventArgs e)

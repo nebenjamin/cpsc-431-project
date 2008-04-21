@@ -50,7 +50,7 @@ namespace ExcelClone.Gui
             RowsRemoved += new DataGridViewRowsRemovedEventHandler(SpreadsheetView_RowsRemoved);
 
 
-            this.DefaultCellStyle.Font = new Font("Verdana", 10);
+            this.DefaultCellStyle.Font = new Font("Times", 12);
 
         }
 
