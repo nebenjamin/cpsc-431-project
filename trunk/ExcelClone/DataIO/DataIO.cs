@@ -25,12 +25,10 @@ namespace ExcelClone.DataIO
 		private Stream fileStream;
 		private XmlSerializer serializer;
 		private XmlTextWriter textWriter;
-		private SpreadsheetUserControl activeWS;
 
-		public DataIO(SpreadsheetUserControl activeWorksheet)
+		public DataIO()
 		{
 			book = new List<SpreadsheetModel>();
-			this.activeWS = activeWorksheet;
 		}
 
 		public bool AddSpreadsheet(SpreadsheetModel sheet)
@@ -353,6 +351,22 @@ namespace ExcelClone.DataIO
 
 						}
 					}
+          XmlNodeList graphs = doc.GetElementsByTagName("graph");
+          XmlTextReader textReader;
+          List<Graphs.GraphControl> graphcontrols;
+          foreach (XmlNode graph in graphs)
+          {
+            try
+            {
+              textReader = new XmlTextReader(graph.InnerXml);
+              Graphs.GraphControl g = new ExcelClone.Graphs.GraphControl();
+              g.ReadXml(textReader);
+            }
+            catch (Exception e)
+            {
+              MessageBox.Show("Error: (" + e.GetType().ToString() + "): " + e.Message + Environment.NewLine + e.ToString(), "Error");
+            }
+          }
 
 					// Add current CellCollection to book
 					book.Add(new SpreadsheetModel(cells));
