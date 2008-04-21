@@ -353,12 +353,12 @@ namespace ExcelClone.DataIO
 					}
           XmlNodeList graphs = doc.GetElementsByTagName("graph");
           XmlTextReader textReader;
-          List<Graphs.GraphControl> graphcontrols;
           foreach (XmlNode graph in graphs)
           {
             try
             {
-              textReader = new XmlTextReader(graph.InnerXml);
+              textReader = new XmlTextReader(new StringReader(graph.InnerXml));
+              textReader.Read();
               Graphs.GraphControl g = new ExcelClone.Graphs.GraphControl();
               g.ReadXml(textReader);
             }
