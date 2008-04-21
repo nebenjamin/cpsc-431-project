@@ -65,6 +65,9 @@ namespace ExcelClone
                 case CommandType.Save:
                     ExecuteSave();
                     break;
+                case CommandType.SaveAs:
+										ExecuteSaveAs();
+										break;
                 case CommandType.Cut:
                     ExecuteCut();
                     break;
@@ -114,7 +117,7 @@ namespace ExcelClone
         }
         public void ExecuteOpen()
         {
-            DataIO.DataIO opener = new ExcelClone.DataIO.DataIO();
+            DataIO.DataIO opener = new ExcelClone.DataIO.DataIO(ActiveWS);
             opener.AddSpreadsheet(ActiveWS.Spreadsheet.SpreadsheetModel);
             ActiveWS.Spreadsheet.SpreadsheetModel = opener.LoadBook();
             ActiveWS.Spreadsheet.RefreshView();
@@ -124,12 +127,15 @@ namespace ExcelClone
         }
         public void ExecuteSave()
         {
-            DataIO.DataIO saver = new ExcelClone.DataIO.DataIO();
+            DataIO.DataIO saver = new ExcelClone.DataIO.DataIO(ActiveWS);
             saver.AddSpreadsheet(ActiveWS.Spreadsheet.SpreadsheetModel);
-            saver.SaveBook(ActiveWS);
+            saver.SaveBook(false);
         }
         public void ExecuteSaveAs()
         {
+						DataIO.DataIO saver = new ExcelClone.DataIO.DataIO(ActiveWS);
+						saver.AddSpreadsheet(ActiveWS.Spreadsheet.SpreadsheetModel);
+						saver.SaveBook(true);
         }
         public void ExecuteCut()
         {
