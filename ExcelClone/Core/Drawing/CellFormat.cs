@@ -12,10 +12,14 @@ namespace ExcelClone.Core
             CellFont = f;
             TextColor = textColor;
             CellColor = cellColor;
+            CellWidth = 100;
+            CellHeight = 22;
         }
 
         public CellFormat()
         {
+            CellWidth = 100;
+            CellHeight = 22;
         }
 
         public object Clone()
@@ -25,6 +29,8 @@ namespace ExcelClone.Core
             cf.CellFont = (Font)this.CellFont.Clone();
             cf.TextColor = this.TextColor;
             cf.IsDefault = this.IsDefault;
+            cf.CellHeight = this.CellHeight;
+            cf.CellWidth = this.CellWidth;
             return cf;
         }
         private Font _cellFont;

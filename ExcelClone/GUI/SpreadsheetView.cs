@@ -29,6 +29,8 @@ namespace ExcelClone.Gui
             CellMouseDoubleClick += new DataGridViewCellMouseEventHandler(SpreadsheetView_CellMouseDoubleClick);
             CellMouseClick += new DataGridViewCellMouseEventHandler(SpreadsheetView_CellMouseClick);
             RowHeaderMouseClick += new DataGridViewCellMouseEventHandler(SpreadsheetView_RowHeaderMouseClick);
+            RowHeightChanged += new DataGridViewRowEventHandler(SpreadsheetView_RowHeightChanged);
+            ColumnWidthChanged += new DataGridViewColumnEventHandler(SpreadsheetView_ColumnWidthChanged);
             KeyDown += new KeyEventHandler(SpreadsheetView_KeyDown);
             ParentChanged += delegate
             {
@@ -53,6 +55,45 @@ namespace ExcelClone.Gui
 
             this.DefaultCellStyle.Font = new Font("Times", 12);
 
+        }
+
+        void SpreadsheetView_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            int col = e.Column.Index;
+
+            SpreadsheetModel model = spreadsheetModel;
+
+
+            for (int i = 0; i < RowCount; i++)
+            {
+                Cell cell = model.Cells[i, col];
+
+                if (cell == null)
+                {
+                    cell = new Cell();
+                    model.Cells[i,col] = cell;
+                }
+                cell.CellFormat.CellWidth = this.Columns[col].Width;
+            }
+        }
+
+        void SpreadsheetView_RowHeightChanged(object sender, DataGridViewRowEventArgs e)
+        {
+            int row = e.Row.Index;
+
+            SpreadsheetModel model = spreadsheetModel;
+
+            
+            for(int i = 0; i < ColumnCount; i++) {
+                Cell cell = model.Cells[row,i];
+
+                if (cell == null)
+                {
+                    cell = new Cell();
+                    model.Cells[row,i] = cell;
+                }
+                cell.CellFormat.CellHeight = this.Rows[row].Height;
+            }
         }
 
         void SpreadsheetView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -102,7 +143,7 @@ namespace ExcelClone.Gui
                 cell = new Cell();
                 model.Cells[row, col] = cell;
             }
-            //this.Columns[col].Width = 80;
+            
             this.Rows[row].Cells[col].Value = cell.Formula;
         }
 
@@ -178,8 +219,9 @@ namespace ExcelClone.Gui
                     this[key.C, key.R].Style.Font = spreadsheetModel.Cells[key].CellFormat.CellFont;
                     this[key.C, key.R].Style.ForeColor = spreadsheetModel.Cells[key].CellFormat.TextColor;
                     this[key.C, key.R].Style.BackColor = spreadsheetModel.Cells[key].CellFormat.CellColor;
-                    Controller.Instance.MainForm.FontSizeSelectionBox.SelectedIndex = (int)spreadsheetModel.Cells[key].CellFormat.CellFont.Size;                
-
+                    Controller.Instance.MainForm.FontSizeSelectionBox.SelectedIndex = (int)spreadsheetModel.Cells[key].CellFormat.CellFont.Size;
+                    this.Columns[key.C].Width = spreadsheetModel.Cells[key].CellFormat.CellWidth;
+                    this.Rows[key.R].Height = spreadsheetModel.Cells[key].CellFormat.CellHeight;
                 }
                 else
                     this[key.C, key.R].Value = null;
