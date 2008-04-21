@@ -128,27 +128,33 @@ namespace ExcelClone
     }
     public void ExecuteOpen()
     {
+      saveload = new ExcelClone.DataIO.DataIO();
       ActiveWS.Spreadsheet.EndEdit();
-      saveload = new ExcelClone.DataIO.DataIO(ActiveWS);
+      //saveload = new ExcelClone.DataIO.DataIO(ActiveWS);
       //saveload.AddSpreadsheet(ActiveWS.Spreadsheet.SpreadsheetModel);
       List<SpreadsheetModel> lister = saveload.LoadBook();
-      ActiveWS.Spreadsheet.SpreadsheetModel = lister[0];
-      ActiveWS.Spreadsheet.RefreshView();
+      /**/
+      //Create sheets from lister
+      /**/
+      //ActiveWS.Spreadsheet.SpreadsheetModel = lister[0];
+      //ActiveWS.Spreadsheet.RefreshView();
     }
     public void ExecuteClose()
     {
     }
     public void ExecuteSave()
     {
+      saveload = new ExcelClone.DataIO.DataIO();
       ActiveWS.Spreadsheet.EndEdit();
-      saveload = new ExcelClone.DataIO.DataIO(ActiveWS);
+      //saveload = new ExcelClone.DataIO.DataIO(ActiveWS);
       saveload.AddSpreadsheet(ActiveWS.Spreadsheet.SpreadsheetModel);
       saveload.SaveBook(false);
     }
     public void ExecuteSaveAs()
     {
+      saveload = new ExcelClone.DataIO.DataIO();
       ActiveWS.Spreadsheet.EndEdit();
-      saveload = new ExcelClone.DataIO.DataIO(ActiveWS);
+      //saveload = new ExcelClone.DataIO.DataIO(ActiveWS);
       saveload.AddSpreadsheet(ActiveWS.Spreadsheet.SpreadsheetModel);
       saveload.SaveBook(true);
     }
