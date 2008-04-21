@@ -27,6 +27,7 @@ namespace ExcelClone.Gui
             SpreadsheetModel = new SpreadsheetModel(new CellCollection());            
             Dock = DockStyle.Fill;
             CellMouseDoubleClick += new DataGridViewCellMouseEventHandler(SpreadsheetView_CellMouseDoubleClick);
+            CellMouseClick += new DataGridViewCellMouseEventHandler(SpreadsheetView_CellMouseClick);
             RowHeaderMouseClick += new DataGridViewCellMouseEventHandler(SpreadsheetView_RowHeaderMouseClick);
             KeyDown += new KeyEventHandler(SpreadsheetView_KeyDown);
             ParentChanged += delegate
@@ -52,6 +53,11 @@ namespace ExcelClone.Gui
 
             this.DefaultCellStyle.Font = new Font("Times", 12);
 
+        }
+
+        void SpreadsheetView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            throw new Exception("The method or operation is not implemented.");
         }
 
         void SpreadsheetView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
