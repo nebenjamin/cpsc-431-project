@@ -86,6 +86,32 @@ namespace ExcelClone.Core
             }
         }
 
+        private Int32 _cellWidth;
+        public Int32 CellWidth
+        {
+            get
+            {
+                return _cellWidth;
+            }
+            set
+            {
+                _cellWidth = value;
+            }
+        }
+
+        private Int32 _cellHeight;
+        public Int32 CellHeight
+        {
+            get
+            {
+                return _cellHeight;
+            }
+            set
+            {
+                _cellHeight = value;
+            }
+        }
+
         public string serialize()
         {
             /*IF YOU CHANGE THIS, you MUST change the order of the settings
