@@ -167,5 +167,10 @@ namespace ExcelClone.Gui
                 Controller.Instance.ExecuteCommand(sender, new FontEventArgs(null, size), CommandType.ChangeFont);
             }
         }
+
+        private void ExecuteDeleteActiveWS(object sender, EventArgs e)
+        {
+            Controller.Instance.ExecuteCommand(sender, e, CommandType.DeleteActiveWS);
+        }
     }
 }
