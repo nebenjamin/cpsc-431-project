@@ -57,7 +57,22 @@ namespace ExcelClone.Gui
 
         void SpreadsheetView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            //throw new Exception("The method or operation is not implemented.");
+            int row = e.RowIndex;
+            int col = e.ColumnIndex;
+
+            SpreadsheetModel model = spreadsheetModel;
+
+            Cell cell = model.Cells[row, col];
+            
+            if (cell == null)
+            {
+                cell = new Cell();
+                model.Cells[row, col] = cell;
+            }
+
+            Controller.Instance.MainForm.FontSizeSelectionBox.SelectedIndex = (int)cell.CellFormat.CellFont.Size;
+            int i = Controller.Instance.MainForm.FontSelectionBox.Items.IndexOf(cell.CellFormat.CellFont.Name);
+            Controller.Instance.MainForm.FontSelectionBox.SelectedIndex = i;
         }
 
         void SpreadsheetView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
