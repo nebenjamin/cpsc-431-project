@@ -104,7 +104,7 @@ namespace ExcelClone.Gui
 
             string cellPos = "";
             cellPos += cellCol;
-            cellPos += row;
+            cellPos += (row+1);
 
             SpreadsheetModel model = spreadsheetModel;
 
