@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace ExcelClone.Core
 {
-    public class Cell : ICell
+    public class Cell : ICell, ICloneable
     {
         public Cell(string formula, CellFormat cellFormat)
         {
@@ -30,16 +30,7 @@ namespace ExcelClone.Core
             : this(null, cellFormat) { }
 
         public Cell() {
-            CellFormat = new CellFormat(new Font("Verdana", 10), Color.Black, Color.White);
-            Console.WriteLine("new Cell " + CellFormat.serialize());
-            CellFormat c = cellFormat;
-            Console.WriteLine(c.CellFont.FontFamily.Name + " " + c.CellFont.Size + " "
-                + c.CellColor + " " + c.TextColor + " " + c.CellFont.Bold + " " + c.CellFont.Italic + " " + c.CellFont.Underline);
-            c = CellFormatFactory.createCellFormat(cellFormat.serialize());
-            Console.WriteLine(c.CellFont.FontFamily.Name + " " + c.CellFont.Size + " "
-                + c.CellColor + " " +c.TextColor + " " +c.CellFont.Bold + " " + c.CellFont.Italic + " "+c.CellFont.Underline);
-            Console.WriteLine("equal? " + c.Equals(CellFormat));
-
+            CellFormat = new CellFormat(new Font("Times", 12), Color.Black, Color.White);
         }
 
         #region ICell Members

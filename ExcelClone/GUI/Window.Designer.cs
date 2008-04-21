@@ -63,15 +63,15 @@ namespace ExcelClone.Gui
             this.cutToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.pasteToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripComboBox2 = new System.Windows.Forms.ToolStripComboBox();
+            this.fontSelectionBox = new System.Windows.Forms.ToolStripComboBox();
+            this.fontSizeSelectionBox = new System.Windows.Forms.ToolStripComboBox();
             this.increaseFont = new System.Windows.Forms.ToolStripButton();
             this.decreaseFont = new System.Windows.Forms.ToolStripButton();
             this.bold = new System.Windows.Forms.ToolStripButton();
             this.italic = new System.Windows.Forms.ToolStripButton();
             this.underline = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton10 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton11 = new System.Windows.Forms.ToolStripButton();
+            this.selectCellColorbtn = new System.Windows.Forms.ToolStripButton();
+            this.selectTextColorbtn = new System.Windows.Forms.ToolStripButton();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,7 +83,6 @@ namespace ExcelClone.Gui
             this.menuStrip1.SuspendLayout();
             this.TextColor.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -292,15 +291,15 @@ namespace ExcelClone.Gui
             this.cutToolStripButton,
             this.pasteToolStripButton,
             this.toolStripSeparator3,
-            this.toolStripComboBox1,
-            this.toolStripComboBox2,
+            this.fontSelectionBox,
+            this.fontSizeSelectionBox,
             this.increaseFont,
             this.decreaseFont,
             this.bold,
             this.italic,
             this.underline,
-            this.toolStripButton10,
-            this.toolStripButton11});
+            this.selectCellColorbtn,
+            this.selectTextColorbtn});
             this.TextColor.Location = new System.Drawing.Point(0, 24);
             this.TextColor.Name = "TextColor";
             this.TextColor.Size = new System.Drawing.Size(615, 25);
@@ -373,15 +372,17 @@ namespace ExcelClone.Gui
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripComboBox1
+            // fontSelectionBox
             // 
-            this.toolStripComboBox1.Name = "toolStripComboBox1";
-            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 25);
+            this.fontSelectionBox.Name = "fontSelectionBox";
+            this.fontSelectionBox.Size = new System.Drawing.Size(121, 25);
+            this.fontSelectionBox.SelectedIndexChanged += new System.EventHandler(this.fontSelectionBox_SelectedIndexChanged);
             // 
-            // toolStripComboBox2
+            // fontSizeSelectionBox
             // 
-            this.toolStripComboBox2.Name = "toolStripComboBox2";
-            this.toolStripComboBox2.Size = new System.Drawing.Size(75, 25);
+            this.fontSizeSelectionBox.Name = "fontSizeSelectionBox";
+            this.fontSizeSelectionBox.Size = new System.Drawing.Size(75, 25);
+            this.fontSizeSelectionBox.SelectedIndexChanged += new System.EventHandler(this.fontSizeSelectionBox_SelectedIndexChanged);
             // 
             // increaseFont
             // 
@@ -433,23 +434,25 @@ namespace ExcelClone.Gui
             this.underline.Text = "toolStripButton12";
             this.underline.Click += new System.EventHandler(this.underline_Click);
             // 
-            // toolStripButton10
+            // selectCellColorbtn
             // 
-            this.toolStripButton10.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton10.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton10.Image")));
-            this.toolStripButton10.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton10.Name = "toolStripButton10";
-            this.toolStripButton10.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton10.Text = "toolStripButton10";
+            this.selectCellColorbtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.selectCellColorbtn.Image = ((System.Drawing.Image)(resources.GetObject("selectCellColorbtn.Image")));
+            this.selectCellColorbtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.selectCellColorbtn.Name = "selectCellColorbtn";
+            this.selectCellColorbtn.Size = new System.Drawing.Size(23, 22);
+            this.selectCellColorbtn.Text = "toolStripButton10";
+            this.selectCellColorbtn.Click += new System.EventHandler(this.selectCellColorbtn_Click);
             // 
-            // toolStripButton11
+            // selectTextColorbtn
             // 
-            this.toolStripButton11.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton11.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton11.Image")));
-            this.toolStripButton11.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton11.Name = "toolStripButton11";
-            this.toolStripButton11.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton11.Text = "toolStripButton11";
+            this.selectTextColorbtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.selectTextColorbtn.Image = ((System.Drawing.Image)(resources.GetObject("selectTextColorbtn.Image")));
+            this.selectTextColorbtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.selectTextColorbtn.Name = "selectTextColorbtn";
+            this.selectTextColorbtn.Size = new System.Drawing.Size(23, 22);
+            this.selectTextColorbtn.Text = "toolStripButton11";
+            this.selectTextColorbtn.Click += new System.EventHandler(this.selectTextColorbtn_Click);
             // 
             // contextMenuStrip1
             // 
@@ -537,7 +540,6 @@ namespace ExcelClone.Gui
             this.TextColor.ResumeLayout(false);
             this.TextColor.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -571,15 +573,15 @@ namespace ExcelClone.Gui
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
-        private System.Windows.Forms.ToolStripComboBox toolStripComboBox2;
+        private System.Windows.Forms.ToolStripComboBox fontSelectionBox;
+        private System.Windows.Forms.ToolStripComboBox fontSizeSelectionBox;
         private System.Windows.Forms.ToolStripButton increaseFont;
         private System.Windows.Forms.ToolStripButton decreaseFont;
         private System.Windows.Forms.ToolStripButton bold;
         private System.Windows.Forms.ToolStripButton italic;
         private System.Windows.Forms.ToolStripButton underline;
-        private System.Windows.Forms.ToolStripButton toolStripButton10;
-        private System.Windows.Forms.ToolStripButton toolStripButton11;
+        private System.Windows.Forms.ToolStripButton selectCellColorbtn;
+        private System.Windows.Forms.ToolStripButton selectTextColorbtn;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox2;
@@ -594,7 +596,7 @@ namespace ExcelClone.Gui
         private System.Windows.Forms.ToolStripMenuItem lineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scatterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pieToolStripMenuItem;
-        private System.Windows.Forms.TabControl tabControl1;
+      private System.Windows.Forms.TabControl tabControl1;
         
         public System.Windows.Forms.TabControl WorksheetsTabControl
         {

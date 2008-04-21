@@ -23,6 +23,10 @@ namespace ExcelClone
         Paste,
         Save,
         SaveAs,
-        FormatCells
+        FormatCells,
+        SelectTextColor,
+        SelectCellColor,
+        ChangeFont
+
     }
 }
