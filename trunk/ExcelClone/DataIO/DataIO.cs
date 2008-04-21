@@ -111,7 +111,7 @@ namespace ExcelClone.DataIO
 			return false;
 		}
 
-		public SpreadsheetModel LoadBook()
+		public List<SpreadsheetModel> LoadBook()
 		{
 			OpenFileDialog opener = new OpenFileDialog();
 			opener.AddExtension = true;
@@ -127,10 +127,11 @@ namespace ExcelClone.DataIO
 
 				if (ReadBook())
 				{
-					return book[0];
+					return book;
 				}
 			}
-			return new SpreadsheetModel(new CellCollection());
+      book = new List<SpreadsheetModel>();
+			return book;
 		}
 
 		private bool WriteBook()
@@ -236,7 +237,9 @@ namespace ExcelClone.DataIO
 				{
 					if (c is Graphs.GraphControl)  //try to serialize all graph controls
 					{
+            textWriter.WriteStartElement("graph");
 						((Graphs.GraphControl)c).WriteXml(textWriter);
+            textWriter.WriteEndElement();
 					}
 				}
 				textWriter.WriteEndElement();
@@ -269,7 +272,7 @@ namespace ExcelClone.DataIO
 			try
 			{
 				doc.Load(filename);
-
+        
 				XmlNodeList sheetList = doc.GetElementsByTagName("sheet");
 
 				// Traverse the List of Sheets
