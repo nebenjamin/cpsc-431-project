@@ -10,6 +10,7 @@ namespace ExcelClone
         Close,
         Copy,
         Cut,
+        DeleteActiveWS,
         Exit,
         InsertWorksheet,
         InsertBarGraph,

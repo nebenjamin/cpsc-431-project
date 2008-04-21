@@ -51,7 +51,7 @@ namespace ExcelClone
       set { parser = value; }
     }
     private SpreadsheetUserControl ActiveWS = null;
-      public SpreadsheetModel[] GetAllSpreadsheetModels()
+      public List<SpreadsheetModel> GetAllSpreadsheetModels()
       {
           System.Windows.Forms.TabControl.TabPageCollection pages = mainForm.WorksheetsTabControl.TabPages;
           List<SpreadsheetModel> spreadsheetModels = new List<SpreadsheetModel>();
@@ -59,12 +59,20 @@ namespace ExcelClone
           {
               spreadsheetModels.Add(((SpreadsheetUserControl)pages[i].Controls[0]).Spreadsheet.SpreadsheetModel);
           }
-          return spreadsheetModels.ToArray();
+          return spreadsheetModels;
       }
       public void ExecuteCommand(object sender, EventArgs e, CommandType command)
     {
-      if (command != CommandType.InsertWorksheet)
-        ActiveWS = (SpreadsheetUserControl)mainForm.WorksheetsTabControl.SelectedTab.Controls[0];
+        if (command != CommandType.InsertWorksheet)
+        {
+            try
+            {
+                ActiveWS = (SpreadsheetUserControl)mainForm.WorksheetsTabControl.SelectedTab.Controls[0];
+            }
+            catch (Exception exc)
+            {
+            }
+        }
       switch (command)
       {
         case CommandType.Exit:
@@ -118,10 +126,24 @@ namespace ExcelClone
         case CommandType.ChangeFont:
           ExecuteChangeFont((e as FontEventArgs));
           break;
+          case CommandType.DeleteActiveWS:
+              ExecuteDeleteActiveWS();
+              break;
         default:
           break;
       }
     }
+
+      private void ExecuteDeleteActiveWS()
+      {
+          TabPage activeTab = mainForm.WorksheetsTabControl.SelectedTab;
+          try
+          {
+              mainForm.WorksheetsTabControl.TabPages.Remove(activeTab);
+          }
+          catch (Exception e) { }
+          
+      }
 
     public void ExecuteNew()
     {
@@ -133,6 +155,11 @@ namespace ExcelClone
       //saveload = new ExcelClone.DataIO.DataIO(ActiveWS);
       //saveload.AddSpreadsheet(ActiveWS.Spreadsheet.SpreadsheetModel);
       List<SpreadsheetModel> lister = saveload.LoadBook();
+      mainForm.WorksheetsTabControl.TabPages.Clear();
+      foreach (SpreadsheetModel sm in lister)
+      {
+          ExecuteInsertWorksheet(sm);
+      }
       /**/
       //Create sheets from lister
       /**/
@@ -514,7 +541,32 @@ namespace ExcelClone
           (MainForm.WorksheetsTabControl.Controls.Count + 1);
       ws.Size = newWSPage.Size;
       newWSPage.Controls.Add(ws);
+      ws.Spreadsheet.RefreshView();
     }
+      public void ExecuteInsertWorksheet(SpreadsheetModel spreadsheetModel)
+      {
+          System.Windows.Forms.TabPage newWSPage = new TabPage("Worksheet " +
+              (MainForm.WorksheetsTabControl.Controls.Count + 1));
+
+          MainForm.WorksheetsTabControl.Controls.Add(newWSPage);
+          newWSPage.Location = new System.Drawing.Point(4, 22);
+          newWSPage.Padding = new System.Windows.Forms.Padding(3);
+          newWSPage.Size = mainForm.Size;
+          newWSPage.TabIndex = 0;
+          newWSPage.UseVisualStyleBackColor = true;
+          SpreadsheetUserControl ws = new SpreadsheetUserControl();
+          ws.Spreadsheet.SpreadsheetModel = spreadsheetModel;
+          ws.Spreadsheet.KeyDown += new KeyEventHandler(SpreadsheetView_KeyDown);
+          ws.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                      | System.Windows.Forms.AnchorStyles.Left)
+                      | System.Windows.Forms.AnchorStyles.Right)));
+          ws.Location = new System.Drawing.Point(0, 0);
+          ws.Name = "spreadsheetUserControl" +
+              (MainForm.WorksheetsTabControl.Controls.Count + 1);
+          ws.Size = newWSPage.Size;
+          newWSPage.Controls.Add(ws);
+          ws.Spreadsheet.RefreshView();
+      }
     public void ExecuteInsertFunction(object sender, EventArgs e)
     {
     }
