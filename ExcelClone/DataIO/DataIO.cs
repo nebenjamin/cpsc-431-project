@@ -146,89 +146,92 @@ namespace ExcelClone.DataIO
 			{
 				textWriter.WriteStartElement(filename.Substring(filename.LastIndexOf("\\") + 1,
 																		 filename.LastIndexOf(".") - filename.LastIndexOf("\\") - 1));
-				textWriter.WriteStartElement("sheet");
 
-				int bookRows = book[0].Cells.Rows;
-				int bookColumns = book[0].Cells.Columns;
+                for (int bookIndex = 0; bookIndex < book.Count; bookIndex++)
+                {
+                    textWriter.WriteStartElement("sheet");
+                    textWriter.WriteAttributeString("index", bookIndex.ToString());
 
-				//SpreadsheetView sv = SpreadsheetView.Instance;
+                    int bookRows = book[bookIndex].Cells.Rows;
+                    int bookColumns = book[bookIndex].Cells.Columns;
 
-				for (int column = 0; column < bookColumns; column++)
-				{
-					textWriter.WriteStartElement("column");
-					textWriter.WriteAttributeString("index", column.ToString());
-					//textWriter.WriteAttributeString("width", sv[column, 0].Size.Width.ToString());
-					//sv[0,0].Size.Height;
-					for (int row = 0; row < bookRows; row++)
-					{
-						theCell = book[0].Cells[row, column];
+                    for (int column = 0; column < bookColumns; column++)
+                    {
+                        textWriter.WriteStartElement("column");
+                        textWriter.WriteAttributeString("index", column.ToString());
+                        //textWriter.WriteAttributeString("width", sv[column, 0].Size.Width.ToString());
+                        //sv[0,0].Size.Height;
+                        for (int row = 0; row < bookRows; row++)
+                        {
+                            theCell = book[bookIndex].Cells[row, column];
 
 
 
-						/*IS CELL DEFAULT CHECK*/
-						blank = false;
-						if (theCell == null || theCell.Value == null) { blank = true; }
-						else if (theCell.Value.Equals("")) { blank = true; }
-						/*CELL FORMAT needs to be instantiated*/
-						//if (theCell.CellFormat.IsDefault == false) { blank = true; }
+                            /*IS CELL DEFAULT CHECK*/
+                            blank = false;
+                            if (theCell == null || theCell.Value == null) { blank = true; }
+                            else if (theCell.Value.Equals("")) { blank = true; }
+                            /*CELL FORMAT needs to be instantiated*/
+                            //if (theCell.CellFormat.IsDefault == false) { blank = true; }
 
-						if (blank == true)
-						{//skip writing the row, go on to the next cell.
-						}
-						else
-						{
-							textWriter.WriteStartElement("row");
-							textWriter.WriteAttributeString("index", row.ToString());
-							//textWriter.WriteAttributeString("height", sv[0, row].Size.Height.ToString());
+                            if (blank == true)
+                            {//skip writing the row, go on to the next cell.
+                            }
+                            else
+                            {
+                                textWriter.WriteStartElement("row");
+                                textWriter.WriteAttributeString("index", row.ToString());
+                                //textWriter.WriteAttributeString("height", sv[0, row].Size.Height.ToString());
 
-							if (theCell != null)
-							{
-								/*CONTENT TYPE CHECK*/
-								textWriter.WriteStartElement("content");
-								if (theCell.Formula.Contains("="))
-								{
-									textWriter.WriteAttributeString("type", "Formula");
-								}
-								else
-								{
-									try
-									{
-										tempDouble = double.Parse(theCell.Value);
-										textWriter.WriteAttributeString("type", "Number");
-									}
-									catch (System.FormatException e)
-									{
-										textWriter.WriteAttributeString("type", "Text");
-									}
-								}
+                                if (theCell != null)
+                                {
+                                    /*CONTENT TYPE CHECK*/
+                                    textWriter.WriteStartElement("content");
+                                    if (theCell.Formula.Contains("="))
+                                    {
+                                        textWriter.WriteAttributeString("type", "Formula");
+                                    }
+                                    else
+                                    {
+                                        try
+                                        {
+                                            tempDouble = double.Parse(theCell.Value);
+                                            textWriter.WriteAttributeString("type", "Number");
+                                        }
+                                        catch (System.FormatException e)
+                                        {
+                                            textWriter.WriteAttributeString("type", "Text");
+                                        }
+                                    }
 
-								textWriter.WriteAttributeString("CellFormat", theCell.CellFormat.serialize());
+                                    textWriter.WriteAttributeString("CellFormat", theCell.CellFormat.serialize());
 
-								//FORMULA CHECK
-								if (theCell.Formula.Equals("") || theCell.Formula.Equals(null))
-								{ } //ignore
-								else
-								{
-									textWriter.WriteElementString("Formula", theCell.Formula.ToString());
-								}
-								//VALUE CHECK
-								if (theCell.Value.Equals("") || theCell.Value.Equals(null))
-								{ } //ignore
-								else
-								{
-									textWriter.WriteElementString("Value", theCell.Value.ToString());
-								}
-								textWriter.WriteEndElement();//end of content type element?
-							}//end of theCell != null if
-							/*****Where do all these other write elements correspond to?*/
+                                    //FORMULA CHECK
+                                    if (theCell.Formula.Equals("") || theCell.Formula.Equals(null))
+                                    { } //ignore
+                                    else
+                                    {
+                                        textWriter.WriteElementString("Formula", theCell.Formula.ToString());
+                                    }
+                                    //VALUE CHECK
+                                    if (theCell.Value.Equals("") || theCell.Value.Equals(null))
+                                    { } //ignore
+                                    else
+                                    {
+                                        textWriter.WriteElementString("Value", theCell.Value.ToString());
+                                    }
+                                    textWriter.WriteEndElement();//end of content type element?
+                                }//end of theCell != null if
+                                /*****Where do all these other write elements correspond to?*/
 
-							textWriter.WriteEndElement();
-						}//end of blank cell check if/else
+                                textWriter.WriteEndElement();
+                            }//end of blank cell check if/else
 
-					}//end of row loop
-					textWriter.WriteEndElement();
-				}//end of column loop
-				textWriter.WriteEndElement();
+                        }//end of row loop
+                        textWriter.WriteEndElement();
+                    }//end of column loop
+                    textWriter.WriteEndElement();
+                }
 
 				//NATHAN SULLIVAN:  Test code for graphs
 				foreach (Control c in Controller.Instance.MainForm.Controls)
