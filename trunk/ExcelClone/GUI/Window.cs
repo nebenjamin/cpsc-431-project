@@ -19,7 +19,7 @@ namespace ExcelClone.Gui
             ExecuteInsertWorksheet(null, null);
             foreach (FontFamily f in FontFamily.Families)
                 this.fontSelectionBox.Items.Add(f.Name);
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 300; i++)
             {
                 this.fontSizeSelectionBox.Items.Add(""+i);
             }

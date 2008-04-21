@@ -11,5 +11,7 @@ namespace ExcelClone.Core
         Color TextColor { get; set; }
         Color CellColor { get; set; }
         Boolean IsDefault { get; set;}
+        Int32 CellWidth { get;set;}
+        Int32 CellHeight { get;set;}
     }
 }

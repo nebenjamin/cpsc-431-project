@@ -95,7 +95,7 @@ namespace ExcelClone.Gui
                 cell = new Cell();
                 model.Cells[row, col] = cell;
             }
-
+            //this.Columns[col].Width = 80;
             this.Rows[row].Cells[col].Value = cell.Formula;
         }
 
@@ -171,6 +171,7 @@ namespace ExcelClone.Gui
                     this[key.C, key.R].Style.Font = spreadsheetModel.Cells[key].CellFormat.CellFont;
                     this[key.C, key.R].Style.ForeColor = spreadsheetModel.Cells[key].CellFormat.TextColor;
                     this[key.C, key.R].Style.BackColor = spreadsheetModel.Cells[key].CellFormat.CellColor;
+                    Controller.Instance.MainForm.FontSizeSelectionBox.SelectedIndex = (int)spreadsheetModel.Cells[key].CellFormat.CellFont.Size;                
 
                 }
                 else
