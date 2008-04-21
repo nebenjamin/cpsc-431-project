@@ -199,6 +199,8 @@ namespace ExcelClone.Graphs
 
         public void ReadXml(XmlReader reader)  //For loading a saved graph
         {
+            //kill the savedgraph node
+            reader.Read();
             //First, figure out what kind of graph needs to be loaded by getting the type (bar, pie...)
             Type graphType = System.Type.GetType("ExcelClone.Graphs." + reader.Name, false, true);
 
@@ -208,7 +210,7 @@ namespace ExcelClone.Graphs
 
             reader.MoveToAttribute("Position");
             string tmp = reader.GetAttribute("Position");  //get pos value, parse
-            Regex rx = new Regex("[0-9]*");  //match numbers
+            Regex rx = new Regex("[0-9]+");  //match numbers
             Match mt = rx.Match(tmp);
             Point p = new Point( int.Parse( mt.ToString() ), int.Parse( mt.NextMatch().ToString() ) );
             this.Location = p;
@@ -225,6 +227,7 @@ namespace ExcelClone.Graphs
 
         public void WriteXml(XmlWriter writer)
         {
+            writer.WriteStartElement("SavedGraph");
             //Make a serializer for the graph type, and serialize it
             XmlSerializer xms = new XmlSerializer(gr.GetType());
             xms.Serialize(writer, gr);
@@ -237,6 +240,8 @@ namespace ExcelClone.Graphs
             writer.WriteStartAttribute("Size");
             writer.WriteValue(this.Size.ToString());
             writer.WriteEndAttribute();
+            writer.WriteEndElement();
+
             writer.WriteEndElement();
         }
 
