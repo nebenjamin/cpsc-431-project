@@ -59,6 +59,11 @@ namespace ExcelClone.Gui
         {
             int row = e.RowIndex;
             int col = e.ColumnIndex;
+            char cellCol = (char)('A' + col);
+
+            string cellPos = "";
+            cellPos += cellCol;
+            cellPos += row;
 
             SpreadsheetModel model = spreadsheetModel;
 
@@ -70,6 +75,8 @@ namespace ExcelClone.Gui
                 model.Cells[row, col] = cell;
             }
 
+            Controller.Instance.MainForm.SelectedCellBox.Text = cellPos;
+            Controller.Instance.MainForm.FormulaBox.Text = cell.Formula;
             Controller.Instance.MainForm.FontSizeSelectionBox.SelectedIndex = (int)cell.CellFormat.CellFont.Size;
             int i = Controller.Instance.MainForm.FontSelectionBox.Items.IndexOf(cell.CellFormat.CellFont.Name);
             Controller.Instance.MainForm.FontSelectionBox.SelectedIndex = i;
