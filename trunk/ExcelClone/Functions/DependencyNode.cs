@@ -30,6 +30,7 @@ namespace ExcelClone.Functions
             Dependents.AddRange(y);
 		}
 
+        //Change the Dependents list to the list y from the previous list.
         public void ChangeListTo(List<string> y) {          
             Dependents = y;
         }
@@ -47,6 +48,7 @@ namespace ExcelClone.Functions
             }
 		}
 
+        //Return the list of dependents
         public List<string> ReturnDependents() {
             return Dependents;
         }
