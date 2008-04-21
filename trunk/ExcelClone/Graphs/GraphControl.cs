@@ -109,7 +109,8 @@ namespace ExcelClone.Graphs
                     this.Size = new Size(150, this.Size.Height);
                 if (this.Size.Height < 150)
                     this.Size = new Size(this.Size.Width, 150);
-                this.Invalidate();
+                this.Refresh();
+                this.Parent.Refresh();
             }
             else
             {
