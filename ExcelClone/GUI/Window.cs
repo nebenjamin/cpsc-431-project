@@ -161,8 +161,11 @@ namespace ExcelClone.Gui
         private void fontSizeSelectionBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             ToolStripComboBox sizeBox = (sender as ToolStripComboBox);
-            float size = float.Parse((sizeBox.SelectedItem as string)) ;
-            Controller.Instance.ExecuteCommand(sender, new FontEventArgs(null, size), CommandType.ChangeFont);
+            if (sizeBox.SelectedItem != null)
+            {
+                float size = float.Parse((sizeBox.SelectedItem as string));
+                Controller.Instance.ExecuteCommand(sender, new FontEventArgs(null, size), CommandType.ChangeFont);
+            }
         }
     }
 }
