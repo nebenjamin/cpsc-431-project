@@ -57,7 +57,7 @@ namespace ExcelClone.Gui
 
         void SpreadsheetView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            throw new Exception("The method or operation is not implemented.");
+            //throw new Exception("The method or operation is not implemented.");
         }
 
         void SpreadsheetView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
