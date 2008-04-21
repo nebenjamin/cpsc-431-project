@@ -10,6 +10,7 @@ using System.IO;
 using System.Windows.Forms;
 using OpenTK.OpenGL;
 using OpenTK.OpenGL.Enums;
+using System.Text.RegularExpressions;
 
 namespace ExcelClone.Graphs
 {
@@ -103,6 +104,12 @@ namespace ExcelClone.Graphs
                 int deltaY = e.Y - initY;
 
                 this.Size = oldSize + new Size(deltaX, deltaY);
+
+                if (this.Size.Width < 50)  //check min size
+                    this.Size = new Size(50, this.Size.Height);
+                if (this.Size.Height < 50)
+                    this.Size = new Size(this.Size.Width, 50);
+                this.Invalidate();
             }
             else
             {
@@ -197,6 +204,19 @@ namespace ExcelClone.Graphs
             //Now, create an XMLserializer for that type and deserialize it into this control
             XmlSerializer xms = new XmlSerializer(graphType);
             gr = (Graph)xms.Deserialize(reader);
+
+            reader.MoveToAttribute("Position");
+            string tmp = reader.GetAttribute("Position");  //get pos value, parse
+            Regex rx = new Regex("[0-9]*");  //match numbers
+            Match mt = rx.Match(tmp);
+            Point p = new Point( int.Parse( mt.ToString() ), int.Parse( mt.NextMatch().ToString() ) );
+            this.Location = p;
+
+            tmp = reader.GetAttribute("Size");  //get size value, parse
+            mt = rx.Match(tmp);
+            Size sz = new Size(int.Parse( mt.ToString() ), int.Parse(mt.NextMatch().ToString()));
+            this.Size = sz;
+
 
             gr.InitFonts();  //init font and label objects, they cannot be saved
             gr.InitLabels();
