@@ -30,11 +30,19 @@ namespace ExcelClone.Functions
             Cell_String = Cell_String.ToUpper().Replace(" ", "");
 
             Base_Cell = Cell_String.Substring(0, Cell_String.IndexOf(':'));
+            {
+                ArrayList atemp = BreakReference(Base_Cell);
+                int r = (int)atemp[0];
+                int c = (int)atemp[1];
+                if (activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c] != null)
+                {
+                    activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].Error = false;
+                    activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].ErrorString = "";
+                }
+            }
             Base_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1);
             Cell_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1);
             //OutFile.WriteLine("---------- " + Base_Cell + ":" + Cell_String);
-            //Form1.Step("---------- " + Cell_String);
-
             //OutFile.WriteLine(Cell_String);
 
             ArrayList Send = new ArrayList();
@@ -84,6 +92,14 @@ namespace ExcelClone.Functions
                 //OutFile.WriteLine("ERROR - FORMATING ERROR");
                 //Form1.Step("ERROR: FORMATING ERROR");
                 //OutFile.Flush();
+                ArrayList atemp = BreakReference(Base_Cell);
+                int r = (int)atemp[0];
+                int c = (int)atemp[1];
+                if (activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c] != null)
+                {
+                    activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].Error = true;
+                    activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].ErrorString = "ERROR - FORMATING ERROR";
+                }
                 //ERROR: FORMATING ERROR
                 return Original_Cell_String;
             }
@@ -450,6 +466,14 @@ namespace ExcelClone.Functions
                     {
                         //OutFile.WriteLine("=ERROR - INCORRECT INPUT STRING (/,*)"); //ERROR: INCORRECT INPUT STRING
                         //Form1.Step("ERROR: INCORRECT INPUT STRING");
+                        ArrayList atemp = BreakReference(Base_Cell);
+                        int r = (int)atemp[0];
+                        int c = (int)atemp[1];
+                        if (activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c] != null)
+                        {
+                            activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].Error = true;
+                            activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].ErrorString = "ERROR - INCORRECT INPUT STRING  (/,*)";
+                        }
                         return Tokenize("=ERROR - INCORRECT INPUT STRING (/,*)");//return Tokenize(Base_String);
                     }
                 }
@@ -581,6 +605,14 @@ namespace ExcelClone.Functions
                     {
                         //OutFile.WriteLine("=ERROR - INCORRECT INPUT STRING  (+,-)"); //ERROR: INCORRECT INPUT STRING
                         //Form1.Step("ERROR: INCORRECT INPUT STRING");
+                        ArrayList atemp = BreakReference(Base_Cell);
+                        int r = (int)atemp[0];
+                        int c = (int)atemp[1];
+                        if (activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c] != null)
+                        {
+                            activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].Error = true;
+                            activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].ErrorString = "ERROR - INCORRECT INPUT STRING  (+,-)";
+                        }
                         return Tokenize("=ERROR - INCORRECT INPUT STRING  (+,-)");//return Tokenize(Base_String);
                     }
                 }
@@ -622,7 +654,17 @@ namespace ExcelClone.Functions
             { //CELL REFERENCE
                 for(int j=0; j<Parts.Count; j++)
                     if ((Base_Cell.CompareTo(Parts[j].ToString().ToUpper()) == 0) || (Parts[j].ToString().ToUpper().Contains("ERROR")))
+                    {
+                        ArrayList atemp = BreakReference(Base_Cell);
+                        int r = (int)atemp[0];
+                        int c = (int)atemp[1];
+                        if (activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c] != null)
+                        {
+                            activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].Error = true;
+                            activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].ErrorString = "ERROR - CIRCULAR REFERENCE";
+                        }
                         return Tokenize("=ERROR - CIRCULAR REFERENCE");
+                    }
 
                 for(int j=0; j<Parts.Count; j++) {
                     if(IsCellReference(Parts[j].ToString())) {
@@ -630,8 +672,11 @@ namespace ExcelClone.Functions
                         int r = (int)atemp[0];
                         int c = (int)atemp[1];
                         if (activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c] != null)
-                            if (!IsNumber(activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].Value))
-                                return Tokenize("=ERROR - POSSIBLE CIRCULAR REFERENCE"); ;
+                            if (activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].Error)
+                            {
+                                activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].ErrorString = "ERROR - POSSIBLE CIRCULAR REFERENCE";
+                                return Tokenize("=ERROR - POSSIBLE CIRCULAR REFERENCE");
+                            }
                     }
                 }
 

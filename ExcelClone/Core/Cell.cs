@@ -10,6 +10,7 @@ namespace ExcelClone.Core
     {
         public Cell(string formula, CellFormat cellFormat)
         {
+            Error = false;
             Formula = formula;
             CellFormat = cellFormat;
         }
@@ -20,6 +21,8 @@ namespace ExcelClone.Core
             cell.Formula = this.Formula;
             cell.valid = this.Valid;
             cell.Value = this.Value;
+            cell.Error = this.Error;
+            cell.ErrorString = this.ErrorString;
             return cell;
         }
 
@@ -49,6 +52,12 @@ namespace ExcelClone.Core
         ICellFormat ICell.CellFormat { get { return CellFormat; } }
 
         #endregion
+
+        private bool error;
+        public bool Error { get { return error; } set { error = value; } }
+
+        private string errorString;
+        public string ErrorString { get { return errorString; } set { errorString = value; } }
 
         private CellFormat cellFormat;
         public CellFormat CellFormat { get { return cellFormat; } set { cellFormat = value; } }
