@@ -203,6 +203,8 @@ namespace ExcelClone
           {
             c.Value = "";
             c.Formula = "";
+            c.Error = false;
+            c.ErrorString = "";
           }
         }
       }
