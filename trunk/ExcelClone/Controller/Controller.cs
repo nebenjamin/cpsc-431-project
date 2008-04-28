@@ -631,16 +631,19 @@ namespace ExcelClone
 
     public void ExecuteFormatCells(string action)
     {
-
+        FontStyle s = 0;
+        float sizeChange = 0;
+        Cell c;
 
       foreach (DataGridViewCell cell in ActiveWS.Spreadsheet.SelectedCells)
       {
-
-          FontStyle s = 0;
-          float sizeChange = 0;
+          sizeChange = 0;
+          s = 0;
+          c = null;
+          
         if (cell.RowIndex >= 0 && cell.ColumnIndex >= 0)
         {
-          Cell c = ActiveWS.Spreadsheet.SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex];
+          c = ActiveWS.Spreadsheet.SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex];
           if (c == null)
           {
             c = new Cell();
@@ -679,15 +682,18 @@ namespace ExcelClone
 
           if (c.CellFormat.CellFont.Size+sizeChange > 300 || c.CellFormat.CellFont.Size+sizeChange < 4)
               sizeChange = 0;
+          Console.WriteLine(c.CellFormat.CellFont.Size);
           c.CellFormat.CellFont = new Font(c.CellFormat.CellFont.Name,
                                            c.CellFormat.CellFont.Size + sizeChange,
                                            s);
 
+          Console.WriteLine(c.CellFormat.CellFont.Size);
 
 
         }
-        ActiveWS.Spreadsheet.RefreshCell(new CellKey(cell.RowIndex, cell.ColumnIndex));
+        //ActiveWS.Spreadsheet.RefreshCell(new CellKey(cell.RowIndex, cell.ColumnIndex));
       }
+      ActiveWS.Spreadsheet.RefreshView();
 
     }
 
