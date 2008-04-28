@@ -74,7 +74,7 @@ namespace ExcelClone.Graphs
                 gr.InitLabels();
 
                 //add to main form
-                Controller.Instance.MainForm.Controls.Add(gc);
+                Controller.Instance.MainForm.WorksheetsTabControl.SelectedTab.Controls.Add(gc);
                 gc.BringToFront();
 
                 return gr;
