@@ -185,12 +185,15 @@ namespace ExcelClone
       saveload.SetBook(GetAllSpreadsheetModels());
       ActiveWS.Spreadsheet.EndEdit();
       List<SpreadsheetModel> lister = saveload.LoadBook();
-      mainForm.WorksheetsTabControl.TabPages.Clear();
-      foreach (SpreadsheetModel sm in lister)
+      if (saveload.GetFilename() != null)
       {
-        ExecuteInsertWorksheet(sm);
+        mainForm.WorksheetsTabControl.TabPages.Clear();
+        foreach (SpreadsheetModel sm in lister)
+        {
+          ExecuteInsertWorksheet(sm);
+        }
+        saveload.ReadGraphs();
       }
-      saveload.ReadGraphs();
       /**/
       //Create sheets from lister
       /**/
@@ -203,12 +206,19 @@ namespace ExcelClone
     public void ExecuteSave()
     {
       saveload = new ExcelClone.DataIO.DataIO();
-      ActiveWS.Spreadsheet.EndEdit();
-      foreach (SpreadsheetModel s in GetAllSpreadsheetModels())
+      if (saveload.GetFilename() != null)
       {
+        ActiveWS.Spreadsheet.EndEdit();
+        foreach (SpreadsheetModel s in GetAllSpreadsheetModels())
+        {
           saveload.AddSpreadsheet(s);
+        }
+        saveload.SaveBook(false);
       }
-      saveload.SaveBook(false);
+      else
+      {
+        ExecuteSaveAs();
+      }
     }
     public void ExecuteSaveAs()
     {
