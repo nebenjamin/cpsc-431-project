@@ -37,6 +37,11 @@ namespace ExcelClone.DataIO
       return true;
     }
 
+    public string GetFilename()
+    {
+      return filename;
+    }
+
     public SpreadsheetModel GetSpreadsheet(int pagenumber)
     {
       if (book != null)
@@ -414,7 +419,6 @@ namespace ExcelClone.DataIO
     public bool ReadGraphs()
     {
       XmlDocument doc = new XmlDocument();
-      if(filename == null) return true;
       doc.Load(filename);
       System.Windows.Forms.TabControl.TabPageCollection tabs = Controller.Instance.GetMainTabPageCollection();
 
@@ -436,21 +440,8 @@ namespace ExcelClone.DataIO
             Graphs.GraphControl g = new ExcelClone.Graphs.GraphControl();
             g.ReadXml(textReader);
 
-            //Controller.Instance.MainForm.WorksheetsTabControl.SelectedTab.Controls.Add(gc);
-            //gc.BringToFront();
-
             tabs[i].Controls.Add(g);
             g.BringToFront();
-            tabs[i].Refresh();
-
-
-            //Controller.Instance.MainForm.Controls.Add(g);
-            //g.BringToFront();
-            /*foreach (Control c in tabs[i].Controls)
-            {
-              if (c is Graphs.GraphControl)
-                c.BringToFront();
-            }*/
           }
           catch (Exception e)
           {
