@@ -61,6 +61,10 @@ namespace ExcelClone
           }
           return spreadsheetModels;
       }
+      public System.Windows.Forms.TabControl.TabPageCollection GetMainTabPageCollection()
+      {
+          return mainForm.WorksheetsTabControl.TabPages;
+      }
       public void ExecuteCommand(object sender, EventArgs e, CommandType command)
     {
         if (command != CommandType.InsertWorksheet)
