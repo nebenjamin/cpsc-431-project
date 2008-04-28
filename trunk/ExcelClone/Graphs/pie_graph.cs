@@ -60,7 +60,7 @@ namespace ExcelClone.Graphs
                 gr.InitFonts();
                 gr.InitLabels();
 
-                Controller.Instance.MainForm.Controls.Add(gc);
+                Controller.Instance.MainForm.WorksheetsTabControl.SelectedTab.Controls.Add(gc);
                 gc.BringToFront();
 
                 return gr;

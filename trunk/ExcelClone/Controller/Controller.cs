@@ -57,8 +57,12 @@ namespace ExcelClone
           List<SpreadsheetModel> spreadsheetModels = new List<SpreadsheetModel>();
           for (int i = 0; i < pages.Count; i++)
           {
-              spreadsheetModels.Add(((SpreadsheetUserControl)pages[i].Controls[0]).Spreadsheet.SpreadsheetModel);
-          }
+            for (int j = 0; j < pages[i].Controls.Count; ++j)
+            {
+              if(pages[i].Controls[j] is SpreadsheetUserControl)
+                spreadsheetModels.Add(((SpreadsheetUserControl)pages[i].Controls[j]).Spreadsheet.SpreadsheetModel);
+            }
+          } 
           return spreadsheetModels;
       }
       public System.Windows.Forms.TabControl.TabPageCollection GetMainTabPageCollection()
@@ -178,15 +182,15 @@ namespace ExcelClone
     public void ExecuteOpen()
     {
       saveload = new ExcelClone.DataIO.DataIO();
+      saveload.SetBook(GetAllSpreadsheetModels());
       ActiveWS.Spreadsheet.EndEdit();
-      //saveload = new ExcelClone.DataIO.DataIO(ActiveWS);
-      //saveload.AddSpreadsheet(ActiveWS.Spreadsheet.SpreadsheetModel);
       List<SpreadsheetModel> lister = saveload.LoadBook();
       mainForm.WorksheetsTabControl.TabPages.Clear();
       foreach (SpreadsheetModel sm in lister)
       {
-          ExecuteInsertWorksheet(sm);
+        ExecuteInsertWorksheet(sm);
       }
+      saveload.ReadGraphs();
       /**/
       //Create sheets from lister
       /**/
