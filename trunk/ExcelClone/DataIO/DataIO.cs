@@ -363,7 +363,7 @@ namespace ExcelClone.DataIO
               textReader.Read();
               Graphs.GraphControl g = new ExcelClone.Graphs.GraphControl();
               g.ReadXml(textReader);
-              
+
               Controller.Instance.MainForm.Controls.Add(g);
               g.BringToFront();
             }
@@ -375,6 +375,7 @@ namespace ExcelClone.DataIO
 
 					// Add current CellCollection to book
 					book.Add(new SpreadsheetModel(cells));
+          ++i;
 				}
 			}
 			catch (Exception e)
