@@ -7,6 +7,7 @@ namespace ExcelClone
     public enum CommandType
     {
         About,
+        AssignFormula,
         Close,
         Copy,
         Cut,
@@ -28,6 +29,5 @@ namespace ExcelClone
         SelectTextColor,
         SelectCellColor,
         ChangeFont
-
     }
 }

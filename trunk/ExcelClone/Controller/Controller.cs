@@ -133,10 +133,33 @@ namespace ExcelClone
           case CommandType.DeleteActiveWS:
               ExecuteDeleteActiveWS();
               break;
+        case CommandType.AssignFormula:
+              ExecuteAssignFormula((TextBox)sender);
+              break;
         default:
           break;
       }
     }
+
+      private void ExecuteAssignFormula(TextBox formulaBox)
+      {
+          foreach (DataGridViewCell cell in ActiveWS.Spreadsheet.SelectedCells)
+          {
+              if (cell.RowIndex >= 0 && cell.ColumnIndex >= 0)
+              {
+                  Cell c = ActiveWS.Spreadsheet.SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex];
+                  if (c == null)
+                  {
+                      c = new Cell();
+                      ActiveWS.Spreadsheet.SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex] = c;
+                  }
+                  c.Formula = formulaBox.Text;
+                  SpreadsheetControl.Instance.CellChanged(new CellKey(cell.RowIndex, cell.ColumnIndex));
+              }
+              ActiveWS.Spreadsheet.RefreshCell(new CellKey(cell.RowIndex, cell.ColumnIndex));
+          }
+          ActiveWS.Spreadsheet.RefreshView();
+      }
 
       private void ExecuteDeleteActiveWS()
       {
