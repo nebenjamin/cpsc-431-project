@@ -105,6 +105,20 @@ namespace ExcelClone.Graphs
             InitLabels();
         }
 
+        public void InitColors()
+        {
+            LegendColors = new List<Color>();
+
+            LegendColors.Add(Color.CadetBlue);
+            LegendColors.Add(Color.BurlyWood);
+            LegendColors.Add(Color.OrangeRed);
+            LegendColors.Add(Color.Yellow);
+            LegendColors.Add(Color.Silver);
+            LegendColors.Add(Color.Purple);
+            LegendColors.Add(Color.SeaGreen);
+            LegendColors.Add(Color.MistyRose);
+        }
+
         public void InitFonts()
         {
             //Init Fonts to defaults

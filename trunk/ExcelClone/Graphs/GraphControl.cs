@@ -223,6 +223,7 @@ namespace ExcelClone.Graphs
 
             gr.InitFonts();  //init font and label objects, they cannot be saved
             gr.InitLabels();
+            gr.InitColors();
         }
 
         public void WriteXml(XmlWriter writer)
