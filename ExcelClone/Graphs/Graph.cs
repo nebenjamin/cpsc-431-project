@@ -68,8 +68,8 @@ namespace ExcelClone.Graphs
         protected TextHandle Title;  //Graph Title
         protected double TitleOffset;
 
-        protected List<Color> LegendColors = new List<Color>();  //Legend stuff- Colors, labels, label handles
-        protected List<String> LegendLabels = new List<string>();
+        public List<Color> LegendColors = new List<Color>();  //Legend stuff- Colors, labels, label handles
+        public List<String> LegendLabels = new List<string>();
         protected List<TextHandle> LegendTxtHandles = new List<TextHandle>();
         protected float LegendY;  //Legend Y location, for scaling purposes
 
@@ -423,6 +423,8 @@ namespace ExcelClone.Graphs
 
             return data;
         }
+
+
 
         public abstract void drawGraph(Rectangle r);
         public abstract void setMinMax();

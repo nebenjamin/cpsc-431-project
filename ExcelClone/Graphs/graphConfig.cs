@@ -38,7 +38,15 @@ namespace ExcelClone.Graphs
             }
 
             checkBox2.Checked = gr.LegendOn;
+
+            listBox2.DataSource = gr.LegendColors;
+            listBox1.DataSource = gr.LegendLabels;
+
+
+
+
         }
+
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -59,6 +67,27 @@ namespace ExcelClone.Graphs
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
             gr.LegendOn = checkBox2.Checked;
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+            gr.LegendLabels[listBox1.SelectedIndex] = textBox2.Text;
+
+            if (listBox1.SelectedIndex < gr.LegendLabels.Count-1)
+                listBox1.SelectedIndex++;
+
+            else if (listBox1.SelectedIndex == gr.LegendLabels.Count-1)
+                listBox1.SelectedIndex = 0;
+
+
+
+            listBox1.DataSource = null;
+            listBox1.DataSource = gr.LegendLabels;
+
+
+           
         }
     }
 }
