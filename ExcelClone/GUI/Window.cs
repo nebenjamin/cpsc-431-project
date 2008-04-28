@@ -172,5 +172,13 @@ namespace ExcelClone.Gui
         {
             Controller.Instance.ExecuteCommand(sender, e, CommandType.DeleteActiveWS);
         }
+
+        private void formulaBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Controller.Instance.ExecuteCommand(sender, e, CommandType.AssignFormula);
+            }
+        }
     }
 }
