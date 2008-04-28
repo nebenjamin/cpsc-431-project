@@ -691,9 +691,9 @@ namespace ExcelClone
 
 
         }
-        //ActiveWS.Spreadsheet.RefreshCell(new CellKey(cell.RowIndex, cell.ColumnIndex));
+        ActiveWS.Spreadsheet.RefreshCell(new CellKey(cell.RowIndex, cell.ColumnIndex));
       }
-      ActiveWS.Spreadsheet.RefreshView();
+      //ActiveWS.Spreadsheet.RefreshView();
 
     }
 
