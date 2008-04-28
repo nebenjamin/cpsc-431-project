@@ -382,7 +382,7 @@ namespace ExcelClone.Gui
             this.fontSizeSelectionBox.Name = "fontSizeSelectionBox";
             this.fontSizeSelectionBox.Size = new System.Drawing.Size(75, 25);
             this.fontSizeSelectionBox.ToolTipText = "Font Size";
-            this.fontSizeSelectionBox.SelectedIndexChanged += new System.EventHandler(this.fontSizeSelectionBox_SelectedIndexChanged);
+            this.fontSizeSelectionBox.DropDownClosed += new System.EventHandler(this.fontSizeSelectionBox_SelectedIndexChanged);
             // 
             // increaseFont
             // 
