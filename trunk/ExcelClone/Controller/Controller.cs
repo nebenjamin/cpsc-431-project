@@ -677,7 +677,8 @@ namespace ExcelClone
               break;
           }
 
-
+          if (c.CellFormat.CellFont.Size == 300 || c.CellFormat.CellFont.Size == 4)
+              sizeChange = 0;
           c.CellFormat.CellFont = new Font(c.CellFormat.CellFont.Name,
                                            c.CellFormat.CellFont.Size + sizeChange,
                                            s);

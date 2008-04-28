@@ -214,7 +214,7 @@ namespace ExcelClone.Gui
             // worksheetToolStripMenuItem
             // 
             this.worksheetToolStripMenuItem.Name = "worksheetToolStripMenuItem";
-            this.worksheetToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.worksheetToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.worksheetToolStripMenuItem.Text = "Worksheet";
             this.worksheetToolStripMenuItem.Click += new System.EventHandler(this.ExecuteInsertWorksheet);
             // 
@@ -227,7 +227,7 @@ namespace ExcelClone.Gui
             this.scatterToolStripMenuItem,
             this.pieToolStripMenuItem});
             this.chartToolStripMenuItem.Name = "chartToolStripMenuItem";
-            this.chartToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.chartToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.chartToolStripMenuItem.Text = "Graph";
             // 
             // barToolStripMenuItem
@@ -374,12 +374,14 @@ namespace ExcelClone.Gui
             // 
             this.fontSelectionBox.Name = "fontSelectionBox";
             this.fontSelectionBox.Size = new System.Drawing.Size(121, 25);
+            this.fontSelectionBox.ToolTipText = "Font Family";
             this.fontSelectionBox.SelectedIndexChanged += new System.EventHandler(this.fontSelectionBox_SelectedIndexChanged);
             // 
             // fontSizeSelectionBox
             // 
             this.fontSizeSelectionBox.Name = "fontSizeSelectionBox";
             this.fontSizeSelectionBox.Size = new System.Drawing.Size(75, 25);
+            this.fontSizeSelectionBox.ToolTipText = "Font Size";
             this.fontSizeSelectionBox.SelectedIndexChanged += new System.EventHandler(this.fontSizeSelectionBox_SelectedIndexChanged);
             // 
             // increaseFont
@@ -390,6 +392,7 @@ namespace ExcelClone.Gui
             this.increaseFont.Name = "increaseFont";
             this.increaseFont.Size = new System.Drawing.Size(23, 22);
             this.increaseFont.Text = "toolStripButton6";
+            this.increaseFont.ToolTipText = "Increase Font Size";
             this.increaseFont.Click += new System.EventHandler(this.increaseFont_Click);
             // 
             // decreaseFont
@@ -400,6 +403,7 @@ namespace ExcelClone.Gui
             this.decreaseFont.Name = "decreaseFont";
             this.decreaseFont.Size = new System.Drawing.Size(23, 22);
             this.decreaseFont.Text = "toolStripButton7";
+            this.decreaseFont.ToolTipText = "Decrease Font Size";
             this.decreaseFont.Click += new System.EventHandler(this.decreaseFont_Click);
             // 
             // bold
@@ -410,6 +414,7 @@ namespace ExcelClone.Gui
             this.bold.Name = "bold";
             this.bold.Size = new System.Drawing.Size(23, 22);
             this.bold.Text = "toolStripButton8";
+            this.bold.ToolTipText = "Bold";
             this.bold.Click += new System.EventHandler(this.bold_Click);
             // 
             // italic
@@ -420,6 +425,7 @@ namespace ExcelClone.Gui
             this.italic.Name = "italic";
             this.italic.Size = new System.Drawing.Size(23, 22);
             this.italic.Text = "toolStripButton9";
+            this.italic.ToolTipText = "Italic";
             this.italic.Click += new System.EventHandler(this.italic_Click);
             // 
             // underline
@@ -430,6 +436,7 @@ namespace ExcelClone.Gui
             this.underline.Name = "underline";
             this.underline.Size = new System.Drawing.Size(23, 22);
             this.underline.Text = "toolStripButton12";
+            this.underline.ToolTipText = "Underline";
             this.underline.Click += new System.EventHandler(this.underline_Click);
             // 
             // selectCellColorbtn
@@ -440,6 +447,7 @@ namespace ExcelClone.Gui
             this.selectCellColorbtn.Name = "selectCellColorbtn";
             this.selectCellColorbtn.Size = new System.Drawing.Size(23, 22);
             this.selectCellColorbtn.Text = "toolStripButton10";
+            this.selectCellColorbtn.ToolTipText = "Change Cell Color";
             this.selectCellColorbtn.Click += new System.EventHandler(this.selectCellColorbtn_Click);
             // 
             // selectTextColorbtn
@@ -450,6 +458,7 @@ namespace ExcelClone.Gui
             this.selectTextColorbtn.Name = "selectTextColorbtn";
             this.selectTextColorbtn.Size = new System.Drawing.Size(23, 22);
             this.selectTextColorbtn.Text = "toolStripButton11";
+            this.selectTextColorbtn.ToolTipText = "Change Text Color";
             this.selectTextColorbtn.Click += new System.EventHandler(this.selectTextColorbtn_Click);
             // 
             // contextMenuStrip1
