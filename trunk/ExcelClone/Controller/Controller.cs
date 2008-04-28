@@ -631,13 +631,13 @@ namespace ExcelClone
 
     public void ExecuteFormatCells(string action)
     {
-      FontStyle s = 0;
-      float sizeChange = 0;
 
 
       foreach (DataGridViewCell cell in ActiveWS.Spreadsheet.SelectedCells)
       {
-        Console.WriteLine("here");
+
+          FontStyle s = 0;
+          float sizeChange = 0;
         if (cell.RowIndex >= 0 && cell.ColumnIndex >= 0)
         {
           Cell c = ActiveWS.Spreadsheet.SpreadsheetModel.Cells[cell.RowIndex, cell.ColumnIndex];
@@ -677,7 +677,7 @@ namespace ExcelClone
               break;
           }
 
-          if (c.CellFormat.CellFont.Size == 300 || c.CellFormat.CellFont.Size == 4)
+          if (c.CellFormat.CellFont.Size >= 300 || c.CellFormat.CellFont.Size <= 4)
               sizeChange = 0;
           c.CellFormat.CellFont = new Font(c.CellFormat.CellFont.Name,
                                            c.CellFormat.CellFont.Size + sizeChange,
