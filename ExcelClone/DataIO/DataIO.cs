@@ -418,19 +418,20 @@ namespace ExcelClone.DataIO
 
     public bool ReadGraphs()
     {
+      int i = 0;
       XmlDocument doc = new XmlDocument();
       doc.Load(filename);
       System.Windows.Forms.TabControl.TabPageCollection tabs = Controller.Instance.GetMainTabPageCollection();
-
+      
       XmlNodeList sheetList = doc.GetElementsByTagName("sheet");
 
       // Traverse the List of Sheets
       foreach (XmlNode sheet in sheetList)
       {
-        XmlNodeList graphs = doc.GetElementsByTagName("graph");
+        XmlElement sheetElement = (XmlElement)sheet;
+        XmlNodeList graphs = sheetElement.GetElementsByTagName("graph");
         XmlTextReader textReader;
-
-        int i = 0;
+       
         foreach (XmlNode graph in graphs)
         {
           try
