@@ -32,6 +32,7 @@ namespace ExcelClone.Gui
             RowHeightChanged += new DataGridViewRowEventHandler(SpreadsheetView_RowHeightChanged);
             ColumnWidthChanged += new DataGridViewColumnEventHandler(SpreadsheetView_ColumnWidthChanged);
             KeyDown += new KeyEventHandler(SpreadsheetView_KeyDown);
+            CellValueChanged += new DataGridViewCellEventHandler(SpreadsheetView_CellValueChanged);
             ParentChanged += delegate
             {
                 Columns.Clear();
@@ -55,6 +56,13 @@ namespace ExcelClone.Gui
 
             this.DefaultCellStyle.Font = new Font("Times", 12);
 
+        }
+
+        void SpreadsheetView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            Console.WriteLine("being called");
+           // SpreadsheetView_CellEndEdit(sender, e);
+            
         }
 
         void SpreadsheetView_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
@@ -152,7 +160,8 @@ namespace ExcelClone.Gui
             Console.WriteLine("called");
             int row = e.RowIndex;
             int col = e.ColumnIndex;
-            
+            if (row < 0 || col < 0)
+                return;
             SpreadsheetModel model = spreadsheetModel;
 
             Cell cell = model.Cells[row, col];
@@ -164,10 +173,15 @@ namespace ExcelClone.Gui
             }
 
 
-            cell.Formula = this.Rows[row].Cells[col].Value + "";
-            SpreadsheetControl.Instance.CellChanged(new CellKey(row, col));
-            //cell.Value = Controller.Instance.Parser.Parse(MakeColumnLabel(col) + row + ":" + cell.Formula);
-            this.Rows[row].Cells[col].Value = model.Cells[row, col].Value;
+            //if (this.Rows != null || this.Rows[row] != null || this.Rows[row].Cells != null || this.Rows[row].Cells[col] != null || this.Rows[row].Cells[col].Value != null)
+            
+            
+
+                cell.Formula = this.Rows[row].Cells[col].Value + "";
+                SpreadsheetControl.Instance.CellChanged(new CellKey(row, col));
+                //cell.Value = Controller.Instance.Parser.Parse(MakeColumnLabel(col) + row + ":" + cell.Formula);
+                this.Rows[row].Cells[col].Value = model.Cells[row, col].Value;
+            
 
         }
             
@@ -192,7 +206,14 @@ namespace ExcelClone.Gui
                         {
                             c.Value = "";
                             c.Formula = "";
+                            c.Error = false;
+                            c.ErrorString = "";
+                            
+                            
+
+                            
                         }
+                        
                     }
                 }
         }
