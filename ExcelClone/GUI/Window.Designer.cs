@@ -34,7 +34,6 @@ namespace ExcelClone.Gui
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.closeMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,6 +43,8 @@ namespace ExcelClone.Gui
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.deleteWorksheetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.worksheetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,7 +53,6 @@ namespace ExcelClone.Gui
             this.lineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scatterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.functionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutExcelCloneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -79,9 +79,7 @@ namespace ExcelClone.Gui
             this.selectedCellBox = new System.Windows.Forms.TextBox();
             this.formulaBox = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.label1 = new System.Windows.Forms.Label();
-            this.deleteWorksheetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -105,7 +103,6 @@ namespace ExcelClone.Gui
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
-            this.closeMenuItem1,
             this.toolStripSeparator1,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
@@ -128,13 +125,6 @@ namespace ExcelClone.Gui
             this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.ExecuteOpen);
-            // 
-            // closeMenuItem1
-            // 
-            this.closeMenuItem1.Name = "closeMenuItem1";
-            this.closeMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.closeMenuItem1.Text = "Close";
-            this.closeMenuItem1.Click += new System.EventHandler(this.ExecuteClose);
             // 
             // toolStripSeparator1
             // 
@@ -200,12 +190,23 @@ namespace ExcelClone.Gui
             this.pasteToolStripMenuItem.Text = "Paste";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.ExecutePaste);
             // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(190, 6);
+            // 
+            // deleteWorksheetToolStripMenuItem
+            // 
+            this.deleteWorksheetToolStripMenuItem.Name = "deleteWorksheetToolStripMenuItem";
+            this.deleteWorksheetToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.deleteWorksheetToolStripMenuItem.Text = "Delete Active Worksheet";
+            this.deleteWorksheetToolStripMenuItem.Click += new System.EventHandler(this.ExecuteDeleteActiveWS);
+            // 
             // insertToolStripMenuItem
             // 
             this.insertToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.worksheetToolStripMenuItem,
-            this.chartToolStripMenuItem,
-            this.functionToolStripMenuItem});
+            this.chartToolStripMenuItem});
             this.insertToolStripMenuItem.Name = "insertToolStripMenuItem";
             this.insertToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.insertToolStripMenuItem.Text = "Insert";
@@ -263,13 +264,6 @@ namespace ExcelClone.Gui
             this.pieToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.pieToolStripMenuItem.Text = "Pie";
             this.pieToolStripMenuItem.Click += new System.EventHandler(this.ExecuteInsertPieGraph);
-            // 
-            // functionToolStripMenuItem
-            // 
-            this.functionToolStripMenuItem.Name = "functionToolStripMenuItem";
-            this.functionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.functionToolStripMenuItem.Text = "Function";
-            this.functionToolStripMenuItem.Click += new System.EventHandler(this.ExecuteInsertFunction);
             // 
             // helpToolStripMenuItem
             // 
@@ -495,12 +489,12 @@ namespace ExcelClone.Gui
             this.selectedCellBox.Size = new System.Drawing.Size(100, 20);
             this.selectedCellBox.TabIndex = 2;
             // 
-            // functionBox
+            // formulaBox
             // 
             this.formulaBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.formulaBox.Location = new System.Drawing.Point(130, 53);
-            this.formulaBox.Name = "functionBox";
+            this.formulaBox.Name = "formulaBox";
             this.formulaBox.Size = new System.Drawing.Size(485, 20);
             this.formulaBox.TabIndex = 4;
             // 
@@ -514,18 +508,6 @@ namespace ExcelClone.Gui
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(615, 311);
             this.tabControl1.TabIndex = 5;
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(190, 6);
-            // 
-            // deleteWorksheetToolStripMenuItem
-            // 
-            this.deleteWorksheetToolStripMenuItem.Name = "deleteWorksheetToolStripMenuItem";
-            this.deleteWorksheetToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.deleteWorksheetToolStripMenuItem.Text = "Delete Active Worksheet";
-            this.deleteWorksheetToolStripMenuItem.Click += new System.EventHandler(this.ExecuteDeleteActiveWS);
             // 
             // label1
             // 
@@ -568,7 +550,6 @@ namespace ExcelClone.Gui
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem closeMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
@@ -581,7 +562,6 @@ namespace ExcelClone.Gui
         private System.Windows.Forms.ToolStripMenuItem insertToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem worksheetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem chartToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem functionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutExcelCloneToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cutToolStripMenuItem1;
