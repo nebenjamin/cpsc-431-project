@@ -230,19 +230,18 @@ namespace ExcelClone.DataIO
                         }//end of row loop
                         textWriter.WriteEndElement();
                     }//end of column loop
+                    //NATHAN SULLIVAN:  Test code for graphs
+                    foreach (Control c in Controller.Instance.MainForm.Controls)
+                    {
+                      if (c is Graphs.GraphControl)  //try to serialize all graph controls
+                      {
+                        textWriter.WriteStartElement("graph");
+                        ((Graphs.GraphControl)c).WriteXml(textWriter);
+                        textWriter.WriteEndElement();
+                      }
+                    }
                     textWriter.WriteEndElement();
-                }
-
-				//NATHAN SULLIVAN:  Test code for graphs
-				foreach (Control c in Controller.Instance.MainForm.Controls)
-				{
-					if (c is Graphs.GraphControl)  //try to serialize all graph controls
-					{
-            textWriter.WriteStartElement("graph");
-						((Graphs.GraphControl)c).WriteXml(textWriter);
-            textWriter.WriteEndElement();
-					}
-				}
+                }				
 				textWriter.WriteEndElement();
 				textWriter.Flush();
 			}
@@ -364,7 +363,9 @@ namespace ExcelClone.DataIO
               textReader.Read();
               Graphs.GraphControl g = new ExcelClone.Graphs.GraphControl();
               g.ReadXml(textReader);
+              
               Controller.Instance.MainForm.Controls.Add(g);
+              g.BringToFront();
             }
             catch (Exception e)
             {
