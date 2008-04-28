@@ -414,6 +414,7 @@ namespace ExcelClone.DataIO
     public bool ReadGraphs()
     {
       XmlDocument doc = new XmlDocument();
+      if(filename == null) return true;
       doc.Load(filename);
       System.Windows.Forms.TabControl.TabPageCollection tabs = Controller.Instance.GetMainTabPageCollection();
 
