@@ -96,6 +96,8 @@ namespace ExcelClone.Graphs
             LegendColors.Add(Color.SeaGreen);
             LegendColors.Add(Color.MistyRose);
 
+
+
             data = newData;
 
             setMinMax();

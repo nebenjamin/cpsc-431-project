@@ -30,6 +30,7 @@ namespace ExcelClone.Graphs
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.listBox2 = new System.Windows.Forms.ListBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -45,7 +46,7 @@ namespace ExcelClone.Graphs
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
@@ -83,6 +84,16 @@ namespace ExcelClone.Graphs
             this.tabPage1.Text = "General Settings";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(229, 165);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(111, 23);
+            this.button5.TabIndex = 11;
+            this.button5.Text = "Add Color";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // button4
             // 
             this.button4.Location = new System.Drawing.Point(346, 165);
@@ -91,6 +102,7 @@ namespace ExcelClone.Graphs
             this.button4.TabIndex = 10;
             this.button4.Text = "Remove Color";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // listBox2
             // 
@@ -128,6 +140,7 @@ namespace ExcelClone.Graphs
             // 
             // listBox1
             // 
+            this.listBox1.ColumnWidth = 100;
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(12, 64);
             this.listBox1.Name = "listBox1";
@@ -223,15 +236,7 @@ namespace ExcelClone.Graphs
             this.button2.TabIndex = 2;
             this.button2.Text = "OK";
             this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(229, 164);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(111, 23);
-            this.button5.TabIndex = 11;
-            this.button5.Text = "Add Color";
-            this.button5.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // graphConfig
             // 
@@ -258,7 +263,7 @@ namespace ExcelClone.Graphs
 
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        public System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
@@ -274,6 +279,7 @@ namespace ExcelClone.Graphs
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.ColorDialog colorDialog1;
 
     }
 }
