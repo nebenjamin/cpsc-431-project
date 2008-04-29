@@ -42,11 +42,15 @@ namespace ExcelClone.Graphs
             listBox2.DataSource = gr.LegendColors;
             listBox1.DataSource = gr.LegendLabels;
 
-
-
-
         }
 
+        private void setConfigTabAccess()
+        {
+            if (gr.LegendColors.Count < gr.LegendLabels.Count)
+            {
+                tabControl1.SelectedIndex = 0;
+            }
+        }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -67,7 +71,6 @@ namespace ExcelClone.Graphs
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
             gr.LegendOn = checkBox2.Checked;
-
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -81,13 +84,45 @@ namespace ExcelClone.Graphs
             else if (listBox1.SelectedIndex == gr.LegendLabels.Count-1)
                 listBox1.SelectedIndex = 0;
 
-
-
             listBox1.DataSource = null;
             listBox1.DataSource = gr.LegendLabels;
 
-
-           
+            textBox2.Text = gr.LegendLabels[listBox1.SelectedIndex];
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if((listBox2.SelectedItem != null) & (gr.LegendColors.Count > gr.LegendLabels.Count))
+            {
+                gr.LegendColors.RemoveAt(listBox2.SelectedIndex);
+
+                listBox2.DataSource = null;
+                listBox2.DataSource = gr.LegendColors;
+             }
+
+
+            
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedItem != null)
+            {
+
+                colorDialog1.ShowDialog();
+                gr.LegendColors.Add(colorDialog1.Color);
+
+                listBox2.DataSource = null;
+                listBox2.DataSource = gr.LegendColors;
+
+
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
