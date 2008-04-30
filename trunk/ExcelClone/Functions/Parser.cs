@@ -11,7 +11,7 @@ namespace ExcelClone.Functions
     public class Parser
     {
         private string Base_Cell;
-        private string Base_String;
+        //private string Base_String;
         private Functions Fun_Class = new Functions();
         private TextWriter OutFile;
         private DependencyHandler Dependencies;
@@ -24,13 +24,13 @@ namespace ExcelClone.Functions
 
         public string Parse(SpreadsheetUserControl activeWS,string Cell_String)
         {
-            this.activeWS = activeWS;
-            string Original_Cell_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1); ;
+            this.activeWS = activeWS; //Assign the current worksheet to reference
+            string Original_Cell_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1); //Saves the original cell function
 
-            Cell_String = Cell_String.ToUpper().Replace(" ", "");
+            Cell_String = Cell_String.ToUpper().Replace(" ", ""); //Removes all empty spaces
 
-            Base_Cell = Cell_String.Substring(0, Cell_String.IndexOf(':'));
-            {
+            Base_Cell = Cell_String.Substring(0, Cell_String.IndexOf(':')); //Sets the base cell that is being referenced
+            {//Resets the cell's error state
                 ArrayList atemp = BreakReference(Base_Cell);
                 int r = (int)atemp[0];
                 int c = (int)atemp[1];
@@ -40,8 +40,8 @@ namespace ExcelClone.Functions
                     activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].ErrorString = "";
                 }
             }
-            Base_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1);
-            Cell_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1);
+            //Base_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1);
+            Cell_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1); //removes the base cell reference
             //OutFile.WriteLine("---------- " + Base_Cell + ":" + Cell_String);
             //OutFile.WriteLine(Cell_String);
 
@@ -50,15 +50,14 @@ namespace ExcelClone.Functions
 
             if (Cell_String.Length == 0)
             {
+                Cell_String = " ";
                 //OutFile.WriteLine("Cell is empty");
-                //Form1.Step("Cell is empty");
-                return Original_Cell_String;
+                //return Original_Cell_String;
             }
             if (Cell_String[0].ToString() != "=")
             {
-                Dependencies.NewStatement(Send);
+                Dependencies.NewStatement(Send); //Sends the data to the dependency list
                 //OutFile.WriteLine("Cell is a string");
-                //Form1.Step("Cell is a string");
                 return Original_Cell_String;
             }
 

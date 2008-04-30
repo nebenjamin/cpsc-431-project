@@ -208,8 +208,8 @@ namespace ExcelClone.Gui
                             c.Formula = "";
                             c.Error = false;
                             c.ErrorString = "";
-                            
-                            
+
+                            SpreadsheetControl.Instance.CellChanged(new CellKey(cell.RowIndex, cell.ColumnIndex));
 
                             
                         }
