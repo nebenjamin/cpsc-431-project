@@ -53,16 +53,13 @@ namespace ExcelClone.Gui
             CellBeginEdit += new DataGridViewCellCancelEventHandler(SpreadsheetView_CellBeginEdit);
             RowsRemoved += new DataGridViewRowsRemovedEventHandler(SpreadsheetView_RowsRemoved);
 
-
             this.DefaultCellStyle.Font = new Font("Times", 12);
-
         }
 
         void SpreadsheetView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             Console.WriteLine("being called");
-           // SpreadsheetView_CellEndEdit(sender, e);
-            
+            //SpreadsheetView_CellEndEdit(sender, e);
         }
 
         void SpreadsheetView_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
@@ -70,7 +67,6 @@ namespace ExcelClone.Gui
             int col = e.Column.Index;
 
             SpreadsheetModel model = spreadsheetModel;
-
 
             for (int i = 0; i < RowCount; i++)
             {
@@ -90,7 +86,6 @@ namespace ExcelClone.Gui
             int row = e.Row.Index;
 
             SpreadsheetModel model = spreadsheetModel;
-
             
             for(int i = 0; i < ColumnCount; i++) {
                 Cell cell = model.Cells[row,i];
@@ -172,17 +167,10 @@ namespace ExcelClone.Gui
                 model.Cells[row, col] = cell;
             }
 
-
-            //if (this.Rows != null || this.Rows[row] != null || this.Rows[row].Cells != null || this.Rows[row].Cells[col] != null || this.Rows[row].Cells[col].Value != null)
-            
-            
-
-                cell.Formula = this.Rows[row].Cells[col].Value + "";
-                SpreadsheetControl.Instance.CellChanged(new CellKey(row, col));
-                //cell.Value = Controller.Instance.Parser.Parse(MakeColumnLabel(col) + row + ":" + cell.Formula);
-                this.Rows[row].Cells[col].Value = model.Cells[row, col].Value;
-            
-
+            cell.Formula = this.Rows[row].Cells[col].Value + "";
+            SpreadsheetControl.Instance.CellChanged(new CellKey(row, col));
+            //cell.Value = Controller.Instance.Parser.Parse(MakeColumnLabel(col) + row + ":" + cell.Formula);
+            this.Rows[row].Cells[col].Value = model.Cells[row, col].Value;
         }
             
         void SpreadsheetView_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -210,10 +198,7 @@ namespace ExcelClone.Gui
                             c.ErrorString = "";
 
                             SpreadsheetControl.Instance.CellChanged(new CellKey(cell.RowIndex, cell.ColumnIndex));
-
-                            
                         }
-                        
                     }
                 }
         }
@@ -227,8 +212,6 @@ namespace ExcelClone.Gui
             BeginEdit(false);
         }
 
-        
-                
         public void RefreshCell(CellKey key)
         {
             //if null, we dont care!
@@ -246,7 +229,6 @@ namespace ExcelClone.Gui
                 }
                 else
                     this[key.C, key.R].Value = null;
-                
             }
             catch (NullReferenceException e)
             {
@@ -295,8 +277,6 @@ namespace ExcelClone.Gui
                 send = (char) (col % 26 - 1 + 'A') + send;
                 col /= 26;
             }
-            
-
             
             return send;
         }
