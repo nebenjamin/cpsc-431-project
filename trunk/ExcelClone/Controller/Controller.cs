@@ -86,6 +86,9 @@ namespace ExcelClone
         case CommandType.Exit:
           ExecuteExit();
           break;
+        case CommandType.About:
+          ExecuteAbout();
+          break;
         case CommandType.Open:
           ExecuteOpen();
           break;
@@ -199,6 +202,19 @@ namespace ExcelClone
       /**/
       //ActiveWS.Spreadsheet.SpreadsheetModel = lister[0];
       //ActiveWS.Spreadsheet.RefreshView();
+    }
+    public void ExecuteAbout()
+    {
+        MessageBox.Show("Test");
+        MessageBox.Show("Excel Clone, Class Project for CPSC-431: Software Engineering\n" +
+"Professor: William M. Lively\n" +
+"Creators: \n" +
+"User Interface: Emory Cook, Long Mai, Michael Johnson\n" +
+"Functions: Caleb Wells, David Brown, Tyler Hennings, Chris Garcia\n" +
+"I/O & Formatting: Chris Smith, Scott Pompeo, Gabriel Terrel, Nathan Benjamin\n" +
+"Graphing: Nathan Sullivan, Andrew Menard, David Moreno\n" +
+"Available Functions:\n" +
+"ADD, SUB, MUL, DIV, AVG, MAX, MIN, COUNT, ABS, LOG10, LOG, LN, ROUND, COS, SIN, TAN, POW, SQRT, DEGREES, RADIANS, PI");
     }
     public void ExecuteClose()
     {
