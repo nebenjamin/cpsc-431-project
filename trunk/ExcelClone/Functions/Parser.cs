@@ -11,7 +11,6 @@ namespace ExcelClone.Functions
     public class Parser
     {
         private string Base_Cell;
-        //private string Base_String;
         private Functions Fun_Class = new Functions();
         private TextWriter OutFile;
         private DependencyHandler Dependencies;
@@ -40,7 +39,6 @@ namespace ExcelClone.Functions
                     activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].ErrorString = "";
                 }
             }
-            //Base_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1);
             Cell_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1); //removes the base cell reference
             //OutFile.WriteLine("---------- " + Base_Cell + ":" + Cell_String);
             //OutFile.WriteLine(Cell_String);
@@ -51,8 +49,6 @@ namespace ExcelClone.Functions
             if (Cell_String.Length == 0)
             {
                 Cell_String = " ";
-                //OutFile.WriteLine("Cell is empty");
-                //return Original_Cell_String;
             }
             if (Cell_String[0].ToString() != "=")
             {
