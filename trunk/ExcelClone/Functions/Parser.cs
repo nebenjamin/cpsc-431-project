@@ -15,6 +15,7 @@ namespace ExcelClone.Functions
         private TextWriter OutFile;
         private DependencyHandler Dependencies;
         private SpreadsheetUserControl activeWS = null;
+
         public Parser() 
         {
             //OutFile = new StreamWriter("Output "+System.DateTime.Now.ToString().Replace(':','.').Replace('/','.')+".txt");
@@ -23,12 +24,17 @@ namespace ExcelClone.Functions
 
         public string Parse(SpreadsheetUserControl activeWS,string Cell_String)
         {
-            this.activeWS = activeWS; //Assign the current worksheet to reference
-            string Original_Cell_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1); //Saves the original cell function
+            //Assign the current worksheet to reference
+            this.activeWS = activeWS;
+            //Saves the original cell function
+            string Original_Cell_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1);
 
-            Cell_String = Cell_String.ToUpper().Replace(" ", ""); //Removes all empty spaces
+            //Removes all empty spaces
+            Cell_String = Cell_String.ToUpper().Replace(" ", "");
 
-            Base_Cell = Cell_String.Substring(0, Cell_String.IndexOf(':')); //Sets the base cell that is being referenced
+            //Sets the base cell that is being referenced
+            Base_Cell = Cell_String.Substring(0, Cell_String.IndexOf(':'));
+
             {//Resets the cell's error state
                 ArrayList atemp = BreakReference(Base_Cell);
                 int r = (int)atemp[0];
@@ -39,7 +45,10 @@ namespace ExcelClone.Functions
                     activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].ErrorString = "";
                 }
             }
-            Cell_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1); //removes the base cell reference
+
+            //removes the base cell reference
+            Cell_String = Cell_String.Substring(Cell_String.IndexOf(':') + 1);
+
             //OutFile.WriteLine("---------- " + Base_Cell + ":" + Cell_String);
             //OutFile.WriteLine(Cell_String);
 
@@ -47,54 +56,54 @@ namespace ExcelClone.Functions
             Send.Add(Base_Cell);
 
             if (Cell_String.Length == 0)
-            {
                 Cell_String = " ";
-            }
+
             if (Cell_String[0].ToString() != "=")
             {
-                Dependencies.NewStatement(Send); //Sends the data to the dependency list
-                //OutFile.WriteLine("Cell is a string");
+                //Sends the data to the dependency list
+                Dependencies.NewStatement(Send);
+                //OutFile.WriteLine("Cell is a string or empty");
                 return Original_Cell_String;
             }
 
             ArrayList Parts = Tokenize(Cell_String);
             PrintArrayList(Parts);
 
-            //Store the Base_Cell and all References
             Send = ReformatForDL(new ArrayList(Parts));
             Send.Insert(0, Base_Cell);
+            //Sends the data to the dependency list
             Dependencies.NewStatement(Send);
 
-            //Store the Base_Cell and all References
-            //Add in the ability to check if a Base_Cell is changed
-            //And to update a cell if is it has reference to this cell
-
+            //Remove all shortcuts and references
             ArrayList temp = Reformat(Parts);
-            PrintArrayList(temp);
+            //PrintArrayList(temp);
 
+            //Call all respective methods
             string strtmp = Breaker(temp);
 
             //OutFile.WriteLine("----- " + strtmp);
-            //Form1.Step("----- " + strtmp);
             //OutFile.Flush();
             try
             {
                 return Convert.ToDouble(strtmp).ToString();
-
             }
             catch
-            {
+            {//If Breaker did not return a double
                 //OutFile.WriteLine("ERROR - FORMATING ERROR");
-                //Form1.Step("ERROR: FORMATING ERROR");
                 //OutFile.Flush();
-                ArrayList atemp = BreakReference(Base_Cell);
-                int r = (int)atemp[0];
-                int c = (int)atemp[1];
-                if (activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c] != null)
-                {
-                    activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].Error = true;
-                    activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].ErrorString = "ERROR - FORMATING ERROR";
+
+                {//Sets the cell's error state
+                    ArrayList atemp = BreakReference(Base_Cell);
+                    int r = (int)atemp[0];
+                    int c = (int)atemp[1];
+                    if (activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c] != null)
+                    {
+                        activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].Error = true;
+                        if(!activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].ErrorString.Contains("ERROR"))
+                            activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].ErrorString = "ERROR - FORMATING ERROR";
+                    }
                 }
+
                 //ERROR: FORMATING ERROR
                 return Original_Cell_String;
             }
@@ -103,22 +112,26 @@ namespace ExcelClone.Functions
         private string Breaker(ArrayList Cell_String)
         {
             for (int i = 1; i < Cell_String.Count; i++)
-            {
+            {//For each element
                 if (Fun_Class.IsFunction(Cell_String[i].ToString()))
-                {
+                {//Call the appropriate function
                     int found = 1;
-                    int start = i + 1;
+                    int end = i + 1;
 
                     while (found != 0)
-                    {
-                        start++;
-                        if (Cell_String[start].ToString().Equals("("))
+                    {//Find the end of this function call
+                        end++;
+                        if (Cell_String[end].ToString().Equals("("))
                             found++;
-                        if (Cell_String[start].ToString().Equals(")"))
+                        if (Cell_String[end].ToString().Equals(")"))
                             found--;
                     }
-                    ArrayList atemp = new ArrayList(Cell_String.GetRange(i, start - i + 1));
-                    Cell_String.RemoveRange(i, start - i + 1);
+
+                    //Make a copy of the method
+                    ArrayList atemp = new ArrayList(Cell_String.GetRange(i, end - i + 1));
+                    //Remove the method
+                    Cell_String.RemoveRange(i, end - i + 1);
+                    //Insert its result
                     Cell_String.Insert(i, Breaker(atemp));
                 }
             }
@@ -126,6 +139,7 @@ namespace ExcelClone.Functions
             //PrintArrayList(Cell_String);
             //Console.WriteLine(Cell_String[0].ToString());
 
+            //Return the result of the method call
             return Fun_Class.CallFunction(Cell_String);
         }
 
@@ -133,7 +147,7 @@ namespace ExcelClone.Functions
         {
             ArrayList temp = new ArrayList();
 
-            #region BREAK APART EACH PART OF THE ORIGINAL STRING
+            #region BREAK APART THE ORIGINAL STRING
             for (int i = 1; i < Cell_String.Length; i++)
             {
                 for (int j = i; j < Cell_String.Length; j++)
@@ -319,18 +333,22 @@ namespace ExcelClone.Functions
                     //PrintArrayList(Parts);
 
                     int found = 1;
-                    int start = i;
+                    int end = i;
 
                     while (found != 0)
-                    {
-                        start++;
-                        if (Parts[start].ToString().Equals("("))
+                    {//Find the end of this priority block
+                        end++;
+                        if (Parts[end].ToString().Equals("("))
                             found++;
-                        if (Parts[start].ToString().Equals(")"))
+                        if (Parts[end].ToString().Equals(")"))
                             found--;
                     }
-                    ArrayList atemp = new ArrayList(Parts.GetRange(i + 1, start - i + 1 - 2));
-                    Parts.RemoveRange(i, start - i + 1);
+
+                    //Make a copy of the internal info
+                    ArrayList atemp = new ArrayList(Parts.GetRange(i + 1, end - i + 1 - 2));
+                    //Remove containers,(), and internal info
+                    Parts.RemoveRange(i, end - i + 1);
+                    //Insert the reformated internal info
                     Parts.InsertRange(i, Reformat(atemp));
                 }
             }
@@ -344,10 +362,150 @@ namespace ExcelClone.Functions
                 {
                     //PrintArrayList(Parts);
 
+                    //Select the appropriate function
                     if (Parts[i].ToString().Equals("*"))
                         function = "MUL";
                     else
                         function = "DIV";
+
+                    try
+                    {
+                        int first = i - 1, second = i + 2;
+                        if ((i + 2) >= Parts.Count)
+                            second--;
+                        if (Parts[first].ToString().Equals(")") && !Parts[second].ToString().Equals("("))
+                        {
+                            int found = 1;
+                            int start = i - 1;
+
+                            while (found != 0)
+                            {
+                                start--;
+                                if (Parts[start].ToString().Equals(")"))
+                                    found++;
+                                if (Parts[start].ToString().Equals("("))
+                                    found--;
+                            }
+
+                            Parts.Insert(i, ")");
+                            Parts.Insert(i, Parts[i + 2]);
+                            Parts.Insert(i, ",");
+                            Parts.InsertRange(i, Parts.GetRange(start - 1, i - start + 1));
+                            Parts.Insert(i, "(");
+                            Parts.Insert(i, function);
+
+                            Parts.RemoveAt(i + (i - start + 1) + 5);
+                            Parts.RemoveAt(i + (i - start + 1) + 5);
+                            Parts.RemoveRange(start - 1, i - start + 1);
+                        }
+                        else
+                        {
+                            if (!Parts[first].ToString().Equals(")") && Parts[second].ToString().Equals("("))
+                            {
+                                int found = 1;
+                                int start = i + 2;
+
+                                while (found != 0)
+                                {
+                                    start++;
+                                    if (Parts[start].ToString().Equals("("))
+                                        found++;
+                                    if (Parts[start].ToString().Equals(")"))
+                                        found--;
+                                }
+
+                                Parts.Insert(start + 1, ")");
+                                Parts.Insert(i + 1, ",");
+                                Parts.Insert(i + 1, Parts[i - 1]);
+                                Parts.Insert(i + 1, "(");
+                                Parts.Insert(i + 1, function);
+
+                                Parts.RemoveAt(i - 1);
+                                Parts.RemoveAt(i - 1);
+                            }
+                            else
+                            {
+                                if (!Parts[first].ToString().Equals(")") && !Parts[second].ToString().Equals("("))
+                                {
+                                    Parts.Insert(i, ")");
+                                    Parts.Insert(i, Parts[i + 2]);
+                                    Parts.Insert(i, ",");
+                                    Parts.Insert(i, Parts[i - 1]);
+                                    Parts.Insert(i, "(");
+                                    Parts.Insert(i, function);
+
+                                    Parts.RemoveAt(i + 6);
+                                    Parts.RemoveAt(i + 6);
+                                    Parts.RemoveAt(i - 1);
+                                }
+                                else
+                                {
+                                    if (Parts[first].ToString().Equals(")") && Parts[second].ToString().Equals("("))
+                                    {
+                                        int found = 1;
+                                        int start = i + 2;
+
+                                        while (found != 0)
+                                        {
+                                            start++;
+                                            if (Parts[start].ToString().Equals("("))
+                                                found++;
+                                            if (Parts[start].ToString().Equals(")"))
+                                                found--;
+                                        }
+
+                                        Parts.Insert(start + 1, ")");
+                                        Parts[i] = ",";
+
+                                        found = 1;
+                                        start = i - 1;
+
+                                        while (found != 0)
+                                        {
+                                            start--;
+                                            if (Parts[start].ToString().Equals(")"))
+                                                found++;
+                                            if (Parts[start].ToString().Equals("("))
+                                                found--;
+                                        }
+
+                                        Parts.Insert(start - 1, "(");
+                                        Parts.Insert(start - 1, function);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        //OutFile.WriteLine("=ERROR - INCORRECT INPUT STRING (/,*)"); //ERROR: INCORRECT INPUT STRING
+                        ArrayList atemp = BreakReference(Base_Cell);
+                        int r = (int)atemp[0];
+                        int c = (int)atemp[1];
+                        if (activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c] != null)
+                        {
+                            activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].Error = true;
+                            activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].ErrorString = "ERROR - INCORRECT INPUT STRING  (/,*)";
+                        }
+                        return Tokenize("=ERROR - INCORRECT INPUT STRING (/,*)");//return Tokenize(Base_String);
+                    }
+                }
+            }
+            #endregion
+
+            #region SHORTCUT REMOVER + and -
+            for (int i = 0; i < Parts.Count; i++)
+            { //SHORTCUT REMOVER
+                string function;
+                if (Parts[i].ToString().Equals("+") || Parts[i].ToString().Equals("-"))
+                {
+                    //PrintArrayList(Parts);
+
+                    //Select the appropriate function
+                    if (Parts[i].ToString().Equals("+"))
+                        function = "ADD";
+                    else
+                        function = "SUB";
 
                     try
                     {
@@ -459,147 +617,7 @@ namespace ExcelClone.Functions
                     }
                     catch
                     {
-                        //OutFile.WriteLine("=ERROR - INCORRECT INPUT STRING (/,*)"); //ERROR: INCORRECT INPUT STRING
-                        //Form1.Step("ERROR: INCORRECT INPUT STRING");
-                        ArrayList atemp = BreakReference(Base_Cell);
-                        int r = (int)atemp[0];
-                        int c = (int)atemp[1];
-                        if (activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c] != null)
-                        {
-                            activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].Error = true;
-                            activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].ErrorString = "ERROR - INCORRECT INPUT STRING  (/,*)";
-                        }
-                        return Tokenize("=ERROR - INCORRECT INPUT STRING (/,*)");//return Tokenize(Base_String);
-                    }
-                }
-            }
-            #endregion
-
-            #region SHORTCUT REMOVER + and -
-            for (int i = 0; i < Parts.Count; i++)
-            { //SHORTCUT REMOVER
-                string function;
-                if (Parts[i].ToString().Equals("+") || Parts[i].ToString().Equals("-"))
-                {
-                    //PrintArrayList(Parts);
-
-                    if (Parts[i].ToString().Equals("+"))
-                        function = "ADD";
-                    else
-                        function = "SUB";
-
-                    try
-                    {
-                        int first = i - 1, second = i + 2;
-                        if ((i + 2) >= Parts.Count)
-                            second--;
-                        if (Parts[first].ToString().Equals(")") && !Parts[second].ToString().Equals("("))
-                        {
-                            int found = 1;
-                            int start = i - 1;
-
-                            while (found != 0)
-                            {
-                                start--;
-                                if (Parts[start].ToString().Equals(")"))
-                                    found++;
-                                if (Parts[start].ToString().Equals("("))
-                                    found--;
-                            }
-
-                            Parts.Insert(i, ")");
-                            Parts.Insert(i, Parts[i + 2]);
-                            Parts.Insert(i, ",");
-                            Parts.InsertRange(i, Parts.GetRange(start - 1, i - start + 1));
-                            Parts.Insert(i, "(");
-                            Parts.Insert(i, function);
-
-                            Parts.RemoveAt(i + (i - start + 1) + 5);
-                            Parts.RemoveAt(i + (i - start + 1) + 5);
-                            Parts.RemoveRange(start - 1, i - start + 1);
-                        }
-                        else
-                        {
-                            if (!Parts[first].ToString().Equals(")") && Parts[second].ToString().Equals("("))
-                            {
-                                int found = 1;
-                                int start = i + 2;
-
-                                while (found != 0)
-                                {
-                                    start++;
-                                    if (Parts[start].ToString().Equals("("))
-                                        found++;
-                                    if (Parts[start].ToString().Equals(")"))
-                                        found--;
-                                }
-
-                                Parts.Insert(start + i, ")");
-                                Parts.Insert(i + 1, ",");
-                                Parts.Insert(i + 1, Parts[i - 1]);
-                                Parts.Insert(i + 1, "(");
-                                Parts.Insert(i + 1, function);
-
-                                Parts.RemoveAt(i - 1);
-                                Parts.RemoveAt(i - 1);
-                            }
-                            else
-                            {
-                                if (!Parts[first].ToString().Equals(")") && !Parts[second].ToString().Equals("("))
-                                {
-                                    Parts.Insert(i, ")");
-                                    Parts.Insert(i, Parts[i + 2]);
-                                    Parts.Insert(i, ",");
-                                    Parts.Insert(i, Parts[i - 1]);
-                                    Parts.Insert(i, "(");
-                                    Parts.Insert(i, function);
-
-                                    Parts.RemoveAt(i + 6);
-                                    Parts.RemoveAt(i + 6);
-                                    Parts.RemoveAt(i - 1);
-                                }
-                                else
-                                {
-                                    if (Parts[first].ToString().Equals(")") && Parts[second].ToString().Equals("("))
-                                    {
-                                        int found = 1;
-                                        int start = i + 2;
-
-                                        while (found != 0)
-                                        {
-                                            start++;
-                                            if (Parts[start].ToString().Equals("("))
-                                                found++;
-                                            if (Parts[start].ToString().Equals(")"))
-                                                found--;
-                                        }
-
-                                        Parts.Insert(start + 1, ")");
-                                        Parts[i] = ",";
-
-                                        found = 1;
-                                        start = i - 1;
-
-                                        while (found != 0)
-                                        {
-                                            start--;
-                                            if (Parts[start].ToString().Equals(")"))
-                                                found++;
-                                            if (Parts[start].ToString().Equals("("))
-                                                found--;
-                                        }
-
-                                        Parts.Insert(start - 1, "(");
-                                        Parts.Insert(start - 1, function);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    catch
-                    {
                         //OutFile.WriteLine("=ERROR - INCORRECT INPUT STRING  (+,-)"); //ERROR: INCORRECT INPUT STRING
-                        //Form1.Step("ERROR: INCORRECT INPUT STRING");
                         ArrayList atemp = BreakReference(Base_Cell);
                         int r = (int)atemp[0];
                         int c = (int)atemp[1];
@@ -647,9 +665,9 @@ namespace ExcelClone.Functions
             #region EXPAND OUT ALL CELL REFERENCES
             for (int i = 0; i < Parts.Count; i++)
             { //CELL REFERENCE
-                for(int j=0; j<Parts.Count; j++)
+                for (int j = 0; j < Parts.Count; j++)
                     if ((Base_Cell.CompareTo(Parts[j].ToString().ToUpper()) == 0) || (Parts[j].ToString().ToUpper().Contains("ERROR")))
-                    {
+                    {//If it references itself or an error occured already set the error state
                         ArrayList atemp = BreakReference(Base_Cell);
                         int r = (int)atemp[0];
                         int c = (int)atemp[1];
@@ -661,31 +679,27 @@ namespace ExcelClone.Functions
                         return Tokenize("=ERROR - CIRCULAR REFERENCE");
                     }
 
-                for(int j=0; j<Parts.Count; j++) {
-                    if(IsCellReference(Parts[j].ToString())) {
+                for (int j = 0; j < Parts.Count; j++)
+                    if (IsCellReference(Parts[j].ToString()))
+                    {
                         ArrayList atemp = BreakReference(Parts[j].ToString());
                         int r = (int)atemp[0];
                         int c = (int)atemp[1];
                         if (activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c] != null)
                             if (activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].Error)
-                            {
+                            {//If a referenced cell has an error set the error state
+                                atemp = BreakReference(Base_Cell);
+                                r = (int)atemp[0];
+                                c = (int)atemp[1];
+                                activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].Error = true;
                                 activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].ErrorString = "ERROR - POSSIBLE CIRCULAR REFERENCE";
                                 return Tokenize("=ERROR - POSSIBLE CIRCULAR REFERENCE");
                             }
                     }
-                }
 
-                //if (Base_Cell.CompareTo(Parts[i].ToString().ToUpper()) == 0)
-                //{
-                //    //OutFile.WriteLine("=ERROR - CIRCULAR REFERENCE");
-                //    //Form1.Step("ERROR: CIRCULAR REFERENCE");
-                //    //ERROR: CIRCULAR REFERENCE
-                //    return Tokenize("=ERROR - CIRCULAR REFERENCE");//return Parts;
-                //}
                 if (IsCellReference(Parts[i].ToString()))
                 {
                     //OutFile.WriteLine("Cell Reference");
-                    //Form1.Step("Cell Reference");
                     //Console.WriteLine("BaseCell= " + Base_Cell);
                     //Console.WriteLine("CellReference= " + Parts[i].ToString());
 
@@ -705,15 +719,12 @@ namespace ExcelClone.Functions
                     if (temp.Length <= 0) temp = "NULL";
 
                     //OutFile.WriteLine(cell_ref + " -> " + temp);
-                    //Form1.Step(cell_ref + " -> " + temp);
 
                     if (temp[0] == '=')
                     {
                         //Cell has a formula
                         Parts.InsertRange(i, Reformat(Tokenize(temp)));
-
                         //OutFile.WriteLine("Cell has a formula");
-                        //Form1.Step("Cell has a formula");
                     }
                     else
                     {
@@ -721,18 +732,12 @@ namespace ExcelClone.Functions
                         {
                             //Cell has a value
                             Parts.Insert(i, Convert.ToDouble(temp));
-
                             //OutFile.WriteLine("Cell has a number");
-                            //Form1.Step("Cell has a number");
                         }
                         catch
                         {
                             Parts.Insert(i, "NULL");
-
                             //OutFile.WriteLine("Cell has a string");
-                            //Form1.Step("Cell has a string");
-                            //ERROR: Cell has a string
-                            //return Parts;
                         }
                     }
                 }
@@ -760,12 +765,12 @@ namespace ExcelClone.Functions
             try
             {
                 if (char.IsLetter(Reference, 0) && char.IsLetter(Reference, 1))
-                {
+                {//AA1
                     if (Convert.ToInt32(Reference.Substring(2)) >= 0)
                         return true;
                 }
                 if (char.IsLetter(Reference, 0))
-                {
+                {//A1
                     if (Convert.ToInt32(Reference.Substring(1)) >= 0)
                         return true;
                 }
@@ -781,24 +786,20 @@ namespace ExcelClone.Functions
         {
             try
             {
+                //AA1
                 if (char.IsLetter(BaseCell, 0) && char.IsLetter(BaseCell, 1))
-                {
                     if (Convert.ToInt32(BaseCell.Substring(2)) > 0)
-                    {
                         return BaseCell[0] + BaseCell[1] + (Convert.ToInt32(BaseCell.Substring(2)) - 1).ToString();
-                    }
-                }
+
+                //A1
                 if (char.IsLetter(BaseCell, 0))
-                {
                     if (Convert.ToInt32(BaseCell.Substring(1)) > 0)
-                    {
                         return BaseCell[0] + (Convert.ToInt32(BaseCell.Substring(1)) - 1).ToString();
-                    }
-                }
+
                 return BaseCell;
             }
             catch
-            {
+            {//String sent is not a cell reference
                 return BaseCell;
             }
         }
@@ -808,43 +809,40 @@ namespace ExcelClone.Functions
             ArrayList temp = new ArrayList();
             try
             {
+                //AA1
                 if (char.IsLetter(Reference, 0) && char.IsLetter(Reference, 1))
-                {
                     if (Convert.ToInt32(Reference.Substring(2)) >= 0)
                     {
                         temp.Add(Convert.ToInt32(Reference.Substring(2)));
                         temp.Add((((int)Reference[0]) - ((int)'A')) * 10 + (((int)Reference[1]) - ((int)'A')));
                         return temp;
                     }
-                }
+
+                //A1
                 if (char.IsLetter(Reference, 0))
-                {
                     if (Convert.ToInt32(Reference.Substring(1)) >= 0)
                     {
                         temp.Add(Convert.ToInt32(Reference.Substring(1)));
                         temp.Add(((int)Reference[0]) - ((int)'A'));
                         return temp;
                     }
-                }
+
                 return null;
             }
             catch
-            {
+            {//String sent is not a cell reference
                 return null;
             }
         }
 
         public void PrintArrayList(ArrayList temp)
         {
-            string stemp = "";
             for (int i = 0; i < temp.Count; i++)
             {
                 //OutFile.Write(temp[i].ToString() + ".");
-                stemp += temp[i].ToString() + ".";
             }
 
             //OutFile.WriteLine("");
-            //Form1.Step(stemp);
         }
     }
 }
