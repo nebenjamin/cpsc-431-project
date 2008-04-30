@@ -180,5 +180,10 @@ namespace ExcelClone.Gui
                 Controller.Instance.ExecuteCommand(sender, e, CommandType.AssignFormula);
             }
         }
+
+			private void aboutExcelCloneToolStripMenuItem_Click(object sender, EventArgs e)
+			{
+				Controller.Instance.ExecuteCommand(sender, e, CommandType.About);
+			}
     }
 }
