@@ -12,7 +12,7 @@ namespace ExcelClone
 {
   class Controller
   {
-    private DataIO.DataIO saveload;
+    private DataIO.DataIO saveload = new ExcelClone.DataIO.DataIO();
     private Controller()
     {
       Parser = new Parser();
@@ -184,7 +184,6 @@ namespace ExcelClone
     }
     public void ExecuteOpen()
     {
-      saveload = new ExcelClone.DataIO.DataIO();
       saveload.SetBook(GetAllSpreadsheetModels());
       ActiveWS.Spreadsheet.EndEdit();
       List<SpreadsheetModel> lister = saveload.LoadBook();
@@ -221,14 +220,14 @@ namespace ExcelClone
     }
     public void ExecuteSave()
     {
-      saveload = new ExcelClone.DataIO.DataIO();
+			saveload.SetBook(GetAllSpreadsheetModels());
       if (saveload.GetFilename() != null)
       {
         ActiveWS.Spreadsheet.EndEdit();
-        foreach (SpreadsheetModel s in GetAllSpreadsheetModels())
-        {
-          saveload.AddSpreadsheet(s);
-        }
+        //foreach (SpreadsheetModel s in GetAllSpreadsheetModels())
+        //{
+        //  saveload.AddSpreadsheet(s);
+        //}
         saveload.SaveBook(false);
       }
       else
@@ -238,12 +237,12 @@ namespace ExcelClone
     }
     public void ExecuteSaveAs()
     {
-      saveload = new ExcelClone.DataIO.DataIO();
+			saveload.SetBook(GetAllSpreadsheetModels());
       ActiveWS.Spreadsheet.EndEdit();
-      foreach (SpreadsheetModel s in GetAllSpreadsheetModels())
-      {
-          saveload.AddSpreadsheet(s);
-      }
+      //foreach (SpreadsheetModel s in GetAllSpreadsheetModels())
+      //{
+      //    saveload.AddSpreadsheet(s);
+      //}
       saveload.SaveBook(true);
     }
     public void ExecuteCut()
