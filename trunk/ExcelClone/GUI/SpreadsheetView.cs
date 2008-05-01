@@ -33,7 +33,6 @@ namespace ExcelClone.Gui
             ColumnWidthChanged += new DataGridViewColumnEventHandler(SpreadsheetView_ColumnWidthChanged);
             KeyDown += new KeyEventHandler(SpreadsheetView_KeyDown);
             KeyUp += new KeyEventHandler(SpreadsheetView_KeyUp);
-            CellValueChanged += new DataGridViewCellEventHandler(SpreadsheetView_CellValueChanged);
             ParentChanged += delegate
             {
                 Columns.Clear();
@@ -65,12 +64,6 @@ namespace ExcelClone.Gui
             {
                 SpreadsheetView_CellMouseClick(sender, new DataGridViewCellMouseEventArgs(SelectedCells[0].ColumnIndex, SelectedCells[0].RowIndex, 0, 0, new MouseEventArgs(MouseButtons.Left, 0, 0, 0, 0)));
             }
-        }
-
-        void SpreadsheetView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            Console.WriteLine("being called");
-            //SpreadsheetView_CellEndEdit(sender, e);
         }
 
         void SpreadsheetView_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
