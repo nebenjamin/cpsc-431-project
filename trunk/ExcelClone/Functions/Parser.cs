@@ -67,7 +67,7 @@ namespace ExcelClone.Functions
             }
 
             ArrayList Parts = Tokenize(Cell_String);
-            PrintArrayList(Parts);
+            //PrintArrayList(Parts);
 
             Send = ReformatForDL(new ArrayList(Parts));
             Send.Insert(0, Base_Cell);
@@ -92,6 +92,7 @@ namespace ExcelClone.Functions
                 //OutFile.WriteLine("ERROR - FORMATING ERROR");
                 //OutFile.Flush();
 
+                if (strtmp.Equals("NULL"))
                 {//Sets the cell's error state
                     ArrayList atemp = BreakReference(Base_Cell);
                     int r = (int)atemp[0];
@@ -99,7 +100,7 @@ namespace ExcelClone.Functions
                     if (activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c] != null)
                     {
                         activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].Error = true;
-                        if(!activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].ErrorString.Contains("ERROR"))
+                        if (!activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].ErrorString.Contains("ERROR"))
                             activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].ErrorString = "ERROR - FORMATING ERROR";
                     }
                 }
@@ -711,11 +712,11 @@ namespace ExcelClone.Functions
                     ArrayList atemp = BreakReference(cell_ref);
                     int r = (int)atemp[0];
                     int c = (int)atemp[1];
-                    string temp;
+                    string temp = "NULL";
                     if (activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c] != null)
-                        temp = activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].Formula.ToUpper();// Form1.getCellFormula(cell_ref);
-                    else
-                        temp = "NULL";
+                        if(activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].Formula != null)
+                            temp = activeWS.Spreadsheet.SpreadsheetModel.Cells[r, c].Formula.ToUpper();// Form1.getCellFormula(cell_ref);
+
                     if (temp.Length <= 0) temp = "NULL";
 
                     //OutFile.WriteLine(cell_ref + " -> " + temp);
