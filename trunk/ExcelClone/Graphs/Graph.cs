@@ -87,17 +87,6 @@ namespace ExcelClone.Graphs
         {
             LegendY = (grUpRight.Y - grLowLeft.Y) / 2 + grLowLeft.Y;  //Init legend stuff
 
-            LegendColors.Add(Color.CadetBlue);
-            LegendColors.Add(Color.BurlyWood);
-            LegendColors.Add(Color.OrangeRed);
-            LegendColors.Add(Color.Yellow);
-            LegendColors.Add(Color.Silver);
-            LegendColors.Add(Color.Purple);
-            LegendColors.Add(Color.SeaGreen);
-            LegendColors.Add(Color.MistyRose);
-
-
-
             data = newData;
 
             setMinMax();
@@ -105,11 +94,17 @@ namespace ExcelClone.Graphs
 
             InitFonts();
             InitLabels();
+            InitColors();
         }
 
         public void InitColors()
         {
             LegendColors = new List<Color>();
+
+            int red = 0, green = 0, blue = 0;
+            System.Random RandNum = new System.Random();
+
+
 
             LegendColors.Add(Color.CadetBlue);
             LegendColors.Add(Color.BurlyWood);
@@ -119,6 +114,19 @@ namespace ExcelClone.Graphs
             LegendColors.Add(Color.Purple);
             LegendColors.Add(Color.SeaGreen);
             LegendColors.Add(Color.MistyRose);
+
+            // Fill LegendColors to match LegendLabels List Capacity. Prevents Data error
+
+            while (LegendLabels.Capacity + 1 > LegendColors.Capacity)
+            {
+                red = RandNum.Next(255);
+                green = RandNum.Next(255);
+                blue = RandNum.Next(255);
+
+
+                LegendColors.Add(Color.FromArgb(red, green, blue));
+            }
+
         }
 
         public void InitFonts()
