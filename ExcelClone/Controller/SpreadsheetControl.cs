@@ -56,22 +56,34 @@ namespace ExcelClone
 		//call on cell changes
 		public void CellChanged(CellKey key)
 		{
+            bool breakAll = false;
 			foreach (System.Windows.Forms.Control c in mainForm.WorksheetsTabControl.SelectedTab.Controls)
 			{
 				if (c is SpreadsheetUserControl)
 				{
 					SpreadsheetUserControl ActiveWS = (SpreadsheetUserControl)c;
-					CellKey lastUpdated = null;
+                    int times = 0;
+                    CellKey lastUpdated = null;
 					string val = null;
 					InvalidateCell(key);
 					while (InvalidCells.Count > 0)
 					{
 						key = InvalidCells.Dequeue();
 
-						if (lastUpdated == key)
-						{
-							//circular Reference
-						}
+                        times++;
+                        if (times > 400)
+                        {
+                            breakAll = true;
+                            break;//Circular Reference
+                        }
+
+                        if (lastUpdated != null)
+                            if (lastUpdated.Equals(key))
+						    {
+                                breakAll = true;
+                                break;//Self Reference
+						    }
+
 						//val == null or value in new cell
 						//val = parse(key, m.Cells[key].Value);
 						if (val != null)
@@ -83,6 +95,7 @@ namespace ExcelClone
 						UpdateCellValue(key, val);
 						//updateCellValue(key, parse(key, m.Cells[key].value)); call the parse function for this cell key
 					}
+                    if (breakAll == true) break;
 				}
 			}
 		}

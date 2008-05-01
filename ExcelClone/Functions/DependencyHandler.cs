@@ -66,7 +66,8 @@ namespace ExcelClone.Functions
             }
 
             //If Head is not in either list.
-            if (!ReferencedBy.Contains(Head) && !ReferencesTo.Contains(Head)) {
+            if (!ReferencesTo.Contains(Head))
+            { //(!ReferencedBy.Contains(Head) && !ReferencesTo.Contains(Head))
                 AddReferencesTo(Head, Dependents);
                 AddReferencedBy(Head, Dependents);
             }
