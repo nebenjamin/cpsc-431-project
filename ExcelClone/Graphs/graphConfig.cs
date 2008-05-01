@@ -31,6 +31,11 @@ namespace ExcelClone.Graphs
         // will put on settings that were chosen before on the graph
         private void InitConfig()
         {
+            int diff = 0;
+            int red = 0, green = 0, blue = 0;
+            System.Random RandNum = new System.Random();
+
+
             if (gr.draw_title)
             {
                 textBox1.Text = gr.TitleString;
@@ -39,7 +44,24 @@ namespace ExcelClone.Graphs
 
             checkBox2.Checked = gr.LegendOn;
 
+            // Fill LegendColors to match LegendLabels List Capacity. Prevents Data error
+
+            while (gr.LegendLabels.Capacity + 1 > gr.LegendColors.Capacity)
+            {
+                red = RandNum.Next(255);
+                green = RandNum.Next(255);
+                blue = RandNum.Next(255);
+
+
+                gr.LegendColors.Add(Color.FromArgb(red,green,blue));
+            }
+
+
+
+
             listBox2.DataSource = gr.LegendColors;
+
+
             listBox1.DataSource = gr.LegendLabels;
 
         }
