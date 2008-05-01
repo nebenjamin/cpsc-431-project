@@ -30,17 +30,17 @@ namespace ExcelClone.Graphs
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.buttonAddColor = new System.Windows.Forms.Button();
+            this.buttonRemoveColor = new System.Windows.Forms.Button();
+            this.listBoxGraphColors = new System.Windows.Forms.ListBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.textBoxRename = new System.Windows.Forms.TextBox();
+            this.buttonRenameSeries = new System.Windows.Forms.Button();
+            this.listBoxGraphSeries = new System.Windows.Forms.ListBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.checkDrawLegend = new System.Windows.Forms.CheckBox();
+            this.checkDrawTitle = new System.Windows.Forms.CheckBox();
+            this.GraphTitleBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -64,17 +64,17 @@ namespace ExcelClone.Graphs
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.button5);
-            this.tabPage1.Controls.Add(this.button4);
-            this.tabPage1.Controls.Add(this.listBox2);
+            this.tabPage1.Controls.Add(this.buttonAddColor);
+            this.tabPage1.Controls.Add(this.buttonRemoveColor);
+            this.tabPage1.Controls.Add(this.listBoxGraphColors);
             this.tabPage1.Controls.Add(this.label3);
-            this.tabPage1.Controls.Add(this.textBox2);
-            this.tabPage1.Controls.Add(this.button3);
-            this.tabPage1.Controls.Add(this.listBox1);
+            this.tabPage1.Controls.Add(this.textBoxRename);
+            this.tabPage1.Controls.Add(this.buttonRenameSeries);
+            this.tabPage1.Controls.Add(this.listBoxGraphSeries);
             this.tabPage1.Controls.Add(this.label2);
-            this.tabPage1.Controls.Add(this.checkBox2);
-            this.tabPage1.Controls.Add(this.checkBox1);
-            this.tabPage1.Controls.Add(this.textBox1);
+            this.tabPage1.Controls.Add(this.checkDrawLegend);
+            this.tabPage1.Controls.Add(this.checkDrawTitle);
+            this.tabPage1.Controls.Add(this.GraphTitleBox);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
@@ -84,33 +84,33 @@ namespace ExcelClone.Graphs
             this.tabPage1.Text = "General Settings";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // button5
+            // buttonAddColor
             // 
-            this.button5.Location = new System.Drawing.Point(229, 165);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(111, 23);
-            this.button5.TabIndex = 11;
-            this.button5.Text = "Add Color";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.buttonAddColor.Location = new System.Drawing.Point(229, 165);
+            this.buttonAddColor.Name = "buttonAddColor";
+            this.buttonAddColor.Size = new System.Drawing.Size(111, 23);
+            this.buttonAddColor.TabIndex = 11;
+            this.buttonAddColor.Text = "Add Color";
+            this.buttonAddColor.UseVisualStyleBackColor = true;
+            this.buttonAddColor.Click += new System.EventHandler(this.buttonAddColor_Click);
             // 
-            // button4
+            // buttonRemoveColor
             // 
-            this.button4.Location = new System.Drawing.Point(346, 165);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(90, 23);
-            this.button4.TabIndex = 10;
-            this.button4.Text = "Remove Color";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.buttonRemoveColor.Location = new System.Drawing.Point(346, 165);
+            this.buttonRemoveColor.Name = "buttonRemoveColor";
+            this.buttonRemoveColor.Size = new System.Drawing.Size(90, 23);
+            this.buttonRemoveColor.TabIndex = 10;
+            this.buttonRemoveColor.Text = "Remove Color";
+            this.buttonRemoveColor.UseVisualStyleBackColor = true;
+            this.buttonRemoveColor.Click += new System.EventHandler(this.buttonRemoveColor_Click);
             // 
-            // listBox2
+            // listBoxGraphColors
             // 
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.Location = new System.Drawing.Point(228, 64);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(208, 95);
-            this.listBox2.TabIndex = 9;
+            this.listBoxGraphColors.FormattingEnabled = true;
+            this.listBoxGraphColors.Location = new System.Drawing.Point(228, 64);
+            this.listBoxGraphColors.Name = "listBoxGraphColors";
+            this.listBoxGraphColors.Size = new System.Drawing.Size(208, 95);
+            this.listBoxGraphColors.TabIndex = 9;
             // 
             // label3
             // 
@@ -121,31 +121,31 @@ namespace ExcelClone.Graphs
             this.label3.TabIndex = 8;
             this.label3.Text = "Graph Series Colors";
             // 
-            // textBox2
+            // textBoxRename
             // 
-            this.textBox2.Location = new System.Drawing.Point(91, 168);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(131, 20);
-            this.textBox2.TabIndex = 7;
+            this.textBoxRename.Location = new System.Drawing.Point(91, 168);
+            this.textBoxRename.Name = "textBoxRename";
+            this.textBoxRename.Size = new System.Drawing.Size(131, 20);
+            this.textBoxRename.TabIndex = 7;
             // 
-            // button3
+            // buttonRenameSeries
             // 
-            this.button3.Location = new System.Drawing.Point(12, 165);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(73, 23);
-            this.button3.TabIndex = 6;
-            this.button3.Text = "Rename Series";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.buttonRenameSeries.Location = new System.Drawing.Point(12, 165);
+            this.buttonRenameSeries.Name = "buttonRenameSeries";
+            this.buttonRenameSeries.Size = new System.Drawing.Size(73, 23);
+            this.buttonRenameSeries.TabIndex = 6;
+            this.buttonRenameSeries.Text = "Rename Series";
+            this.buttonRenameSeries.UseVisualStyleBackColor = true;
+            this.buttonRenameSeries.Click += new System.EventHandler(this.buttonRenameSeries_Click);
             // 
-            // listBox1
+            // listBoxGraphSeries
             // 
-            this.listBox1.ColumnWidth = 100;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(12, 64);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(210, 95);
-            this.listBox1.TabIndex = 5;
+            this.listBoxGraphSeries.ColumnWidth = 100;
+            this.listBoxGraphSeries.FormattingEnabled = true;
+            this.listBoxGraphSeries.Location = new System.Drawing.Point(12, 64);
+            this.listBoxGraphSeries.Name = "listBoxGraphSeries";
+            this.listBoxGraphSeries.Size = new System.Drawing.Size(210, 95);
+            this.listBoxGraphSeries.TabIndex = 5;
             // 
             // label2
             // 
@@ -156,37 +156,37 @@ namespace ExcelClone.Graphs
             this.label2.TabIndex = 4;
             this.label2.Text = "Graph Series Names";
             // 
-            // checkBox2
+            // checkDrawLegend
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(346, 23);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(90, 17);
-            this.checkBox2.TabIndex = 3;
-            this.checkBox2.Text = "Draw Legend";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            this.checkDrawLegend.AutoSize = true;
+            this.checkDrawLegend.Location = new System.Drawing.Point(346, 23);
+            this.checkDrawLegend.Name = "checkDrawLegend";
+            this.checkDrawLegend.Size = new System.Drawing.Size(90, 17);
+            this.checkDrawLegend.TabIndex = 3;
+            this.checkDrawLegend.Text = "Draw Legend";
+            this.checkDrawLegend.UseVisualStyleBackColor = true;
+            this.checkDrawLegend.CheckedChanged += new System.EventHandler(this.checkDrawLegend_CheckedChanged);
             // 
-            // checkBox1
+            // checkDrawTitle
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(266, 22);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(74, 17);
-            this.checkBox1.TabIndex = 2;
-            this.checkBox1.Text = "Draw Title";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.checkDrawTitle.AutoSize = true;
+            this.checkDrawTitle.Location = new System.Drawing.Point(266, 22);
+            this.checkDrawTitle.Name = "checkDrawTitle";
+            this.checkDrawTitle.Size = new System.Drawing.Size(74, 17);
+            this.checkDrawTitle.TabIndex = 2;
+            this.checkDrawTitle.Text = "Draw Title";
+            this.checkDrawTitle.UseVisualStyleBackColor = true;
+            this.checkDrawTitle.CheckedChanged += new System.EventHandler(this.checkDrawGraphTitle_CheckedChanged);
             // 
-            // textBox1
+            // GraphTitleBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(9, 20);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(250, 20);
-            this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "Create Title Label";
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            this.textBox1.Click += new System.EventHandler(this.textBox1_Click);
+            this.GraphTitleBox.Location = new System.Drawing.Point(9, 20);
+            this.GraphTitleBox.Name = "GraphTitleBox";
+            this.GraphTitleBox.Size = new System.Drawing.Size(250, 20);
+            this.GraphTitleBox.TabIndex = 1;
+            this.GraphTitleBox.Text = "Create Title Label";
+            this.GraphTitleBox.TextChanged += new System.EventHandler(this.GraphTitleBox_TextChanged);
+            this.GraphTitleBox.Click += new System.EventHandler(this.GraphTitleBox_Click);
             // 
             // label1
             // 
@@ -267,18 +267,18 @@ namespace ExcelClone.Graphs
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.CheckBox checkDrawTitle;
+        private System.Windows.Forms.TextBox GraphTitleBox;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.ListBox listBox2;
+        private System.Windows.Forms.CheckBox checkDrawLegend;
+        private System.Windows.Forms.Button buttonRemoveColor;
+        private System.Windows.Forms.ListBox listBoxGraphColors;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.TextBox textBoxRename;
+        private System.Windows.Forms.Button buttonRenameSeries;
+        private System.Windows.Forms.ListBox listBoxGraphSeries;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button buttonAddColor;
         private System.Windows.Forms.ColorDialog colorDialog1;
 
     }
