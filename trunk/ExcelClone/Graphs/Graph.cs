@@ -170,15 +170,19 @@ namespace ExcelClone.Graphs
                     MaxYOffset = (int)(w + 4);
             }
 
-            LegendLabels = new List<string>();
-            if (this is scatter_graph || this is line_graph)
-                i = 1;
-            else
-                i = 0;
-            for ( ; i < data[0].Count; i++ )
+            if (LegendLabels.Count != data[0].Count)
             {
-                LegendLabels.Add("Series" + (i+1).ToString());
+                LegendLabels = new List<string>();
+                if (this is scatter_graph || this is line_graph)
+                    i = 1;
+                else
+                    i = 0;
+                for (; i < data[0].Count; i++)
+                {
+                    LegendLabels.Add("Series" + (i + 1).ToString());
+                }
             }
+
 
         }
 
